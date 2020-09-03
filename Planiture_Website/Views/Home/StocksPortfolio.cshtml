@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewData["Title"] = "StocksPortfolio";
+}
+
+
+<body>
+    <section id="stock-background">
+        <div class="stock-menu" id="stock">
+            <div class="container">
+                <h1>@ViewData["Title"]</h1>
+                <br />
+
+                <table align="left">
+                    <thead>
+                        <tr>
+                            <td>
+                                <h5>COMPANY</h5>
+                            </td>
+                            <td><h5>STOCK PRICE</h5></td>
+                            <td><h5>UPDATE</h5></td>
+                            <td><h5>SOMETHING 1</h5></td>
+                            <td><h5>SOMETHING 2</h5></td>
+                            <td><h5>SOMETHING 3</h5></td>
+                            <td><h5>STATUS</h5></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>N/A</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+
+<style>
+    .stock-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .stock-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .stock-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+    .stock-menu table{
+        color: white;
+    }
+    .stock-menu table tr td{
+        padding: 25px;
+    }
+    p {
+        font-family: sans-serif;
+    }
+</style>

@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewData["Title"] = "Application";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="apply-menu" id="apply">
+    <h1>@ViewData["Title"]</h1>
+
+    <br />
+    <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>BASIC ACCOUNT</h3>
+                    <br />
+                    <p>
+                        Deposit cash to your account for signal plans to have your funds traded in
+                        the currency & commodity market
+                        <br />
+                        <br />
+                        <a asp-controller="Home" asp-action="BasicAccount">(CONTINUE)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>
+                        STOCK PORTFOLIO
+                    </h3>
+                    <br />
+                    <p>
+                        Deposit cash to your account and have your funds invested into the stock market
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <a asp-controller="Home" asp-action="StocksAccount">(CONTINUE)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>ADVANCE ACCOUNT</h3>
+                    <br />
+                    <p>
+                        Deposit cash to your account and have your funds traded in signal plans and invested
+                        into stocks
+                        <br />
+                        <br />
+                        <br />
+                        <a asp-controller="Home" asp-action="AdvancedAccount">(CONTINUE)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <!--<div class="row">
+        <div class="col-sm-3 col-md-3"></div>
+        <div class="col-sm-6 col-md-6">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>
+                        G20 GROUP
+                    </h3>
+                    <br />
+                    <p>
+                        Deposit cash to your account and have the company manage your account
+                        <br />
+                        <br />
+                        <a asp-controller="Home" asp-action="Golden20Application">(CONTINUE)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-3"></div>
+    </div>-->
+</div>
+
+<style>
+    .apply-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .apply-menu {
+        position: relative;
+        text-align: center;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .apply-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+
+    .apply-menu h5 {
+        text-align: center;
+    }
+
+    .apply-menu p {
+        position: relative;
+        font-size: 18px;
+        font-weight: 300;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+     .apply-menu .row .col-sm-4 .thumbnail {
+        border: 5px solid;
+        border-radius: 4px;
+        padding: 35px;
+        width: 100%;
+        border-color: darkgoldenrod;
+     }   
+     .apply-menu .row .col-sm-6 .thumbnail {
+        border: 5px solid;
+        border-radius: 4px;
+        padding: 35px;
+        width: 100%;
+        border-color: darkgoldenrod;
+     }  
+        
+</style>

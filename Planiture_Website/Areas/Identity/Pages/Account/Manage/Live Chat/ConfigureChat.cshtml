@@ -1,0 +1,82 @@
+﻿@page
+@model Planiture_Website.Areas.Identity.Pages.Account.Manage.Live_Chat.ConfigureChatModel
+@{
+    ViewData["Title"] = "Install";
+}
+
+
+    <body>
+        <div id="config">
+            <div class="jumbotron">
+                <h2>Configuring your installation</h2>
+                <p>
+                    You can configure some basic information here. After the first installation you will be prompt to
+                    login to modify config values on this page. If you forget your admin password, speak to the website
+                    developer for assistance.
+                </p>
+            </div>
+            <div id="save-alerts"></div>
+
+            <h3>How agents can connect</h3>
+            <p>
+                You have two main passwords that are saved in an encrypted way on the LiveChat's configuration file found
+                in the website's database. Admins or agents can use any name they like and you give them there respective password based on what level you
+                want them to be <small>(Whether agents or admin)</small>.
+            </p>
+            <form method="post">
+                <fieldset>
+                    <legend>Set your passwords</legend>
+                    <p>
+                        <label>Admin password</label>
+                        <input asp-for="conFile.AdminPass" type="password" id="main-pass" class="form-control" />
+                        <span class="help-block">This is for administrative access, all admins shares the same password.</span>
+                    </p>
+                    <p>
+                        <label>Agent password</label>
+                        <input asp-for="conFile.AgentPass" type="password" id="agent-pass" class="form-control" />
+                        <span class="help-block">This is for your agents. All agents share the same password.</span>
+                    </p>
+                    <p>
+                        <label>Email when no agents are online</label>
+                        <input asp-for="conFile.Email" type="email" id="email" class="form-control" placeholder="Email for offline contact" />
+                        <span class="help-block">When a visitor contact you when all agents are offline.</span>
+                    </p>
+                </fieldset>
+                <hr />
+                <button href="#" id="save-btn" onclick="SaveChanges();" class="btn btn-primary btn-large">Save Changes</button>
+            </form>
+        </div>
+        <br />
+        <br />
+    </body>
+
+<script type="text/javascript">
+    function SaveChanges() {
+        swal.fire({
+            title: '<strong>HTML <u>example</u></strong>',
+            icon: 'success',
+            html:
+                'You can use <b>bold text</b>, ' +
+                '<a href="https://localhost:44336/Home/Index">(links)</a> ' +
+                'and other HTML tags',
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText:
+                '<a href="https://localhost:44336/Identity/Account/Manage/Live%20Chat/AgentLogin">Submit</a>',
+            confirmButtonAriaLabel: 'Thumbs up, great!',
+        });
+    };
+
+</script>
+
+<style type="text/css">
+    body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+    }
+
+    .sidebar-nav {
+        padding: 9px 0;
+    }
+</style>

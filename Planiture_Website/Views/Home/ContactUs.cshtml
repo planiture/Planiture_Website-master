@@ -1,0 +1,290 @@
+﻿@model Planiture_Website.Models.Feedback
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+
+<body>
+    <section class="customer-background">
+        <!--added image-->
+        <div class="customer-menu" id="custom">
+            <div class="hold">
+                <br />
+                <br />
+                <h1>@ViewData["Title"]</h1>
+
+                <br />
+                <p class="header">
+                    <span>All your questions and concerns matter, please check out the <a asp-controller="Home" asp-action="InformationCenter">Information Center</a>.</span>
+                    <br />
+                    <br />
+                    Further help required? Speak with a member of support with our options below:
+                </p>
+                <br />
+                <br />
+                <br />
+                <div class="contain">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4">
+                            <h6>CHAT</h6>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <h6>EMAIL</h6>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <h6>PLANITURE WHATSAPP GROUP</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4">
+                            <br />
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <br />
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4">
+                            <p>(START LIVE CHAT)</p>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <p><a href="mailto:theplanituregroup@gmail.com">theplanituregroup@gmail.com</a></p>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <p>(REQUEST)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<!--Feedback Form-->
+<div class="" role="button" tabindex="0" style="height:130px; position:fixed; z-index:999;
+        right:0; top:80%; margin-top:-65px; width:40px;">
+        <button class="feedback-btn modal-open" id="feedbackBtn" type="button" data-modal="modal-feedback" style="-webkit-transform: rotate(-90deg);height:50px; position:fixed;z-index:999;right: -50px;">FeedBack</button>
+</div>
+<div class="modal feedback-modal" id="modal-feedback">
+    <div class="feedbackmodal-content kingz">
+        <div class="close modal-close">+</div>
+        <form method="post">
+            <div class="modal-header">
+                <h2>FeedBack</h2>
+            </div>
+            <div class="row100">
+                <div class="inputBx50">
+                    <input style="color: white;" asp-for="FullName" type="text" placeholder="Full Name" required />
+                </div>
+                <div class="inputBx50">
+                    <input style="color: white;" asp-for="Investment_Number" type="text" placeholder="Investment No." />
+                </div>
+            </div>
+            <div class="row100">
+                <input style="color: white;" asp-for="Subject" type="text" placeholder="Subject" required />
+            </div>
+            <div class="row100">
+                <div class="inputBx100">
+                    <p style="color: white;">Please type or copy and paste your feedback below <b>(word limit: 150 words)</b></p>
+                    <textarea style="color: white;" asp-for="Message" placeholder="Message" required></textarea>
+                </div>
+            </div>
+            <div class="row100">
+                <div class="inputBx100">
+                    <input type="submit" value="Send" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .customer-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .customer-menu .hold {
+        position: relative;
+        text-align: center;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .customer-menu .hold .header {
+        text-align: left;
+    }
+    .customer-menu .hold .header span {
+        text-transform: uppercase;
+    }
+
+    .customer-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+
+    .customer-menu .contain {
+        border: 2px solid black;
+        /*padding: 4rem;*/
+        padding: 80px;
+        width: 800px;
+    }
+
+    .customer-menu .hold h6 {
+        text-align: center;
+        color: white;
+    }
+
+    p {
+        text-align: center;
+        font-family: sans-serif;
+        color: white;
+    }
+
+    p.options {
+        text-align: right;
+    }
+
+    /* Feedback page css
+    -------------------------------------------------- */
+    .feedback-btn {
+        -webkit-appearance: none;
+        background: darkgoldenrod;
+        border: 2px solid black;
+        border-radius: 4px;
+        outline: none;
+        padding: 0.5em 0.8em;
+        margin-right: 15px;
+        color: black;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+    }
+    .feedback-btn:hover {
+        background: gold;        
+    }
+
+    .feedback-btn:active {
+        background: goldenrod;
+        color: black;        
+    }
+
+    .feedback-modal {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,1,1);
+        opacity: 0.9;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+    .feedbackmodal-content {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        background-color: black;
+    }
+    .feedbackmodal-content form {
+        width: 100%;
+    }   
+    .feedbackmodal-content .row100 {
+        display: flex;
+        width: 100%;
+    }
+    .feedbackmodal-content .row100 .inputBx50 {
+        width: 50%;
+        margin-left: 0 20px;
+    }
+    .feedbackmodal-content .row100 .inputBx100 {
+        width: 100%;
+        margin: 0 20px;
+    }
+    .feedbackmodal-content .row100 input,
+    .feedbackmodal-content .row100 textarea {
+        position: relative;
+        border: none;
+        border-bottom: 1px solid white;
+        color: black;
+        background: transparent;
+        width: 100%;
+        padding: 10px 0;
+        outline: none;
+        font-size: 18px;
+        font-weight: 400;
+        margin: 20px 0;
+        resize: none;
+    }
+    .feedbackmodal-content .row100 textarea {
+        height: 100px;
+    }
+    .feedbackmodal-content .row100 input::placeholder,
+    .feedbackmodal-content .row100 textarea::placeholder {
+        color: white;
+    }
+    .feedbackmodal-content .row100 input[type="submit"] {
+        -webkit-appearance: none;
+        background-color: white;
+        color: black;
+        border-radius: 4px;
+        border: 1px solid goldenrod;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+    }
+
+    .feedbackmodal-content .row100 input[type="submit"]:hover{
+        color: white;
+        background-color: goldenrod;
+        transition: .3s;
+        text-decoration-line: none;
+        transition: .3s;
+
+    }
+
+    .feedbackmodal-content .row100 input[type="submit"]:active{
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px goldenrod;
+        transition: .3s;
+    }
+
+    .modal-header h2 {
+        font: bold 30px Sans-Serif;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        padding: 5px 10px;
+        margin: 0 0 10px 0;
+        line-height: 24px;
+        text-align: center;
+    }
+
+    .modal-header {
+        display: block;
+        position: relative;
+        margin: 40px 0;
+        background-color: goldenrod;
+        border: 1px solid white;
+    }
+
+</style>

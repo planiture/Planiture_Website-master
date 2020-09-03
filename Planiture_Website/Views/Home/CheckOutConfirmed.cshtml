@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "CheckOutConfirmed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="checkout-background">
+    <!--added image-->
+    <div class="checkout-menu" id="checkout">
+        <div class="container">
+            <br />
+            <h1>Check Out</h1>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3 style="text-align:center;">PLANITURE<br />DAILY SIGNALS<br />SUBSCRIPTION</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 form-background">
+                    <p>
+                        <span id="success">Your payment was confirmed!</span>
+                        <br />
+                        <br />
+                        Your Signal ID No. was emailed to you.
+                        <br />
+                        <br />
+                        (Download our Signal App from the <a href="">(AppStore</a> or <a href="">PlayStore)</a>)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .checkout-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+    .checkout-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .checkout-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+    #success{
+        color: white;
+        background-color: green;
+        font-size: 25px;
+        font-weight: 500;
+    }
+    h3 {
+        font-size: 30px;
+        font-weight: 400;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+    .row .col-sm-6 .thumbnail {
+        border: 5px solid;
+        border-radius: 4px;
+        padding: 35px;
+        width: 100%;
+        border-color: darkgoldenrod;
+    }
+    .form-background {
+        background-color: white;
+        border: 1px solid black;
+        padding: 60px;
+    }
+</style>

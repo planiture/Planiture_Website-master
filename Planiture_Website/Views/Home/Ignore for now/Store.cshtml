@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewData["Title"] = "Store";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Shop</title>
+    <style>
+        .shop-background {
+            position: relative;
+            padding: 100px;
+            min-height: 100vh;
+            background-color: whitesmoke;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+        }
+        .shop-menu {
+            position: relative;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .category {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 30px;
+            max-width: 100%;
+            margin-top: 40px;
+        }
+        .category .type{
+            position: relative;
+            background: darkgoldenrod;
+            min-height: 300px;
+            width: 250px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .category .type:hover{
+            background: #000;
+        }
+        .category a {
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        .category a:hover{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="shop-background" >
+        <div class="shop-menu" id="shop">
+            <h1>@ViewData["Title"]</h1>
+            <br />
+            <br />
+            <div class="category">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#">
+                            <div class="type">
+                                <h2>C@SHFLIP</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#">
+                            <div class="type">
+                                <h2>PRIVATE<br />INVESTOR</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#">
+                            <div class="type">
+                                <h2>STOCKS</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#">
+                            <div class="type">
+                                <h2>PLANITURE<br />BFXCLASS</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#">
+                            <div class="type">
+                                <h2>PLANITURE<br />FXC_SIGNALS</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#">
+                            <div class="type">
+                                <h2>PLANITURE<br />BUNDLE</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

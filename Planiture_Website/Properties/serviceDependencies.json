@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "Planiture_WebsiteContextConnection"
+    },
+    "secrets1": {
+      "type": "secrets"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+﻿@page
+@model Planiture_Website.Areas.Identity.Pages.Account.Manage.CreateRoleModel
+@{
+    ViewData["Title"] = "Create New Role";
+}
+
+
+<div class="body">
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <h4>Create a new account.</h4>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Input.RoleName"></label>
+            <input asp-for="Input.RoleName" class="form-control" />
+            <span asp-validation-for="Input.RoleName" class="text-danger"></span>
+        </div>
+
+        <button style="width: auto;" type="submit" class="btn btn-primary">Create Role</button>
+
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<!--<style>
+    .body {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-color: whitesmoke;
+        background-size: cover;
+    }
+</style>-->

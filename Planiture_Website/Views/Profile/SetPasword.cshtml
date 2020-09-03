@@ -1,0 +1,72 @@
+﻿@model Planiture_Website.Models.SetPasswordClass
+
+@{
+    ViewData["Title"] = "SetPasword";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    <div class="profile-background">
+        <div class="profile-menu" id="profile">
+            <div class="container">
+                <h1>@ViewData["Title"]</h1>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="SetPasword">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="NewPassword" class="control-label"></label>
+                                <input asp-for="NewPassword" class="form-control" />
+                                <span asp-validation-for="NewPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword" class="control-label"></label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</asp:Content>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<style>
+    .profile-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .profile-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+</style>

@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewData["Title"] = "Investment Plans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<body>
+    <section id="signals-background">
+        <div class="signals-menu" id="signals">
+            <div class="container">
+                <h1>@ViewData["Title"]</h1>
+                <br />
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h1>BASIC500</h1>
+                            </div>
+                            <div class="card-img">
+                                <img src="~/image/binaryaccount.jpg" width="273" height="200"/>
+                            </div>
+                            <div class="card-body">
+                                <center>
+                                    <a asp-action="Basic500" asp-controller="Home" id="view-more">View More</a>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h1>2KGOLD</h1>
+                            </div>
+                            <div class="card-img">
+                                <img src="~/image/binarysubcribe.jpg" width="273" height="200"/>
+                            </div>
+                            <div class="card-body">
+                                <center>
+                                    <a asp-action="Gold2K" asp-controller="Home" id="view-more">View More</a>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h1>PLANTINUM5</h1>
+                            </div>
+                            <div class="card-img">
+                                <img src="~/image/binaryaccount.jpg" width="273" height="200"/>
+                            </div>
+                            <div class="card-body">
+                                <center>
+                                    <a asp-action="PLANTINUM5" asp-controller="Home" id="view-more">View More</a>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-4 col-md-4"></div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h1>MYX PLAN</h1>
+                            </div>
+                            <div class="card-img">
+                                <img src="~/image/binarysubcribe.jpg" width="273" height="200" />
+                            </div>
+                            <div class="card-body">
+                                <center>
+                                    <a asp-action="MYXPLAN" asp-controller="Home" id="view-more">View More</a>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4"></div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+<style>
+    .signals-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signals-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .signals-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+
+    .card {
+        border: 1px solid goldenrod;
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px grey;
+    }
+
+    .card-header h1{
+        text-align: center;
+    }
+
+    .card-body #view-more{
+        color: black;
+        background-color: white;
+        border: 1px solid goldenrod;
+        border-radius: 10px;
+        padding: 10px;
+        width: 60%;
+    }
+
+    .card-body #view-more:hover{
+        color: white;
+        background-color: goldenrod;
+        transition: .3s;
+        text-decoration-line: none;
+    }
+
+    .card-body #view-more:active{
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px goldenrod;
+        transition: .3s;
+    }
+
+</style>

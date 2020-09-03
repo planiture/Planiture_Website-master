@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "SignalPlans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="apply-menu" id="apply">
+    <h1>@ViewData["Title"]</h1>
+
+    <br />
+    <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>5K PLAN</h3>
+                    <br />
+                    <p>
+                        Deposit $500 to your investment account.
+                        <br />
+                        Aim: Turn $500 to 5K within the month
+                        <br />
+                        <br />
+                        <a asp-controller="" asp-action="">(Add Plan to Account)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>500 PIPS PLAN</h3>
+                    <br />
+                    <p>
+                        Deposti $100 to your account.
+                        <br />
+                        Aim: Gain 500 PIPS on your account.
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <a asp-controller="" asp-action="">(Add Plan to Account)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>1000 PIPS PLAN</h3>
+                    <br />
+                    <p>
+                        Deposit $300 to your account.
+                        <br />
+                        Aim: Gain 1000 PIPS on your account.
+                        <br />
+                        <br />
+                        <a asp-controller="" asp-action="">(Add Plan to Account)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<style>
+    .apply-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .apply-menu {
+        position: relative;
+        text-align: center;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+        .apply-menu h1 {
+            font-size: 40px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            color: darkgoldenrod;
+            text-transform: uppercase;
+            text-align: right;
+        }
+
+        .apply-menu h5 {
+            text-align: center;
+        }
+
+        .apply-menu p {
+            position: relative;
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .apply-menu .row .col-sm-4 .thumbnail {
+            border: 5px solid;
+            border-radius: 4px;
+            padding: 35px;
+            width: 100%;
+            border-color: darkgoldenrod;
+        }
+
+        .apply-menu .row .col-sm-6 .thumbnail {
+            border: 5px solid;
+            border-radius: 4px;
+            padding: 35px;
+            width: 100%;
+            border-color: darkgoldenrod;
+        }
+</style>

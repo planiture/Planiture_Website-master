@@ -1,0 +1,395 @@
+﻿@using Planiture_Website.Models
+@model dynamic
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<asp:Content class="" id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    <section id="profile-background">
+        <div class="profile-menu" id="profile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <img id="profileImage" title="Change Profile Photo" src="~/css/default-profile-picture.png" class="modal-open" data-modal="modal-changephoto"
+                             style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
+                    </div>
+                    <div class="col-sm-8 col-md-8">
+                        <form method="post" enctype="multipart/form-data">
+                            <h3>@User.Identity.Name's Profile <i style="font-size:24px" class="fa fa-gear modal-open" data-modal="modal-feedback"></i></h3>
+                            @foreach (Account_Info acc in Model.accountList)
+                            {
+                                if (acc.AccountType == "Basic Account")
+                                {
+                                    <div class="more-info" title="This is a Basic Account">More Information</div>
+                                    <div class="hide">This is a Basic Account</div>
+                                }
+                                if (acc.AccountType == "Advanced Account")
+                                {
+                                    <div class="more-info" title="This is a Advanced Account">More Information</div>
+                                    <div class="hide">This is a Advanced Account</div>
+                                }
+                                if (acc.AccountType == "Stocks Account")
+                                {
+                                    <div class="more-info" title="This is a Stocks Account">More Information</div>
+                                    <div class="hide">This is a Stocks Account</div>
+                                }
+                            }
+
+                            <br />
+                            @foreach (ApplicationUser user in Model.userlist)
+                            {
+                                <button type="button" class="btn btn-sm btn-primary" onclick="location.href = '@Url.Action("Edit", "Profile", new {@user.Id })';">Edit Profile</button>
+                            }
+
+                        </form>
+                    </div>
+                </div>
+                <hr />
+                <br />
+                <div class="row">
+                    <div class="col-sm-7 col-md-7">
+                        <div class="personal-info">
+                            <dl class="row">
+                                @foreach (ApplicationUser user in Model.userlist)
+                                {
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.FirstName)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.FirstName)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.LastName)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.LastName)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.Address1)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.Address1)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.Email)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.Email)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.PhoneNumber)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.PhoneNumber)
+                                    </dd>
+                                }
+
+                            </dl>
+                            <center><a asp-controller="Profile" asp-action="PersonalInfo">(view personal information)</a></center>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-1"></div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="thumbnail-transaction" style="text-align: center; font-weight: 500;">
+
+                            @foreach (Account_Info acc in Model.accountList)
+                            {
+                                if (acc.AccountType == "Basic Account")
+                                {
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="DepositWithdrawal">Withdraw/Deposit</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="SignalPlans">Signal Plans</a>
+                                    <br />
+                                    <br />
+                                }
+                                if (acc.AccountType == "Advanced Account")
+                                {
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="DepositWithdrawal">Withdraw/Deposit</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="SignalPlans">Signal Plans</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="">Stocks Portfolio</a>
+                                    <br />
+                                    <br />
+                                }
+                                if (acc.AccountType == "Stocks Account")
+                                {
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="DepositWithdrawal">Withdraw/Deposit</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="">Stocks Portfolio</a>
+                                    <br />
+                                    <br />
+                                }
+                            }
+
+                            <a style="font-size: 20px" href="#">
+                                Live Chat<br />
+                                (12pm - 6pm)
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="thumbnail-invest">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6">
+                                    <center>
+                                        <h5>Recent Transaction</h5>
+                                        <br />
+                                        <p>>>>Transaction Here<<<</p>
+                                        <br />
+                                        @foreach (ApplicationUser user in Model.userlist)
+                                        {
+                                            <a asp-controller="Profile" asp-action="Transactions" asp-route-id="@user.Id">(view transactions)</a>
+                                        }
+
+                                    </center>
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <center>
+                                        @foreach (Account_Info account in Model.accountList)
+                                        {
+                                            <h5>@Html.DisplayNameFor(model => account.AvailableBalance)</h5>
+                                            <br />
+                                            <p>$ @Html.DisplayFor(model => account.AvailableBalance)</p>
+                                        }
+                                        @foreach (ApplicationUser user in Model.userlist)
+                                        {
+                                            <a asp-controller="Profile" asp-action="Accounts" asp-route-id="@user.Id">(view Accounts)</a>
+                                        }
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="modal changephoto-modal" id="modal-changephoto">
+        <div class="changephotomodal-content kingz">
+            <div class="container">
+                <div class="modal-header">
+                    <h4>Change Profile Photo</h4>
+                </div>
+                <center>
+                    <div class="nav-fill">
+                        <a class="nav-link upload-link" id="browseBtn" role="button">Upload Photo</a>
+                        <a class="nav-link">Remove Current Photo</a>
+                        <a class="nav-link modal-close" asp-action="">Cancel</a>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </section>
+    <section class="modal feedback-modal" id="modal-feedback">
+        <div class="feedbackmodal-content kingz">
+            <div class="container">
+                <div class="modal-header">
+                    <h4>Settings</h4>
+                </div>
+                <center>
+                    <div class="nav-fill">
+                        <a class="nav-link" asp-controller="Profile" asp-action="ChangePassword">Change Password</a>
+                        <a class="nav-link" asp-controller="" asp-action="">Log Out</a>
+                        <a class="nav-link modal-close" asp-action="">Cancel</a>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </section>
+</asp:Content>
+
+<style>
+
+    .profile-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    img{
+        cursor: pointer;
+    }
+
+    .hide{
+        display: none;
+    }
+
+    .more-info:hover + .hide {
+        display: block;
+        color: darkgoldenrod;
+        cursor: pointer;
+    }
+
+    .photo-input {
+        display: none;
+    }
+
+    dl {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .personal-info {
+        border-radius: 25px;
+        padding: 50px;
+        border: 2px solid darkgoldenrod;
+        background-color: black;
+        color: silver;
+    }
+
+    .thumbnail-transaction {
+        border-radius: 25px;
+        padding: 50px;
+        border: 2px solid darkgoldenrod;
+        background-color: black;
+        color: silver;
+    }
+
+    .thumbnail-invest {
+        border-radius: 25px;
+        padding: 50px;
+        border: 2px solid darkgoldenrod;
+        background-color: black;
+        color: silver;
+    }
+
+    /* Settings css
+    -------------------------------------------------- */
+    .fa-gear {
+        background-color: transparent;
+        border: none;
+        color: dimgrey;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .fa-gear:hover{
+        color: black;
+    }
+    .feedback-modal {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        opacity: 0.9;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+    .feedbackmodal-content {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        background-color: black;
+    }
+    .feedbackmodal-content a.nav-link {
+        color: white;
+        padding: 15px;
+        font-weight: 400;
+    }
+    .feedbackmodal-content a.nav-link:hover {
+        color: black;
+        background-color: darkgoldenrod;
+        font-weight: 500;
+    }
+    .modal-header {
+        display: block;
+        position: relative;
+        margin: 40px 0;
+    }
+    .modal-header h4 {
+        font: bold 30px Sans-Serif;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: darkgoldenrod;
+        padding: 5px 10px;
+        margin: 0 0 10px 0;
+        line-height: 24px;
+    }
+
+    /*Profile Photo css
+    --------------------------------------------------*/
+    .changephoto-modal {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        opacity: 0.9;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+    .changephotomodal-content {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        background-color: black;
+    }
+    .changephotomodal-content a.nav-link{
+        color: white;
+        padding: 15px;
+        cursor: pointer;
+        font-weight: 400;
+    }
+    .changephotomodal-content a.nav-link:hover{
+        color: black;
+        background-color: darkgoldenrod;
+        font-weight: 500;
+    }
+</style>
+
+<script>
+    //displays a form on screen when the deposit form button is clicked
+
+    var modalBtns = document.querySelectorAll(".modal-open");
+
+    modalBtns.forEach(function (btn) {
+        btn.onclick = function () {
+            var modal = btn.getAttribute("data-modal");
+
+            document.getElementById(modal).style.display = "flex";
+        }
+    });
+
+
+    //close the form after it has been opened
+
+    var closeBtns = document.querySelectorAll('.modal-close');
+
+    closeBtns.forEach(function (btn) {
+        btn.onclick = function () {
+            var modal = btn.closest(".modal").style.display = "none";
+        }
+    });
+</script>

@@ -1,0 +1,169 @@
+﻿@model Planiture_Website.Models.EditUser
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    <section id="profile-background">
+        <div class="profile-menu" id="profile">
+            <div class="container">
+                <form id="edit-form" asp-action="Edit" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4">
+                            <img id="profileImage" src="~/css/default-profile-picture.png" style="width:150px; height:150px; float:left; border-radius:50%;
+                                margin-right: 25px;" />
+                        </div>
+                        <div class="col-sm-8 col-md-8">
+                            <h3>@User.Identity.Name</h3>
+                            <a href="#">Change Profile Photo</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="control-label"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="control-label"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="UserName" class="control-label"></label>
+                                <input asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label"></label>
+                                <input asp-for="Gender" class="form-control" />
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="DOB" class="control-label"></label>
+                                @Html.TextBoxFor(m => m.DOB, new { disabled = "disabled" })
+                                <span asp-validation-for="DOB" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Signature" class="control-label"></label>
+                                @Html.TextBoxFor(m => m.Signature, new { disabled = "disabled" })
+                                <span asp-validation-for="Signature" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Occupation" class="control-label"></label>
+                                <input asp-for="Occupation" class="form-control" />
+                                <span asp-validation-for="Occupation" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Address1" class="control-label"></label>
+                                <input asp-for="Address1" class="form-control" />
+                                <span asp-validation-for="Address1" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Address2" class="control-label"></label>
+                                <input asp-for="Address2" class="form-control" />
+                                <span asp-validation-for="Address2" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Residency" class="control-label"></label>
+                                <input asp-for="Residency" class="form-control" />
+                                <span asp-validation-for="Residency" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="City" class="control-label"></label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="State" class="control-label"></label>
+                                <input asp-for="State" class="form-control" />
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ZipCode" class="control-label"></label>
+                                <input asp-for="ZipCode" class="form-control" />
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                        <button asp-action="Index" class="btn btn-primary" onclick="location.href = '@Url.Action("Index", "Profile")';">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</asp:Content>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<style>
+    .profile-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+    .profile-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>

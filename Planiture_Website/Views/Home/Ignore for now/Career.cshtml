@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewData["Title"] = "Career";
+}
+
+
+
+
+<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    <section id="career-background">
+        <!--added image-->
+        <div class="career-menu" id="care">
+            <div class="container">
+                <h1>@ViewData["Title"]</h1>
+                <hr />
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="~/css/customer_servicejob.jpg" alt="Customer_service" width="250" height="200">
+                            <div class="caption">
+                                <h5>Customer Service Representative</h5>
+                                <p>
+                                    A customer service representative supports customers by providing helpful
+                                    <br />information, answering questions, and responding to complaints. They're
+                                    <br />the front line of support for clients and customers.
+                                </p>
+                                <p><a asp-controller="Home" asp-action="CustomerServiceJob" class="btn btn-primary align-items-center" role="button">Apply</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="~/css/analyzer.jpg" alt="analyzer" width="250" height="200">
+                            <div class="caption">
+                                <h5>Market Analyzer</h5>
+                                <p>
+                                    Marketing analysts are responsible for studying market conditions to assess the
+                                    <br />potential sales of products and services. Their duties include forecasting
+                                    <br />and monitoring sales trends, gathering consumer and competitor data, etc.
+                                </p>
+                                <p><a asp-controller="Home" asp-action="MarketAnalyzerJob" class="btn btn-primary" role="button">Apply</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="~/css/mediajob1.jpg" alt="media" width="250" height="200">
+                            <div class="caption">
+                                <h5>Social Media Manager</h5>
+                                <p>
+                                    Social Media Managers are responsible for planning, implementing, managing and monitoring
+                                    <br />company's Social Media strategy in order to increase brand awareness, improve Marketing
+                                    <br />efforts and increase sales.
+                                </p>
+                                <p><a asp-controller="Home" asp-action="SocialMediaManagerJob" class="btn btn-primary" role="button">Apply</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</asp:Content>
+
+<style>
+    .career-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        /*background-color: darkgrey;*/
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .career-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-image: url();
+        background-color: whitesmoke;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /*.career-menu .container {
+        position: relative;
+        text-align: center;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }*/
+
+    .career-menu h1{
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .career-menu h5{
+        text-align: center;
+    }
+
+    .career-menu p {
+        position: relative;
+        font-size: 18px;
+        font-weight: 300;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .career-menu .row .col-sm-4 .thumbnail {
+        border: 2px solid ;
+        border-radius: 4px;
+        padding: 4px;
+        border-color: black;
+    }
+
+    .career-menu a{
+        position: relative;
+        font-size: 20px;
+        font-weight: 500;
+        border-color: black;
+        background-color: darkgoldenrod;
+        color: black;
+        font-weight: 500;
+        transition: 0.6s;
+    }
+
+    .career-menu a:hover{
+        border-color: black;
+        background-color: gold;
+        color: black;
+        transition: 0.6s;
+    }
+</style>

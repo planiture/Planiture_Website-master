@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <section class="menu-body" id="menu">
+        <div class="container">
+            <h1 class="text-center">@ViewData["Title"]</h1>
+            <!--Divider here-->
+            <hr />
+            <div class="menu">
+                <div class="menu-item">
+                    <a class="hold"><img src="~/image/investments.jpg" width="250" height="250" alt="INVESTMENTS" /><br /></a>
+                    <div class="text">
+                        <a class="idk" asp-area="" asp-controller="Home" asp-action="DailySignals">
+                            <h5>Investment Plans</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a class="hold"><img src="~/image/academy.jpg" width="250" height="250" alt="SUBSCRIPTIONS" /></a>
+                    <div class="text">
+                        <a class="idk" asp-area="" asp-controller="Home" asp-action="Stocks">
+                            <h5>STOCKS PORTFOLIO</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a class="hold"><img src="~/image/subscriptions.jpg" width="250" height="250" alt="INFORMATION CENTER" /><br /></a>
+                    <div class="text">
+                        <a class="idk" asp-area="" asp-controller="Home" asp-action="">
+                            <h5>PLANITURE ACADEMY</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a class="hold"><img src="~/image/upload.jpg" width="250" height="250" alt="CAREER" /><br /></a>
+                    <div class="text">
+                        <a class="idk" asp-area="" asp-controller="Home" asp-action="">
+                            <h5>PLANTIURE STORE</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a class="hold"><img src="~/image/information.jpg" width="250" height="250" alt="CAREER" /><br /></a>
+                    <div class="text">
+                        <a class="idk" asp-area="" asp-controller="Home" asp-action="OurAchievements">
+                            <h5>OUR TEAM</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a class="hold"><img src="~/image/career.jpg" width="250" height="250" alt="CUSTOMER SERVICE" /><br /></a>
+                    <div class="text">
+                        <a class="idk" asp-area="" asp-controller="Home" asp-action="OurAchievements">
+                            <h5>ACHIEVEMENTS</h5>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <a class="hold"><img src="~/image/security.jpg" width="250" height="250" alt="POLICY" /><br /></a>
+                    <div class="text">
+                        <a class="idk" asp-area="" asp-controller="Home" asp-action="ContactUs">
+                            <h5>CONTACT US</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    
+</asp:Content>
+
+<style>
+    .menu-background {
+        position: relative;
+        width: 100%;
+        min-height: 30vh;
+        /*background-image: url(company.PNG);*/
+        background-size: auto;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+    .menu-body {
+        /*background: #ffe8d7;*/
+        padding: 100px;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: thick;
+    }
+    h1 {
+        color: darkgoldenrod;
+    }
+    .menu-body .container {
+        position: relative;
+        text-align: center;
+        width: 100%;
+    }
+    .menu {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-gap: 30px;
+        max-width: 100%;
+        margin-top: 40px;
+    }
+    .menu-item {
+        position: relative;
+        min-height: 300px;
+        width: 250px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+    }
+
+    /*edit below*/
+
+    .menu .menu-item a.hold {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .menu .menu-item a.hold img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .menu .menu-item .text{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        transition: 0.2s;
+        opacity: 0;
+    }
+    .menu .menu-item:hover .text {
+        opacity: 0.8;
+    }
+    .menu .menu-item .text a.idk h5{
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 20px;
+        letter-spacing: 1px;
+        text-decoration: unset;
+    }
+</style>

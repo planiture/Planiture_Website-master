@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewData["Title"] = "Information Center";
+}
+
+<!DOCTYPE html>
+
+<body>
+    <div class="info-background">
+        <div class="info-menu">
+            <h1>@ViewData["Title"]</h1>
+            <br />
+            <br />
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <h4>WEBSITE HELP</h4>
+                        <hr />
+                        <br />
+                        <button class="accordion">How to apply?</button>
+                        <div class="panel">
+                            <p>
+                                sdfdsfdsf sddddddddd ddddddddd dddddddf sdfsdfsdd
+                                <br />ss df sdfs dfs dds fdsfd sfdsd sfsdfd sfsdf
+                                <br />sdfd sfd efgfdg fdg efgfd fgdfg dfsd fsds ff
+                                <br>dgfd efg df fdg df dfg df df fdg df fddf err.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <h4>INVESTMENT HELP</h4>
+                        <hr />
+                        <br />
+                        <button class="accordion">How does my money work for me?</button>
+                        <div class="panel">
+                            <p>
+                                dsfdsfds sdfdsfsd sdfsdfds sdfsd
+                            </p>
+                        </div>
+                        <button class="accordion">What is a cashflip?</button>
+                        <div class="panel">
+                            <p>
+                                dsfdsfds sdfdsfsd sdfsdfds sdfsd
+                            </p>
+                        </div>
+                        <button class="accordion">How long does a cashflip investment takes?</button>
+                        <div class="panel">
+                            <p>
+                                dsfdsfds sdfdsfsd sdfsdfds sdfsd
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <h4>OTHER HELPS</h4>
+                        <hr />
+                        <br />
+                        <button class="accordion">File a report...</button>
+                        <div class="panel">
+                            <p>
+                                dsfdsfds sdfdsfsd sdfsdfds sdfsd
+                            </p>
+                        </div>
+                        <button class="accordion">Give Feedback...</button>
+                        <div class="panel">
+                            <p>
+                                dsfdsfds sdfdsfsd sdfsdfds sdfsd
+                            </p>
+                        </div>
+                        <button class="accordion">Contact us...</button>
+                        <div class="panel">
+                            <p>
+                                sdfdsfds sdfsd  sdf ew ewr we
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<style>
+        .info-background {
+            position: relative;
+            padding: 100px;
+            min-height: 100vh;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-menu h1 {
+            font-size: 40px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            color: darkgoldenrod;
+            text-transform: uppercase;
+            text-align: right;
+        }
+
+        .info-menu h4{
+            text-align: center;
+            color: white;
+        }
+
+        .accordion {
+            background-color: goldenrod;
+            color: black;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+            border-radius: .4rem;
+            box-shadow: .5rem 2px .5rem rgba(0,0,0,.1);
+
+        }
+
+        .active, .accordion:hover{
+            background-color: darkgoldenrod;
+        }
+
+        .accordion:after{
+            content: '\002B';
+            color: black;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .active:after{
+            content: "\2212";
+        }
+
+        .info-menu p{
+            position: relative;
+            color: white;
+        }
+
+        .info-menu p::before {
+            content: "";
+            position: absolute;
+            width: .6rem;
+            height: 90%;
+            background-color: #8fc460;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: black;
+            color: white;
+            max-height: 0;
+            overflow: hidden;
+            position: relative;
+            transition: max-height 650ms;
+        }
+        .panel p{
+            padding: 1rem;
+
+        }
+
+        .col-sm-4 .panel:target{
+            max-height: 20rem;
+        }
+</style>

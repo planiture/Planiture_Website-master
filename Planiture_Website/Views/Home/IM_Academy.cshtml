@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewData["Title"] = "Earn & Learn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<body>
+    <section id="traders-background">
+        <!--added image-->
+        <div class="traders-menu" id="traders">
+            <div class="container">
+                <h1>@ViewData["Title"]</h1>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="thumbnail">
+                            <img src="~/css/forex.jpg" alt="Binary_account" width="300" height="250">
+                            <br />
+                            <br />
+                            <div class="thumbnail-border">
+                                <p>FOREX - EARN & LEARN</p>
+                            </div>
+                            <div class="caption">
+                                <p>
+                                    <a asp-controller="Home" asp-action="EarnLearn">'Join the Team'</a> - A large
+                                    <br />learning platform (currency &
+                                    <br /> commodity) with mentorship
+                                    <br />and signal sessions
+                                    <br /> to earn as you learn.
+                                    <br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="thumbnail">
+                            <img src="~/css/binary_earn.jpg" alt="Binary_account" width="300" height="250">
+                            <br />
+                            <br />
+                            <div class="thumbnail-border">
+                                <p>BINARY - EARN & LEARN</p>
+                            </div>
+                            <div class="caption">
+                                <p>
+                                    <a asp-controller="Home" asp-action="EarnLearn">'Join the Team'</a> - A large<br />
+                                    learning platform (Binary) with
+                                    <br /> mentorship option and signal
+                                    <br /> sessions to earn as you learn.
+                                    <br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+
+<style>
+    .traders-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .traders-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .traders-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+
+    p {
+        position: relative;
+        font-size: 18px;
+        font-weight: 300;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+        color: white;
+    }
+
+    .row .col-md-6 .thumbnail {
+        border-radius: 4px;
+        padding: 1px;
+        text-align: center;
+    }
+
+    .thumbnail-border {
+        border-radius: 4px;
+        padding: 1px;
+        border: 2px solid goldenrod;
+        text-align: center;
+    }
+</style>

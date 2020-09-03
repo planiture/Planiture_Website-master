@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Daily Signals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<body>
+    <section id="signals-background">
+        <!--added image-->
+        <div class="signals-menu" id="signals">
+            <div class="container">
+                <h1>@ViewData["Title"]</h1>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="thumbnail">
+                            <img src="~/image/binaryaccount.jpg" alt="Binary_account" width="300" height="250">
+                            <br />
+                            <br />
+                            <div class="thumbnail-border">
+                                <p>SIGNAL PLANS</p>
+                            </div>
+                            <div class="caption">
+                                <p>
+                                    <a asp-controller="Home" asp-action="SignalPlans">'View Signal Plans'</a> - open a basic account
+                                    <br />and select from our Signal Plans to have your money work for you.
+                                    <br />
+                                    <br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="thumbnail">
+                            <img src="~/image/binarysubcribe.jpg" alt="Binary_subscribe" width="300" height="250" />
+                            <br />
+                            <br />
+                            <div class="thumbnail-border">
+                                <p>SIGNAL APP</p>
+                            </div>
+                            <div class="caption">
+                                <p>
+                                    <a asp-controller="Home" asp-action="CheckOut">'Subcribe to Signals'</a> - Subscribe to our
+                                    <br />signal group for daily currency and
+                                    <br />commodity trade signals.
+                                    <br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+
+<style>
+    .signals-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+    .signals-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .signals-menu h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+    p {
+        position: relative;
+        font-size: 18px;
+        font-weight: 300;
+        font-family: sans-serif;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+        color: white;
+    }
+    .row .col-md-6 .thumbnail {
+        border-radius: 4px;
+        padding: 1px;
+        text-align: center;
+    }
+    .thumbnail-border {
+        border-radius: 4px;
+        padding: 1px;
+        border: 2px solid goldenrod;
+        text-align: center;
+    }
+</style>

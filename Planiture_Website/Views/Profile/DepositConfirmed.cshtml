@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewData["Title"] = "Deposit Confirmed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="confirmed-background">
+    <div class="confirmed-menu" id="confirmed">
+        <div class="loader"></div>
+        <div class="container main">
+            <p class="form-background">
+                <span id="success">Your Deposit has been processed</span>
+                <br />
+                <br />
+                Please allow us a moment as we process your Deposit
+                <br />
+                <br />
+                <br />
+                Transaction Sheet will be updated within 24 Hours.
+                <br />
+                <br />
+                Reminder to Download
+                <br />
+                Planiture App from the <a href="">AppStore</a> or <a href="">PlayStore</a>
+                <br />
+                PSG App from the <a href="">AppStore</a> or <a href="">PlayStore</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .confirmed-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+    .confirmed-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form-background {
+        background-color: white;
+        border: 1px solid black;
+        padding: 100px;
+    }
+    p {
+        text-align: center;
+    }
+    #success {
+        color: white;
+        background-color: green;
+        font-size: 18px;
+        font-weight: 500;
+        text-align: center;
+        padding: 2px;
+    }
+
+</style>

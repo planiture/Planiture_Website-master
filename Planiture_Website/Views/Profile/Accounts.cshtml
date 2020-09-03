@@ -1,0 +1,73 @@
+﻿@using Planiture_Website.Models
+@model dynamic
+
+@{
+    ViewData["Title"] = "Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Accounts</h1>
+
+<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    <section class="profile-background">
+        <div class="profile-menu" id="profile">
+            <h1>@ViewData["Title"]</h1>
+            <hr />
+            <br />
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Account Number</th>
+                        <th>Account Name</th>
+                        <th>Account Type</th>
+                        <th>Available Balance</th>
+                        <th>Actual Balance</th>
+                        <th>Withdrawal Amount</th>
+                        <th>Deposit Amount</th>
+                        <th>Other Account</th>
+                        <th>UserID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Account_Info account in Model.Accountlist)
+                     {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.AccountNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.AccountName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.AccountType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.AvailableBalance)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.ActualBalance)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.WithdrawalAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.DepositAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.OtherAccount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => account.User.Id)
+                            </td>
+                        </tr>
+                     }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</asp:Content>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

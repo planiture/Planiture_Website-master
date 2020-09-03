@@ -1,0 +1,201 @@
+﻿@model Planiture_Website.Models.Investment_Info
+
+@{
+    ViewData["Title"] = "Basic Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .body {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+    }
+
+    legend {
+        text-align: right;
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+    }
+
+    .btn {
+        -webkit-appearance: none;
+        border: 1px solid #E89E63;
+        border-radius: 4px;
+        outline: none;
+        padding: 0.5em 0.8em;
+        margin-right: 15px;
+        color: black;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+        background-color: #ffe8d7;
+    }
+
+        .btn:hover {
+            background: gold;
+        }
+
+        .btn:active {
+            background: goldenrod;
+            color: black;
+        }
+</style>
+
+<div class="body">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <br />
+        <br />
+        <fieldset class="basic-account">
+            <legend>Basic Account Group</legend>
+            <br />
+            <br />
+            <p>INVESTMENT QUESTIONS:<br />-----------------------------------------------------------------------------------------------------------------</p>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Ques1">HAVE YOU EVER INVESTED BEFORE?</label>
+                        <select asp-for="Ques1" class="form-control" required>
+                            <option value="" selected hidden>Choice</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                        <span asp-validation-for="Ques1" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 form-group">
+                    <label asp-for="Ques2">IF YES, WHAT HAVE YOU INVESTED IN? </label>
+                    <br />
+                    <span class="if-statement" style="font-style: italic; font-size: 14px;">If NO PLEASE ENTER "N/A" </span>
+                    <input asp-for="Ques2" class="form-control" required />
+                    <span asp-validation-for="Ques2" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Ques3">DO YOU CONSIDER YOURSELF A LOW, MEDIUM OR HIGH RISK TAKER? </label>
+                        <select asp-for="Ques3" class="form-control" required>
+                            <option value="" selected hidden>Choice</option>
+                            <option value="LOW">LOW</option>
+                            <option value="MEDIUM">MEDIUM</option>
+                            <option value="HIGH">HIGH</option>
+                        </select>
+                        <span asp-validation-for="Ques3" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 form-group">
+                    <label asp-for="Ques4">DO YOU CONSIDER YOURSELF A SHORT OR LONG TERM INVESTOR?</label>
+                    <select asp-for="Ques4" class="form-control" required>
+                        <option value="" selected hidden>Select</option>
+                        <option value="SHORT">SHORT</option>
+                        <option value="LONG">LONG</option>
+                    </select>
+                    <span asp-validation-for="Ques4" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Ques5">WHAT IS YOUR FINANCIAL GOALS IN A YEAR OR TWO FROM NOW?</label>
+                        <textarea asp-for="Ques5" class="form-control" id="TextArea1" rows="4" cols="20" required></textarea>
+                        <span asp-validation-for="Ques5" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Ques6">WHAT INSPIRED YOUR CHOICE TO INVEST?</label>
+                        <textarea asp-for="Ques6" class="form-control" id="TextArea2" rows="4" cols="20" required></textarea>
+                        <span asp-validation-for="Ques6" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <fieldset class="beneficiary-section">
+                <p>BENEFICIARY INFORMATION:<br />-----------------------------------------------------------------------------------------------------------------</p>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input asp-for="Bene_FirstName" class="form-control" required />
+                        <label asp-for="Bene_FirstName"></label>
+                        <span asp-validation-for="Bene_FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input asp-for="Bene_LastName" class="form-control" required />
+                        <label asp-for="Bene_LastName"></label>
+                        <span asp-validation-for="Bene_LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <input asp-for="Bene_Contact" class="form-control" required />
+                        <label asp-for="Bene_Contact"></label>
+                        <span asp-validation-for="Bene_Contact" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <input asp-for="Bene_Relationship" class="form-control" required />
+                        <label asp-for="Bene_Relationship"></label>
+                        <span asp-validation-for="Bene_Relationship" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Bene_Email"></label>
+                    <input asp-for="Bene_Email" class="form-control" placeholder="ex: name@mail.com" required />
+                    <span asp-validation-for="Bene_Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BenAddress"></label>
+                    <textarea asp-for="BenAddress" class="form-control" id="TextArea1" rows="4" cols="20" required></textarea>
+                    <span asp-validation-for="BenAddress" class="text-danger"></span>
+                </div>
+            </fieldset>
+            <br />
+            <div class="disclaimer-section">
+                <p>DISCLAIMER:<br />-----------------------------------------------------------------------------------------------------------------</p>
+
+                <br />
+                <p>I CERTIFY THAT MY ANSWERS ARE TRUE AND COMPLETE TO THE BEST OF MY KNOWLEDGE</p>
+                <br />
+                <br />
+                <div class="form-group">
+                    <label>INVESTMENT COMPANY: </label>
+                    <input type="text" placeholder="PLANITURE" disabled />
+                    <br />
+                    <label>INVESTOR SIGNATURE: </label>
+                    <input type="text" id="signature" placeholder="PLANITURE" disabled />
+                    <br />
+                    <label>DATE: </label>
+                    <input type="date" id="TodayDate" />
+                    <br />
+                    <label>CLIENT FULL NAME: </label>
+                    <input type="text" required />
+                    <br />
+                    <label asp-for="Signature">SIGNATURE: </label>
+                    <input type="text" asp-for="Signature" required />
+                    <br />
+                    <label>DATE: </label>
+                    <input type="date" id="SignDate" required />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group" align="center">
+            <button id="cancelBtn" type="reset" class="btn btn-primary" onclick="location.href = '@Url.Action("CreateApplication", "Home")';">CANCEL</button>
+            <input type="submit" value="SAVE & CONTINUE" class="btn btn-primary" />
+        </div>
+    </form>
+    
+</div>
+
+
+<!--<div>
+    <a asp-action="Index">Back to List</a>
+</div>-->

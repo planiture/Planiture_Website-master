@@ -1,0 +1,256 @@
+﻿
+
+<!--KINGZWILL-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/css/website logo.jpg" rel="icon" type="images/png" />
+    <title>Planiture - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+    
+
+
+    <style>
+        /* Navigation Bar
+        -------------------------------------------------- */
+        /* Body Header
+        ---------------- */
+        header { /*KINGZWILL ADDED THE FOLLOWING*/
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: inline;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px; /*adjusts the alignment of the navigation bar*/
+            z-index: 100;
+            transition: 0.6s;
+            background-color: black;
+            border-bottom-color: #D4AF37;
+            font-family: sans-serif; 
+        }
+
+        .sticky { /*ADDED BY KINGZWILL*/
+            padding: 5px 100px;
+            background: #D4AF37;
+            border-bottom: 1px solid black;
+            font-family: sans-serif;
+        }
+
+        header ul { /*ADDED BY KINGZWILL*/
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            header ul li { /*ADDED BY KINGZWILL*/
+                position: relative;
+                list-style: none;
+                color: gold;
+            }
+
+        .navbar li:hover { /*Adds a black box on the navigation options on hover*/
+            background: none;
+            border-color: black;
+            border-style: solid;
+        }
+
+        header ul li a { /*KINGZWILL ADDED THE FOLLOWING*/
+            position: relative;
+            margin: 0 15px;
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-weight: 300;
+            transition: 0.6s;
+        }
+
+
+        .navbar a { /*ADDED BY KINGZWILL*/
+            font-weight: 500;
+            color: white;
+        }
+
+            .navbar a:hover {
+                color: black;
+                font-weight: 500;
+            }
+
+        .navbar { /*ADDED BY KINGZWILL*/
+            /*overflow: hidden;*/
+            top: 0;
+        }
+
+        /*Drop Down Menu
+        -----------------------------*/
+
+        ul.navbar-nav li div.dropdown:hover > ul.dropdown-menu { /*display menu list on hover*/
+            display: inline-grid;
+        }
+
+        .navbar .dropdown .dropdown-menu { /*alignment of the dropdown menu items*/
+            padding: 10px;
+            top: 30px;
+            left: 30px;
+            background-color: black;
+        }
+
+        .navbar .dropdown-menu a {
+            text-decoration: none;
+            font-family: sans-serif;
+        }
+
+        .navbar .dropdown-menu li {
+            text-align: left;
+        }
+        
+        /*Removes the black box on the dropdown menu items on hover*/
+        /*Adds a grey background on hover*/
+        .navbar .dropdown-menu li:hover {
+            background: none;
+            border-color: none;
+            border-style: none;
+            background-color: darkgoldenrod;
+            transition: 0.4s;
+            cursor: pointer;
+        }
+
+        /*Login Dropdown Options*/
+        ul.navbar-nav li.nav-item div.dropdown:hover > div.dropdown-menu{
+            display: inline-grid;
+        }
+
+        
+
+        /*Social Media icons
+        ---------------------------*/
+        a.icons{
+            margin: 5px 15px;
+            color: #fff;
+            display: inline-block;
+            font-size: 20px;
+            transition: .5s;
+        }
+        a.icons:hover{
+            color: darkgoldenrod;
+            transition: .5s;
+        }
+
+        #chat-box-header{
+            color: goldenrod;
+            background-color: black;
+        }
+
+        #chat-box-header:hover{
+            background-color: goldenrod;
+            color: black;
+            font-weight: 500;
+            transition: .3s;
+        }
+    </style>
+</head>
+<body class="layout">
+    <header id="header" class="sticky">
+        <!--added sticky class to header... KINGZWILL-->
+        <nav class="navbar navbar-expand-sm  navbar-fixed-top navbar-toggleable-sm navbar-light mb-3">
+            <div class="container">
+                <a class="navbar-brand logo" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/css/website logo.jpg" alt="Company logo" width="150" height="55" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Welcome</a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle choose" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
+                                <ul class="dropdown-menu" style="width: 200px;">
+                                    <li><a asp-area="" asp-controller="Home" asp-action="DailySignals">Investment Plans</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="Stocks">Stocks Portfolio</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="IM_Academy">IM Academy</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="PlanitureAcademy">Planiture Academy</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="">Planiture Store</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="OurTeam">Our Team</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="OurAchievements">Achievements</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>                                
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!--<script src="~/lib/jquery/dist/jquery.min.js"></script>-->
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+
+    <footer>
+        <hr />
+        <div class="row" style="text-align: center;">
+            <div class="col-sm-6 col-md-6">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <h6>COMPANY</h6>
+                        <p style="color: red; font-weight:800;">Speak with Chantel</p>
+                        <p style="color: red; font-weight:800;">Speak with Chantel</p>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <h6>ABOUT US</h6>
+                        <a asp-area="" asp-controller="Home" asp-action="OurTeam">Our Team</a>
+                        <br />
+                        <a asp-controller="Home" asp-action="OurAchievements">Achievements</a>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <h6>SUPPORT</h6>
+                        <a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+                        <br />
+                        <a asp-controller="Home" asp-action="InformationCenter">Information Center</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <h6>REVIEW SECTIONS</h6>
+            
+            </div>
+
+
+            <div class="container" style="text-align: center;">
+                <hr />
+                Copyright &copy; 2020 - Planiture. All rights reserved - <a asp-area="" asp-controller="Home" asp-action="Policy">Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                <a href="https://www.facebook.com" class="icons"><i class="fab fa fa-facebook-square" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/" class="icons"><i class="fab fa fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://twitter.com/" class="icons"><i class="fab fa fa-twitter-square" aria-hidden="true"></i></a> 
+                <hr />
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
