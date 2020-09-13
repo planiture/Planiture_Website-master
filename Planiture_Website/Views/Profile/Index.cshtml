@@ -12,35 +12,53 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-4 col-md-4">
-                        <img id="profileImage" title="Change Profile Photo" src="~/css/default-profile-picture.png" class="modal-open" data-modal="modal-changephoto"
-                             style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
+                        @foreach (ApplicationUser user in Model.userlist)
+                        {
+                            if (@user.Identity == "")
+                            {
+                                <img id="profileImage" title="Change_Account_Photo" src="~/image/default-profile-picture.png" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
+                                     style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
+                            }
+                            else
+                            {
+                                <img id="profileImage" title="Change_Account_Photo" src="~/image/@user.Identity" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
+                                     style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
+                            }
+
+                        }
+
                     </div>
                     <div class="col-sm-8 col-md-8">
                         <form method="post" enctype="multipart/form-data">
-                            <h3>@User.Identity.Name's Profile <i style="font-size:24px" class="fa fa-gear modal-open" data-modal="modal-feedback"></i></h3>
+                            <h3 style="color: white;">@User.Identity.Name's Account <i style="font-size:24px" class="fa fa-gear modal-open" data-modal="modal-feedback"></i></h3>
                             @foreach (Account_Info acc in Model.accountList)
                             {
-                                if (acc.AccountType == "Basic Account")
+                                if (acc.AccountVersion == "Basic Account")
                                 {
-                                    <div class="more-info" title="This is a Basic Account">More Information</div>
+                                    <div style="color:white;" class="more-info" title="This is a Basic Account">More Information</div>
                                     <div class="hide">This is a Basic Account</div>
                                 }
-                                if (acc.AccountType == "Advanced Account")
+                                if (acc.AccountVersion == "Advanced Account")
                                 {
-                                    <div class="more-info" title="This is a Advanced Account">More Information</div>
+                                    <div style="color:white;" class="more-info" title="This is a Advanced Account">More Information</div>
                                     <div class="hide">This is a Advanced Account</div>
                                 }
-                                if (acc.AccountType == "Stocks Account")
+                                if (acc.AccountVersion == "Stocks Account")
                                 {
-                                    <div class="more-info" title="This is a Stocks Account">More Information</div>
+                                    <div style="color:white;" class="more-info" title="This is a Stocks Account">More Information</div>
                                     <div class="hide">This is a Stocks Account</div>
+                                }
+                                if(acc.AccountVersion == "Golden20 Account")
+                                {
+                                    <div style="color:white;" class="more-info" title="This is a Golden20 Account">More Information</div>
+                                    <div class="hide">This is a Golden20 Account</div>
                                 }
                             }
 
                             <br />
                             @foreach (ApplicationUser user in Model.userlist)
                             {
-                                <button type="button" class="btn btn-sm btn-primary" onclick="location.href = '@Url.Action("Edit", "Profile", new {@user.Id })';">Edit Profile</button>
+                                <button type="button" id="edit" class="btn btn-sm btn-primary" onclick="location.href = '@Url.Action("Edit", "Profile", new {@user.Id })';">Edit Profile</button>
                             }
 
                         </form>
@@ -96,43 +114,59 @@
 
                             @foreach (Account_Info acc in Model.accountList)
                             {
-                                if (acc.AccountType == "Basic Account")
+                                if (acc.AccountVersion == "Basic Account")
                                 {
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="DepositWithdrawal">Withdraw/Deposit</a>
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
                                     <br />
                                     <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="SignalPlans">Signal Plans</a>
+                                    <a style="font-size: 20px" asp-controller="Home" asp-action="SignalPlans">Investment Plans</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
+                                }
+                                if (acc.AccountVersion == "Advanced Account")
+                                {
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Home" asp-action="SignalPlans">Investment Plans</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Home" asp-action="StocksPortfolio">Stocks Portfolio</a>
                                     <br />
                                     <br />
                                 }
-                                if (acc.AccountType == "Advanced Account")
+                                if (acc.AccountVersion == "Stocks Account")
                                 {
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="DepositWithdrawal">Withdraw/Deposit</a>
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
                                     <br />
                                     <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="SignalPlans">Signal Plans</a>
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
                                     <br />
                                     <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="">Stocks Portfolio</a>
+                                    <a style="font-size: 20px" asp-controller="Home" asp-action="StocksPortfolio">Stocks Portfolio</a>
                                     <br />
                                     <br />
                                 }
-                                if (acc.AccountType == "Stocks Account")
+                                if(acc.AccountVersion == "Golden20 Account")
                                 {
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="DepositWithdrawal">Withdraw/Deposit</a>
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
                                     <br />
                                     <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="">Stocks Portfolio</a>
+                                    <a style="font-size: 20px" asp-controller="Home" asp-action="SignalPlans">Investment Plans</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
+                                    <br />
+                                    <br />
+                                    <a style="font-size: 20px" asp-controller="Home" asp-action="StocksPortfolio">Stocks Portfolio</a>
                                     <br />
                                     <br />
                                 }
                             }
-
-                            <a style="font-size: 20px" href="#">
-                                Live Chat<br />
-                                (12pm - 6pm)
-                            </a>
-
                         </div>
                     </div>
                 </div>
@@ -143,9 +177,19 @@
                             <div class="row">
                                 <div class="col-sm-6 col-md-6">
                                     <center>
-                                        <h5>Recent Transaction</h5>
+                                        <h5>Recent Account Transaction</h5>
                                         <br />
-                                        <p>>>>Transaction Here<<<</p>
+                                        @foreach (CusTransaction transaction in Model.transactionList)
+                                        {
+                                            if(transaction.TransactionAmount.ToString() == null)
+                                            {
+                                                <p>$ 0.00</p>
+                                            }
+                                            else
+                                            {
+                                                <p>$ @Html.DisplayFor(model => transaction.MostRecent)</p>
+                                            }
+                                        }
                                         <br />
                                         @foreach (ApplicationUser user in Model.userlist)
                                         {
@@ -182,11 +226,14 @@
                     <h4>Change Profile Photo</h4>
                 </div>
                 <center>
-                    <div class="nav-fill">
-                        <a class="nav-link upload-link" id="browseBtn" role="button">Upload Photo</a>
-                        <a class="nav-link">Remove Current Photo</a>
-                        <a class="nav-link modal-close" asp-action="">Cancel</a>
-                    </div>
+                    @foreach (ApplicationUser user in Model.userlist)
+                    {
+                        <div class="nav-fill">
+                            <a class="nav-link upload-link" id="browseBtn" role="button">Upload Photo</a>
+                            <a class="nav-link" asp-controller="Profile" asp-action="DeletePhoto" asp-route-id="@user.Id">Remove Current Photo</a>
+                            <a class="nav-link modal-close" asp-action="">Cancel</a>
+                        </div>
+                    }
                 </center>
             </div>
         </div>
@@ -200,7 +247,7 @@
                 <center>
                     <div class="nav-fill">
                         <a class="nav-link" asp-controller="Profile" asp-action="ChangePassword">Change Password</a>
-                        <a class="nav-link" asp-controller="" asp-action="">Log Out</a>
+                        <a class="nav-link" asp-controller="Profile" asp-action="">Delete Account</a>
                         <a class="nav-link modal-close" asp-action="">Cancel</a>
                     </div>
                 </center>
@@ -229,6 +276,31 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    #edit {
+        -webkit-appearance: none;
+        border: 1px solid black;
+        border-radius: 4px;
+        outline: none;
+        padding: 0.5em 0.8em;
+        margin-right: 15px;
+        color: black;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+        background-color: whitesmoke;
+    }
+
+    #edit:hover {
+        background: gold;
+    }
+
+    #edit:active {
+        background: goldenrod;
+        color: black;
     }
 
     img{
@@ -260,6 +332,7 @@
         border: 2px solid darkgoldenrod;
         background-color: black;
         color: silver;
+        box-shadow: 3px 3px 5px grey;
     }
 
     .thumbnail-transaction {
@@ -268,6 +341,7 @@
         border: 2px solid darkgoldenrod;
         background-color: black;
         color: silver;
+        box-shadow: 3px 3px 5px grey;
     }
 
     .thumbnail-invest {
@@ -276,6 +350,7 @@
         border: 2px solid darkgoldenrod;
         background-color: black;
         color: silver;
+        box-shadow: 3px 3px 5px grey;
     }
 
     /* Settings css
@@ -289,7 +364,7 @@
         cursor: pointer;
     }
     .fa-gear:hover{
-        color: black;
+        color: #D4AF37;
     }
     .feedback-modal {
         width: 100%;

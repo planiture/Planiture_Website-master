@@ -7,7 +7,7 @@
 
 <div class="body">
 
-    <form id="apply-form" method="post">
+    <form id="apply-form" method="post" enctype="multipart/form-data">
         <br />
         <p>
             Open an account with planiture for Investment plans and stocks investment.
@@ -64,10 +64,6 @@
                 </div>
                 <label>Phone Number</label>
                 <div class="row">
-                    <!--<div class="col-sm-6 col-md-6 form-group">
-                        <input id="AreaCodetxt" asp-for="Input.AreaCode" class="form-control" placeholder="1(954)" required />
-                        <label asp-for="Input.AreaCode">Area Code</label>
-                    </div>-->
                     <div class="col-sm-6 col-md-6 form-group">
                         <input id="Mobiletxt" asp-for="Input.Mobile" class="form-control" placeholder="1234567" required />
                         <label asp-for="Input.Mobile"></label>
@@ -111,11 +107,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-12 form-group">
+                    <div class="col-sm-6 col-md-6 form-group">
                         <label asp-for="Input.Identity"></label>
                         <input id="Identitytxt" asp-for="Input.Identity" class="form-control" placeholder="Identity" required />
                         <span style="color: white;">Upload a Valid ID</span>
                         <span asp-validation-for="Input.Identity" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <label asp-for="Input.ProfileImage"></label>
+                        <input id="Identitytxt" asp-for="Input.ProfileImage" class="form-control" placeholder="Profile Photo"/>
+                        <span style="color:white;">Upload Profile Image</span>
+                        <span asp-validation-for="Input.ProfileImage" class="text-danger"></span>
                     </div>
                 </div>
             </fieldset>

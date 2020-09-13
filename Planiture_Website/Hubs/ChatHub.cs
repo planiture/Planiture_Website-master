@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Planiture_Website.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -354,35 +357,16 @@ namespace Planiture_Website.Hubs
             return Clients.All.SendAsync("Leave", Context.ConnectionId);
         }
 
-        public void SendEmail(string from, string message)
+        public void SendEmail(string sender, string message)
         {
-            var test = _context.ConfigFiles.ToList();
-            if (test != null && test.Count >= 3)
-            {
-                message = "From: " + from + "\n\n" + message;
-
-                SqlConnection con = new SqlConnection(@"Data Source=MSI;Initial Catalog=LiveChat;Integrated Security=True");
-                con.Open();
-                SqlCommand cmd = new SqlCommand("select Email from ConfigFiles", con);
-                List<string> str = new List<string>();
-                SqlDataReader da = cmd.ExecuteReader();
-                while (da.Read())
-                {
-                    str.Add(da.GetValue(0).ToString());
-                }
-                con.Close();
-
-                var msg = new MailMessage();
-                msg.From = new MailAddress(str[0]);
-                msg.To.Add(new MailAddress(str[0]));
-                msg.Subject = "LCSK - Offline Contact";
-                msg.Body = "You received an offline contact from your LCSK chat widget.\r\n\r\n" + message;
-
-                using (var client = new SmtpClient())
-                {
-                    client.Send(msg);
-                }
-            }
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("akeamsmith41@gmail.com");
+            var to = new EmailAddress("akeamsmith41@gmail.com");
+            string subject = "Planiture Live Chat Message";
+            string htmlContent = "You have received a planiture chat message from "+sender+", <br /><br />"+message;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
+            var response = client.SendEmailAsync(msg);
         }
 
 

@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "PlanConfirm";
+}
+
+
+
+<body onload="successfully()">
+
+</body>
+
+<script>
+    function successfully() {
+        Swal.fire({
+            icon: 'success',
+            title: 'INVESTMENT PLAN APPLIED',
+            text: "You have applied an investment plan to your account",
+            confirmButtonText:
+                '<a href="https://localhost:44336/Profile">View "My Plans"</a>',
+        })
+    }
+</script>

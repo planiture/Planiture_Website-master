@@ -5,7 +5,11 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
+using EllipticCurve.Utils;
+using IronPdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +18,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Planiture_Website.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Planiture_Website.Controllers
 {
@@ -38,7 +44,7 @@ namespace Planiture_Website.Controllers
             _HostEnvironment = hostEnvironment;
         }
 
-        public SetPasswordClass SetNewPassword { get; set; }
+        public SetPasswordViewModel SetNewPassword { get; set; }
         public Account_Info Account { get; set; }
         public CusTransaction Transaction { get; set; }
 
@@ -76,32 +82,16 @@ namespace Planiture_Website.Controllers
             return list.ToList();
         }
 
-        //check which user profile to load
-        /*public async Task<IActionResult> CheckProfile()
+        public List<ActivePlans> Plans()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var userid = _userManager.GetUserId(HttpContext.User);
 
-            var account = _context.UserAccount.Where(a => a.UserID == user.Id);
-            foreach(Account_Info acc in account)
-            {
-                if(acc.AccountType == "Basic Account")
-                {
-                    return RedirectToAction("Index", "Profile");
-                }
-                if(acc.AccountType == "Advanced Account")
-                {
-                    return RedirectToAction("AdvancedProfile", "Profile");
-                }
-                if(acc.AccountType == "Stocks Account")
-                {
-                    return RedirectToAction("StocksProfile", "Profile");
-                }
-            }
+            var list = from user in _context.ActivePlans.ToList()
+                       where user.UserID == Convert.ToInt32(userid)
+                       select user;
 
-            _logger.LogInformation("ID's do not match");
-            return RedirectToAction("Index", "Home");
-        }*/
-
+            return list.ToList();
+        }
 
         //basic account user profile
         [HttpGet]
@@ -152,7 +142,7 @@ namespace Planiture_Website.Controllers
                 return View("NotFound");
             }
 
-            var model = new EditUser
+            var model = new EditUserViewModel
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -171,7 +161,7 @@ namespace Planiture_Website.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUser model)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
 
@@ -203,6 +193,60 @@ namespace Planiture_Website.Controllers
                 }
                 return View(model);
             }
+        }
+
+        /*[HttpGet]
+        public async Task<IActionResult> UploadPhoto()
+        {
+
+        }*/
+
+        [HttpGet]
+        public async Task<IActionResult> DeletePhoto(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var currentuser = await _context.Users
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            var image = (from m in _context.Users
+                         where m.Id == id
+                         select m.Identity).FirstOrDefault();
+
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            return View(currentuser);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
+        {
+            var userimage = await _context.Users.FindAsync(id);
+
+            //delete from wwwRoot image folder
+            var imagePath = Path.Combine(_HostEnvironment.WebRootPath, "image", userimage.Identity);
+            //check if image exists then delete
+            if(System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            var image = "";
+
+            
+
+            user.Identity = image;
+            _context.Users.Update(user);
+            _context.SaveChanges();
+
+            return View();
         }
 
         [HttpGet]
@@ -275,7 +319,7 @@ namespace Planiture_Website.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordClass change)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel change)
         {
             if (!ModelState.IsValid)
             {
@@ -333,8 +377,9 @@ namespace Planiture_Website.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult DepositWithdrawal()
+        public IActionResult Withdrawal()
         {
             //Check if this is a Deposit or Withdrawal
 
@@ -349,9 +394,108 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
-        public IActionResult DepositConfirmed()
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Withdrawal(DepositWithdrawalClass withdrawal, CusTransaction transaction)
         {
-            return View();
+            //Get the existing user from the database
+            var user = await _userManager.GetUserAsync(User);
+
+            //check user against database
+            List<string> str = new List<string>();
+
+            using (SqlConnection con = new SqlConnection(@"Data Source=MSI;Initial Catalog=Planiture_Records;Integrated Security=True"))
+            {
+
+                SqlCommand cmd = new SqlCommand($"select AccountNumber, ActualBalance, AccountName from UserAccount where UserID='{user.Id}'", con);
+                con.Open();
+
+
+
+                using (SqlDataReader da = cmd.ExecuteReader())
+                {
+                    while (da.Read())
+                    {
+                        str.Add(da[0].ToString());
+                        str.Add(da[1].ToString());
+                        str.Add(da[2].ToString());
+                    }
+
+                }
+
+                con.Close();
+            }
+
+
+            if (withdrawal.Name != str[2])
+            {
+                ViewBag.NameMsg = "Invalid Account Name";
+                return View();
+            }
+            if (withdrawal.AccountNumber != Convert.ToInt32(str[0]))
+            {
+                ViewBag.NumMsg = "Invalid Account Number";
+                return View();
+            }
+            if(withdrawal.WithdrawalAmount > Convert.ToInt32(str[1]))
+            {
+                ViewBag.AmtMsg = "Insufficient Funds on account";
+                return View();
+            }
+
+            //store copy of user transaction to database
+            transaction.TransactionAmount = withdrawal.WithdrawalAmount;
+            transaction.TransactionType = "Withdrawal";
+            transaction.Trans_AccountNumber = withdrawal.AccountNumber;
+            transaction.UserID = user.Id;
+            transaction.TransactionStatus = "Pending";
+            transaction.MostRecent = withdrawal.WithdrawalAmount;
+
+            _context.UserTransaction.Add(transaction);
+            _context.SaveChanges();
+            _logger.LogInformation("User withdrawal processing");
+
+            //email copy of user transaction to company email
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("akeamsmith41@gmail.com");
+            var to = new EmailAddress("akeamsmith41@gmail.com");
+            string subject = "User Withdrawal Transaction Information";
+            string htmlContent = "<style> table,tr,td{ border:1px solid black;} tr,td{padding:20px; }</style>" +
+                "<img src='~/css/website logo.jpg'/>" +
+                "<h1>"+withdrawal.Name+ ", WITHDRAWAL Information </h1>" +
+                "<hr /> " +
+                "<table> " +
+                "<tr> " +
+                "<td>User ID<td>" +
+                "<td>User Name<td>" +
+                "<td>Account Number<td>" +
+                "<td>Withdrawal Amount<td>" +
+                "<td>Account Type<td>" +
+                "<td>Transaction Type<td>" +
+                "<td>Transaction Status<td>" +
+                "</tr>" +
+                "<tr> " +
+                "<td>"+user.Id+"</td>" +
+                "<td>"+withdrawal.Name+"</td>" +
+                "<td>"+withdrawal.AccountNumber+"</td>" +
+                "<td>"+withdrawal.WithdrawalAmount+"</td>" +
+                "<td>"+withdrawal.AccountType+"</td>" +
+                "<td>Withdrawal</td>" +
+                "<td>Pending</td>" +
+                "</tr>" +
+                "</table>";
+
+            //create pdf file
+            var pdf = HtmlToPdf.StaticRenderHtmlAsPdf(htmlContent);
+            pdf.SaveAs("" + withdrawal.Name + "_Withdrawal_Request_Information.pdf");
+            byte[] bytes = Encoding.ASCII.GetBytes(htmlContent);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
+            msg.AddAttachment(withdrawal.Name+"_Withdrawal_Request_Information.pdf",Convert.ToBase64String(bytes), "application/pdf", "attachment",null);
+            
+            var response = client.SendEmailAsync(msg);
+
+            return RedirectToAction("WithdrawalConfirmed", "Profile");
         }
 
         public IActionResult WithdrawalConfirmed()
@@ -359,15 +503,24 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
-        public IActionResult SignalPlans()
+        [Authorize]
+        public async Task<IActionResult> MyPlans()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            var userid = _userManager.GetUserId(HttpContext.User);
+            if (userid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                dynamic dy = new ExpandoObject();
+                dy.planlist = Plans();
+
+                return View(dy);
+            }
         }
 
-        public async Task<IActionResult> Idk()
-        {
-            var transactionlist = await _context.UserAccount.ToListAsync();
-            return View(transactionlist);
-        }
+
     }
 }

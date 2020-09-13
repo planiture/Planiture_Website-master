@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -29,19 +33,22 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             RoleManager<ApplicationRole> roleManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _roleManager = roleManager;
             _emailSender = emailSender;
+            _hostEnvironment = hostEnvironment;
         }
 
         [BindProperty]
@@ -81,10 +88,6 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
             [Display(Name = "Occupation")]
             public string Occupation { get; set; }
 
-            /*[PersonalData]
-            [Display(Name = "Area Code")]
-            public string AreaCode { get; set; }*/
-
             [PersonalData]
             [Display(Name = "Mobile")]
             public string Mobile { get; set; }
@@ -118,9 +121,19 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
             public string ZipCode { get; set; }
 
             [PersonalData]
+            [NotMapped]
             [Display(Name = "Upload Proof of Identity")]
-            public string Identity { get; set; }
-            
+            public IFormFile Identity { get; set; }
+
+            public string IdentityImageName { get; set; }
+
+            [PersonalData]
+            [NotMapped]
+            [Display(Name = "Profile Image")]
+            public IFormFile ProfileImage { get; set; }
+
+            public string ProfileImageName { get; set; }
+
             [Display(Name = "Username")]
             public string Username { get; set; }
 
@@ -145,12 +158,34 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync([Bind ("Identity, ProfileImage")] InputModel input, string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                //add Proof of identity image
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(input.Identity.FileName);
+                string extension = Path.GetExtension(input.Identity.FileName);
+                input.IdentityImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/image", fileName);
+                using(var fileStream = new FileStream(path,FileMode.Create))
+                {
+                    await input.Identity.CopyToAsync(fileStream);
+                }
+
+                //add Profile Image
+                string wwwRootPath1 = _hostEnvironment.WebRootPath;
+                string fileName1 = Path.GetFileNameWithoutExtension(input.ProfileImage.FileName);
+                string extension1 = Path.GetExtension(input.ProfileImage.FileName);
+                input.ProfileImageName = fileName1 = fileName1 + DateTime.Now.ToString("yymmssfff") + extension1;
+                string path1 = Path.Combine(wwwRootPath1 + "/image", fileName1);
+                using (var fileStream1 = new FileStream(path1, FileMode.Create))
+                {
+                    await input.ProfileImage.CopyToAsync(fileStream1);
+                }
+
                 var user = new ApplicationUser
                 {
                     FirstName = Input.FirstName,
@@ -165,10 +200,13 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
                     City = Input.City,
                     State = Input.State,
                     ZipCode = Input.ZipCode,
-                    Identity = Input.Identity,
+                    Identity = fileName,
+                    ProfileImage = fileName1,
                     UserName = Input.Username,
                     Email = Input.Email,
-                    FirstAccessed = true
+                    FirstAccessed = true,
+                    isProfile = false,
+                    isAccount = true
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -177,12 +215,36 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                     //Create User/Customer role *Default role*
                     var role = new ApplicationRole();
-                   role.Name = "Customer";
+                   role.Name = "Customer-Account";
                    await _roleManager.CreateAsync(role);
 
                     //Add new user to the default role
-                    var addrole = await _userManager.AddToRoleAsync(user, "Customer");
+                    var addrole = await _userManager.AddToRoleAsync(user, "Customer-Account");
                     _logger.LogInformation("User role added.");
+
+                    //Send User Proof of Identity information to company email
+                    var apiKey = "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";
+                    var client = new SendGridClient(apiKey);
+                    var from = new EmailAddress("akeamsmith41@gmail.com");
+                    var to = new EmailAddress("akeamsmith41@gmail.com");
+                    string subject = "Planiture Customer - "+Input.FirstName+"" +Input.LastName+"- Proof of Identity";
+                    string htmlContent = "See attachment for customer's ID information";
+                    var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
+                    //get image location
+                    var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "image", user.Identity);
+                    //convert image to bytes
+                    byte[] bytes = Encoding.ASCII.GetBytes(imagePath);
+                    //attach image bytes to email and send
+                    var trying = new Attachment()
+                    {
+                        Disposition = "attachment/image",
+                        ContentId = null,
+                        Filename = fileName,
+                        Type ="*",
+                        Content = Convert.ToBase64String(bytes)
+                    };
+                    msg.AddAttachment(trying);
+                    var response = client.SendEmailAsync(msg);
 
                     //Email Verification Process
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -193,18 +255,15 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    /*_logger.Log(LogLevel.Warning, callbackUrl);
-                    ViewBag.ErrorTitle = "Registration Successful";*/
-
 
                     //Send Email Confirmation Link
 
-                    var apiKey = "";
-                    var client = new SendGridClient(apiKey);
-                    var from = new EmailAddress("akeamsmith41@gmail.com");
-                    var to = new EmailAddress(Input.Email);
-                    string subject = "Planiture Email Address Confirmation";
-                    string htmlContent = 
+                    var apiKey1 = "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";
+                    var client1 = new SendGridClient(apiKey1);
+                    var from1 = new EmailAddress("akeamsmith41@gmail.com");
+                    var to1 = new EmailAddress(Input.Email);
+                    string subject1 = "Planiture Email Address Confirmation";
+                    string htmlContent1 = 
                         "<p>Hi there, " +
                         "<br />" +
                         "<br />" +
@@ -224,9 +283,9 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
                         "If this is not your Planiture account or you did not sign up for Planiture, please ignore this email." +
                         "<br />" +
                         "<br />" +
-                        "Thanks, <br />Team Planiture</p>";
-                    var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
-                    var response = await client.SendEmailAsync(msg);
+                        "Thanks, <br />The Planiture Family</p>";
+                    var msg1 = MailHelper.CreateSingleEmail(from1, to1, subject1, null, htmlContent1);
+                    var response1 = await client1.SendEmailAsync(msg1);
 
                     _logger.LogInformation("Email Sent");
 

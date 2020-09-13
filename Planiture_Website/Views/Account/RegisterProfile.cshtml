@@ -1,0 +1,234 @@
+﻿@model Planiture_Website.Controllers.AccountController
+@{
+    ViewData["Title"] = "RegisterProfile";
+}
+
+
+<div class="body">
+
+    <form id="apply-form" method="post">
+        <br />
+        <p>
+            Open a profile with planiture for Investment plans and stocks investment.
+            <br />
+            To start your registration process please submit your personal information for verification.
+            <br />
+            <br />
+            <b><span style="color: white;">An email confirmation message will be sent to the email address entered. User email must be confirmed before continuing the registration process.</span></b>
+
+        </p>
+        <div class="tab-content" id="content1">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <fieldset>
+                <legend>Personal Information</legend>
+                <label>Full Name</label>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="FirstNametxt" asp-for="Input.FirstName" class="form-control" required />
+                        <label asp-for="Input.FirstName"></label>
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="LastNametxt" asp-for="Input.LastName" class="form-control" required />
+                        <label asp-for="Input.LastName"></label>
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input asp-for="Input.DOB" type="date" id="DOBtxt" class="form-control" required />
+                        <label asp-for="Input.DOB">DOB</label>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <select id="Gendertxt" asp-for="Input.Gender" class="" required>
+                            <option style="color: black;" value="" selected hidden>Gender</option>
+                            <option style="color: black;" value="M">Male</option>
+                            <option style="color: black;" value="F">Female</option>
+                            <option style="color: black;" value="O">Other</option>
+                        </select>
+                        <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Occupationtxt" asp-for="Input.Occupation" class="form-control" required />
+                        <label asp-for="Input.Occupation"></label>
+                        <span asp-validation-for="Input.Occupation" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Emailtxt" asp-for="Input.Email" class="form-control" placeholder="ex: name@mail.com" required />
+                        <label asp-for="Input.Email"></label>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <label>Phone Number</label>
+                <div class="row">
+                    <!--<div class="col-sm-6 col-md-6 form-group">
+                        <input id="AreaCodetxt" asp-for="Input.AreaCode" class="form-control" placeholder="1(954)" required />
+                        <label asp-for="Input.AreaCode">Area Code</label>
+                    </div>-->
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Mobiletxt" asp-for="Input.Mobile" class="form-control" placeholder="1234567" required />
+                        <label asp-for="Input.Mobile"></label>
+                        <span asp-validation-for="Input.Mobile" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Addresstxt" asp-for="Input.Address1" class="form-control" placeholder="Address 1" required />
+                        <label asp-for="Input.Address1"></label>
+                        <span asp-validation-for="Input.Address1" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Residencytxt" asp-for="Input.Address2" class="form-control" placeholder="Address 2" required />
+                        <label asp-for="Input.Address2"></label>
+                        <span asp-validation-for="Input.Address2" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Addresstxt" asp-for="Input.Residency" class="form-control" placeholder="Residency" required />
+                        <label asp-for="Input.Residency"></label>
+                        <span asp-validation-for="Input.Residency" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Residencytxt" asp-for="Input.City" class="form-control" placeholder="City" required />
+                        <label asp-for="Input.City"></label>
+                        <span asp-validation-for="Input.City" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Addresstxt" asp-for="Input.State" class="form-control" placeholder="State" required />
+                        <label asp-for="Input.State"></label>
+                        <span asp-validation-for="Input.State" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-6 form-group">
+                        <input id="Residencytxt" asp-for="Input.ZipCode" class="form-control" placeholder="Zip Code" required />
+                        <label asp-for="Input.ZipCode"></label>
+                        <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 form-group">
+                        <label asp-for="Input.Identity"></label>
+                        <input id="Identitytxt" asp-for="Input.Identity" class="form-control" placeholder="Identity" required />
+                        <span style="color: white;">Upload a Valid ID</span>
+                        <span asp-validation-for="Input.Identity" class="text-danger"></span>
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+            <fieldset>
+                <legend>Login Info.</legend>
+                <div>
+                    <div>
+                        <div class="form-group">
+                            <label asp-for="Input.Username"></label>
+                            <input id="Usernametxt" asp-for="Input.Username" class="form-control" required />
+                            <span asp-validation-for="Input.Username" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Input.Password"></label>
+                                    <input id="Passwordtxt" asp-for="Input.Password" class="form-control" required />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Input.ConfirmPassword"></label>
+                                    <input id="confirmtxt" asp-for="Input.ConfirmPassword" class="form-control" required />
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="form-group" align="center">
+            <button id="cancelBtn" type="reset" class="btn btn-primary" onclick="location.href = '@Url.Page("/Account/Login", "Identity")';">CANCEL</button>
+            <input type="submit" value="SAVE & CONTINUE" class="btn btn-primary" />
+        </div>
+        
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .body {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        background-color: none;
+    }
+
+    label, p{
+        color: white;
+        font-family: sans-serif;
+    }
+
+    legend{
+        color: darkgoldenrod;
+        font-family: sans-serif;
+    }
+
+    #FirstNametxt, #LastNametxt, #DOBtxt, #Gendertxt,
+    #Occupationtxt, #Emailtxt, #Mobiletxt, #Addresstxt,
+    #Residencytxt, #Usernametxt, #Passwordtxt, #confirmtxt,
+    #Identitytxt{
+        position: relative;
+        border: none;
+        border-bottom: 1px solid white;
+        color: white;
+        background: transparent;
+        width: 100%;
+        padding: 10px 0;
+        outline: none;
+        font-size: 18px;
+        font-weight: 400;
+        margin: 20px 0;
+        resize: none;
+    }
+
+    input[type="submit"], button[type="reset"] {
+        -webkit-appearance: none;
+        background-color: white;
+        color: black;
+        border-radius: 4px;
+        border: 1px solid goldenrod;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+    }
+    .btn {
+        -webkit-appearance: none;
+        border: 1px solid black;
+        border-radius: 4px;
+        outline: none;
+        padding: 0.5em 0.8em;
+        margin-right: 15px;
+        color: black;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+        background-color: whitesmoke;
+    }
+    .btn:hover{
+        background: gold;
+    }
+    .btn:active{
+        background: goldenrod;
+        color: black;
+    }
+</style>

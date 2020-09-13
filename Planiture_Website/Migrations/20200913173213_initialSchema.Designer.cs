@@ -10,14 +10,14 @@ using Planiture_Website.Models;
 namespace Planiture_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200903061435_update_user_info")]
-    partial class update_user_info
+    [Migration("20200913173213_initialSchema")]
+    partial class initialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -132,7 +132,13 @@ namespace Planiture_Website.Migrations
                     b.Property<string>("AccountName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AccountStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AccountType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AccountVersion")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("ActualBalance")
@@ -146,9 +152,6 @@ namespace Planiture_Website.Migrations
 
                     b.Property<float>("DepositAmount")
                         .HasColumnType("real");
-
-                    b.Property<string>("OtherAccount")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -167,6 +170,39 @@ namespace Planiture_Website.Migrations
                         .IsUnique();
 
                     b.ToTable("UserAccount");
+                });
+
+            modelBuilder.Entity("Planiture_Website.Models.ActivePlans", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateAdded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<DateTime>("DateExpired")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PlanName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("ActivePlans");
                 });
 
             modelBuilder.Entity("Planiture_Website.Models.ApplicationRole", b =>
@@ -277,6 +313,9 @@ namespace Planiture_Website.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Residency")
                         .HasColumnType("nvarchar(max)");
 
@@ -304,6 +343,12 @@ namespace Planiture_Website.Migrations
                     b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isAccount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isProfile")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -315,30 +360,6 @@ namespace Planiture_Website.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Planiture_Website.Models.ChangePasswordClass", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ConfirmPassword")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NewPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("OldPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ChangePasswordClass");
                 });
 
             modelBuilder.Entity("Planiture_Website.Models.ConfigFile", b =>
@@ -368,22 +389,33 @@ namespace Planiture_Website.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<float>("Commission")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("Date")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<float>("MostRecent")
+                        .HasColumnType("real");
+
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
+                    b.Property<float>("ServiceFee")
+                        .HasColumnType("real");
+
                     b.Property<int>("Trans_AccountNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("Trans_OtherAccount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Trans_TransactionStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<float>("TransactionAmount")
                         .HasColumnType("real");
+
+                    b.Property<string>("TransactionStatus")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionType")
                         .HasColumnType("nvarchar(max)");
@@ -486,24 +518,28 @@ namespace Planiture_Website.Migrations
                     b.ToTable("UserInvestment");
                 });
 
-            modelBuilder.Entity("Planiture_Website.Models.SetPasswordClass", b =>
+            modelBuilder.Entity("Planiture_Website.Models.Token", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ConfirmPassword")
+                    b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NewPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.ToTable("SetPasswordClass");
+                    b.ToTable("UserToken");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -562,6 +598,15 @@ namespace Planiture_Website.Migrations
                     b.HasOne("Planiture_Website.Models.ApplicationUser", "User")
                         .WithOne("UserAccount")
                         .HasForeignKey("Planiture_Website.Models.Account_Info", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Planiture_Website.Models.ActivePlans", b =>
+                {
+                    b.HasOne("Planiture_Website.Models.ApplicationUser", "User")
+                        .WithMany("ActivePlans")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

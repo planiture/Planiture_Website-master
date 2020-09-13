@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Planiture_Website.Models
 {
-    public class SetPasswordClass
+    public class SetPasswordViewModel
     {
         [Key]
         public int ID { get; set; }

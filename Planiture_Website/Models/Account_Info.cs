@@ -25,6 +25,10 @@ namespace Planiture_Website.Models
         public string AccountType { get; set; }
 
         [PersonalData]
+        [Display(Name = "Account Version")]
+        public string AccountVersion { get; set; }
+
+        [PersonalData]
         [Display(Name = "Available Balance")]
         public float AvailableBalance { get; set; }
 
@@ -41,8 +45,8 @@ namespace Planiture_Website.Models
         public float DepositAmount { get; set; }
 
         [PersonalData]
-        [Display(Name = "Other Account")]
-        public string OtherAccount { get; set; }
+        [Display(Name = "Account Status")]
+        public string AccountStatus { get; set; }
 
         //User Foreign Key
         public int UserID { get; set; }

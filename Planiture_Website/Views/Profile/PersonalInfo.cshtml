@@ -6,7 +6,7 @@
 }
 
 
-<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+<body>
     <section id="profile-background">
         <div class="profile-menu" id="profile">
             <div class="container">
@@ -72,12 +72,14 @@
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.City)
-                    </dd><dt class="col-sm-2">
+                    </dd>
+                    <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.State)
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.State)
-                    </dd><dt class="col-sm-2">
+                    </dd>
+                    <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.ZipCode)
                     </dt>
                     <dd class="col-sm-10">
@@ -111,7 +113,7 @@
             </div>
         </div>
     </section>
-</asp:Content>
+</body>
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
@@ -148,5 +150,7 @@
     dl {
         font-size: 16px;
         text-align: left;
+        color: white;
+        font-family: sans-serif;
     }
 </style>

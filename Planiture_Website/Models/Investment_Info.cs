@@ -9,7 +9,7 @@ using static Planiture_Website.Areas.Identity.Pages.Account.RegisterModel;
 
 namespace Planiture_Website.Models
 {
-    public class Investment_Info 
+    public class Investment_Info
     {
         //Invesment Questions
 
@@ -35,7 +35,7 @@ namespace Planiture_Website.Models
 
         [Display(Name = "Question 5")]
         public string Ques5 { get; set; }
-
+        
         [Display(Name = "Question 6")]
         public string Ques6 { get; set; }
 
@@ -81,4 +81,5 @@ namespace Planiture_Website.Models
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }
+
 }

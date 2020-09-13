@@ -1,0 +1,133 @@
+﻿@model Planiture_Website.Models.DepositWithdrawalClass
+@{
+    ViewData["Title"] = "Deposit / Withdrawal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    <div class="profile-background">
+        <div class="profile-menu" id="profile">
+
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <!--<h2>@ViewData["Title"]</h2>-->
+            <div class="row">
+                <div class="col-sm-3 col-md-3"></div>
+                <div class="col-sm-6 col-md-6">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <h4>Withdrawal</h4>
+                        <br />
+                        <div class="form-group">
+                            <label asp-for="Name"></label>
+                            <input id="input" type="text" asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <span style="color:red;">@ViewBag.NameMsg</span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AccountNumber"></label>
+                            <input id="input" type="text" asp-for="AccountNumber" class="form-control" />
+                            <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                            <span style="color:red;">@ViewBag.NumMsg</span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AccountType"></label>
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="radio" id="trade" asp-for="AccountType" value="Trade" />&nbsp;&nbsp;&nbsp;<label for="trade">Trade</label>
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="radio" id="stocks" asp-for="AccountType" value="Stocks" />&nbsp;&nbsp;&nbsp;<label for="stocks">Stocks</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="WithdrawalAmount"></label>
+                            <input id="input" type="text" asp-for="WithdrawalAmount" class="form-control" />
+                            <span asp-validation-for="WithdrawalAmount" class="text-danger"></span>
+                            <span style="color:red;">@ViewBag.AmtMsg</span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Notes"></label>
+                            <textarea id="input" asp-for="Notes" placeholder="(Optional)" class="form-control"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <center>
+                                <button id="Btn" type="submit" class="btn btn-primary">(Process Withdrawal)</button>
+                            </center>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-3 col-md-3"></div>
+            </div>
+
+            <br />
+            <div class="form-group" align="center">
+                <button id="Btn" type="reset" class="btn btn-primary" onclick="location.href = '@Url.Action("Index", "Profile")';">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</asp:Content>
+
+<style>
+    h4 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    #input {
+        position: relative;
+        border: none;
+        border-bottom: 1px solid white;
+        color: white;
+        background: transparent;
+        width: 100%;
+        padding: 10px 0;
+        outline: none;
+        font-size: 18px;
+        font-weight: 400;
+        margin: 20px 0;
+        resize: none;
+    }
+
+    #input::placeholder{
+        color: white;
+    }
+
+    label, p{
+        color: white;
+    }
+
+    /*button*/
+    #Btn {
+        -webkit-appearance: none;
+        border: 1px solid black;
+        border-radius: 4px;
+        outline: none;
+        padding: 0.5em 0.8em;
+        margin-right: 15px;
+        color: black;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+        background-color: whitesmoke;
+    }
+    #Btn:hover {
+         background: gold;
+    }
+    #Btn:active {
+         background: goldenrod;
+         color: black;
+    }
+</style>

@@ -6,45 +6,18 @@
 
 <h1>AccountConfirmed</h1>
 
-<div class="body">
-    <br />
-    <br />
-    <br />
-    <div id="success">
-        <p>
-            <center><span>User Account Has been successfully created!</span></center>
-            <br />
-            <br />
-            (Download the <b>'Planiture App</b> from the AppStore or PlayStore for
-            <br />updates, notification and to manage your account)
-            <br />
-            <br />
-            <center><a asp-controller="Profile" asp-action="CheckProfile">(Load User Profile)</a></center>
-        </p>
-    </div>
-</div>
+<body onload="successfully()">
 
-<style>
-    .body {
-        position: relative;
-        width: 100%;
-        min-height: 100vh;
-        background-size: cover;
-        display: flex; /*changed from inline*/
-        justify-content: center;
-        align-items: center;
+</body>
+
+<script type="text/javascript">
+    function successfully() {
+        Swal.fire({
+            icon: 'success',
+            title: 'User Account Has been successfully created!',
+            text: "Download the <b>'Planiture App</b> from the AppStore or PlayStore for updates, notification and to manage your account",
+            confirmButtonText:
+                '<a href="https://localhost:44336/Profile">Load User Profile / Account</a>',
+        })
     }
-    #success {
-        background-color: white;
-        border: 1px solid black;
-        padding: 60px;
-    }
-    #success span{
-        padding: 20px;
-        background-color: #4CAF50;
-        color: white;
-        opacity: 1;
-        transition: opacity 0.6s;
-        margin-bottom: 15px;
-    }
-</style>
+</script>

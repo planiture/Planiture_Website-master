@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Planiture_Website.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,10 +48,18 @@ namespace Planiture_Website.Migrations
                     MemberSince = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     Gender = table.Column<string>(nullable: true),
                     Occupation = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
+                    Address1 = table.Column<string>(nullable: true),
+                    Address2 = table.Column<string>(nullable: true),
                     Residency = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true),
+                    Identity = table.Column<string>(nullable: true),
+                    ProfileImage = table.Column<string>(nullable: true),
                     Signature = table.Column<string>(nullable: true),
                     FirstAccessed = table.Column<bool>(nullable: false),
+                    isProfile = table.Column<bool>(nullable: false),
+                    isAccount = table.Column<bool>(nullable: false),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
@@ -60,32 +68,17 @@ namespace Planiture_Website.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChangePasswordClass",
+                name: "ConfigFiles",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OldPassword = table.Column<string>(nullable: false),
-                    NewPassword = table.Column<string>(maxLength: 100, nullable: false),
-                    ConfirmPassword = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(nullable: false),
+                    AgentPass = table.Column<string>(nullable: true),
+                    AdminPass = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChangePasswordClass", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SetPasswordClass",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NewPassword = table.Column<string>(maxLength: 100, nullable: false),
-                    ConfirmPassword = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SetPasswordClass", x => x.ID);
+                    table.PrimaryKey("PK_ConfigFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,6 +98,22 @@ namespace Planiture_Website.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserToken",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
+                    UsedBy = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToken", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -121,6 +130,29 @@ namespace Planiture_Website.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ActivePlans",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PlanName = table.Column<string>(nullable: true),
+                    DateAdded = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    DateExpired = table.Column<DateTime>(nullable: false),
+                    UserID = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActivePlans", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ActivePlans_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -219,11 +251,12 @@ namespace Planiture_Website.Migrations
                     Capacity = table.Column<int>(nullable: false),
                     AccountName = table.Column<string>(nullable: true),
                     AccountType = table.Column<string>(nullable: true),
+                    AccountVersion = table.Column<string>(nullable: true),
                     AvailableBalance = table.Column<float>(nullable: false),
                     ActualBalance = table.Column<float>(nullable: false),
                     WithdrawalAmount = table.Column<float>(nullable: false),
                     DepositAmount = table.Column<float>(nullable: false),
-                    OtherAccount = table.Column<string>(nullable: true),
+                    AccountStatus = table.Column<string>(nullable: true),
                     UserID = table.Column<int>(nullable: false),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
@@ -279,10 +312,13 @@ namespace Planiture_Website.Migrations
                     TransactionID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TransactionAmount = table.Column<float>(nullable: false),
+                    MostRecent = table.Column<float>(nullable: false),
                     TransactionType = table.Column<string>(nullable: true),
                     Trans_AccountNumber = table.Column<int>(nullable: false),
-                    Trans_OtherAccount = table.Column<string>(nullable: true),
-                    Trans_TransactionStatus = table.Column<string>(nullable: true),
+                    Commission = table.Column<float>(nullable: false),
+                    ServiceFee = table.Column<float>(nullable: false),
+                    TransactionStatus = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     UserID = table.Column<int>(nullable: false),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
@@ -296,6 +332,11 @@ namespace Planiture_Website.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActivePlans_UserID",
+                table: "ActivePlans",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -356,6 +397,9 @@ namespace Planiture_Website.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActivePlans");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -371,10 +415,7 @@ namespace Planiture_Website.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ChangePasswordClass");
-
-            migrationBuilder.DropTable(
-                name: "SetPasswordClass");
+                name: "ConfigFiles");
 
             migrationBuilder.DropTable(
                 name: "UserAccount");
@@ -384,6 +425,9 @@ namespace Planiture_Website.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserInvestment");
+
+            migrationBuilder.DropTable(
+                name: "UserToken");
 
             migrationBuilder.DropTable(
                 name: "UserTransaction");

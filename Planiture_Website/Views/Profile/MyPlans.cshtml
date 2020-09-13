@@ -1,0 +1,87 @@
+﻿@using Planiture_Website.Models
+@model dynamic
+@{
+    ViewData["Title"] = "My Plans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<body>
+    <div class="profile-menu" id="profile">
+        <h1>@ViewData["Title"]</h1>
+        <br />
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Plan Name</th>
+                    <th>Date Added</th>
+                    <th>Date Expired</th>
+                    <th>User ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ActivePlans plans in Model.planlist)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => plans.ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => plans.PlanName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => plans.DateAdded)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => plans.DateExpired)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => plans.UserID)
+                        </td>
+                    </tr>
+                 }
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<div>
+    <a style="color: goldenrod;" asp-action="Index">Back to List</a>
+</div>
+
+<style>
+    .profile-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        /*display: flex;*/
+        justify-content: center;
+        align-items: center;
+    }
+    h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+
+    table {
+        padding: 40px;
+    }
+
+    tbody {
+        border: 2px solid silver;
+        font-weight: 500;
+        color: white;
+    }
+
+    th {
+        border: 2px solid silver;
+        color: goldenrod;
+    }
+</style>

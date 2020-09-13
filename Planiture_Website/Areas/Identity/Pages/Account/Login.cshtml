@@ -7,21 +7,36 @@
 
 <div class="body">
     <div class="row">
-        <div class="col-sm-6 col-md-6">
+        <div class="col-sm-6 col-md-6"style="background-color: #484848;">
             <section class="container">
                 <br />
                 <br />
-                <form class="trying" id="account" method="post">
-                    <h3 style="color: darkgoldenrod;">Sign In</h3>
+                <br />
+                <br />
+                <form class="trying" id="login" method="post">
+                    <h1 style="color: white;">Login</h1>
+                    <br>
+                    <p style="color: black;">Sign In to your account</p>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
-                        <label style="color: white;" asp-for="Input.Email">User Name <!--<span>(or email address on account)</span>--></label>
-                        <input id="email" asp-for="Input.Email" class="form-control" />
+                        <div class="input-group mb-3">
+                            <div style="color:black;" class="input-group-prepend">
+                                <span style="background-color: black;" class="input-group-text">
+                                    <i width="16" height="16" style="color: white;" class="fa fa-user"></i>
+                                </span>
+                            </div>
+                            <input id="email" asp-for="Input.Email" placeholder="Username" class="form-control" />
+
+                        </div>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label style="color: white;" asp-for="Input.Password"></label>
-                        <input id="password" asp-for="Input.Password" class="form-control" />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span style="background-color: black;" class="input-group-text">
+                                    <i width="16" height="16" style="color: white;" class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                            <input id="password" asp-for="Input.Password" placeholder="Password" class="form-control" />
+                        </div>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -32,38 +47,31 @@
                             </label>
                         </div>
                     </div>
-                    <center>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Log in</button>
-                        </div>
-                    </center>
-                    <div class="form-group">
-                        <p>
-                            <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                        </p>
-                    </div>
+                    <button id="submit" type="submit" class="btn btn-primary">Login</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                 </form>
             </section>
         </div>
-        <div class="col-sm-1 col-md-1"><div id="vertical-line"></div></div>
-
-        <div class="col-sm-5 col-md-5" align="center">
+        <div style="background-color: #D4AF37;" class="col-sm-6 col-md-6" align="center">
             <br />
             <br />
-            <h3 style="color: darkgoldenrod;">Sign Up</h3>
             <br />
             <br />
+            <br />
+            <br />
+            <h2 style="color: white;">Sign Up</h2>
             <br />
             <div id="register-ques">
-                <h5>New to <span>PLANITURE</span> ?</h5>
+                <h5 style="color:white;">New to PLANITURE?</h5>
             </div>
             <br />
             <br />
             <br />
-            <br />
-            <br />
-            <br />
-            <p><a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Open Account</a> or <a href="#">Create Profile</a> today</p>
+            <center>
+                <p><a id="account" role="button" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Open Account</a> or <a id="profile" asp-controller="Account" asp-action="RegisterProfile">Create Profile</a> today</p>
+            </center>
         </div>
     </div>
 </div>
@@ -88,15 +96,6 @@
         height: 500px;
         background-color: #E89E63;
     }
-    /*Register question color scheme*/
-    #register-ques h5 {
-        color: white;
-        text-align: center;
-        line-height: 1em;
-    }
-    #register-ques h5 span {
-        color: darkgoldenrod;
-    }
     p{
         color: white;
         font-family: sans-serif;
@@ -108,27 +107,54 @@
         font-weight: 600;
     }
 
-    .trying .btn {
-        -webkit-appearance: none;
+    #email, #password{
+        background-color: dimgrey;
+        color: white;
+        padding: 6px 12px;
+    }
+
+    #email::placeholder, #password::placeholder{
+        color:white;
+    }
+
+    #account, #profile {
+        background: transparent;
         border: 1px solid black;
-        border-radius: 4px;
-        outline: none;
-        padding: 0.5em 0.8em;
-        margin-right: 15px;
+        padding:8px 16px;
+        color:black;
+        text-decoration-line: none;
+        margin: 16px 0px 0px;
+    }
+
+    #account:hover, #profile:hover{
+        font-weight: 600;
+        color: white;
+        background-color: black;
+        transition: .3s;
+    }
+
+    #forgot-password {
+        color: #D4AF37;
+        font-size: 14px;
+        padding: 6px 0px;
+    }
+
+    #forgot-password:hover{
+        color: gold;
+    }
+
+    #submit {
         color: black;
-        font-size: 1em;
-        font-family: sans-serif;
-        font-weight: bold;
-        cursor: pointer;
-        align-content: center;
-        width: 60%;
-        background-color: whitesmoke;
+        background-color: #D4AF37;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 10px 24px;
+        width: 20%;
+        font-weight: 500;
+        font-size: 14px;
     }
-    .trying .btn:hover {
-            background: gold;
-    }
-    .trying .btn:active {
-            background: goldenrod;
-            color: black;
+
+    #submit:hover{
+        background-color: gold;
     }
 </style>
