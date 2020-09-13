@@ -50,34 +50,58 @@
             font-family: sans-serif;
         }
 
-        header ul { /*ADDED BY KINGZWILL*/
+        #header .logo{
+            position: relative;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            font-size: 2em;
+            transition: .6s;
+        }
+
+        #header .logo:hover{
+            color: darkgoldenrod;
+        }
+
+        header ul {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-            header ul li { /*ADDED BY KINGZWILL*/
-                position: relative;
-                list-style: none;
-                color: gold;
-            }
-
-        .navbar li:hover { /*Adds a black box on the navigation options on hover*/
-            background: none;
-            border-color: black;
-            border-style: solid;
+        header ul li{
+            position: relative;
+            list-style: none;
         }
-
-        header ul li a { /*KINGZWILL ADDED THE FOLLOWING*/
+        #header ul li a, #header ul li button{
             position: relative;
             margin: 0 15px;
             text-decoration: none;
+            color: #fff;
             letter-spacing: 2px;
             font-weight: 300;
             transition: 0.6s;
         }
+        
+        #header ul li a:hover, #header ul li button:hover{
+            color: darkgoldenrod;
+        }
 
+        #header.sticky .logo,
+        #header.sticky ul li a,
+        #header.sticky ul li button {
+            color: black;
+        }
+
+        #header.sticky .logo:hover,
+        #header.sticky ul li a:hover,
+        #header.sticky ul li button:hover{
+            color: white;
+            transition: .6s;
+        }
 
         .navbar a { /*ADDED BY KINGZWILL*/
             font-weight: 500;
@@ -105,6 +129,10 @@
             padding: 10px;
             top: 30px;
             left: 30px;
+            background-color: white;
+        }
+
+        #header.sticky .navbar .dropdown .dropdown-menu{
             background-color: black;
         }
 
@@ -128,11 +156,25 @@
             cursor: pointer;
         }
 
-        /*Login Dropdown Options*/
-        ul.navbar-nav li.nav-item div.dropdown:hover > div.dropdown-menu{
-            display: inline-grid;
+        #header .navbar .dropdown-menu li a{
+            color: black;
+            transition: .6s;
         }
 
+        #header .navbar .dropdown-menu li a:hover{
+            color: black;
+            transition: .6s;
+        }
+
+        #header.sticky .navbar .dropdown-menu li a{
+            color: white;
+            transition: .6s;
+        }
+
+        #header.sticky .navbar .dropdown-menu li a:hover{
+            color: black;
+            transition: .6s;
+        }
         
 
         /*Social Media icons
@@ -167,7 +209,7 @@
         <!--added sticky class to header... KINGZWILL-->
         <nav class="navbar navbar-expand-sm  navbar-fixed-top navbar-toggleable-sm navbar-light mb-3">
             <div class="container">
-                <a class="navbar-brand logo" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/css/website logo.jpg" alt="Company logo" width="150" height="55" /></a>
+                <a class="navbar-brand logo" asp-area="" asp-controller="Home" asp-action="Index">Planiture</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -176,15 +218,14 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Welcome</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Welcome</a>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="nav-link text-dark dropdown-toggle choose" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
+                                <a class="nav-link dropdown-toggle choose" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
                                 <ul class="dropdown-menu" style="width: 200px;">
-                                    <li><a asp-area="" asp-controller="Home" asp-action="DailySignals">Investment Plans</a></li>
-                                    <li><a asp-area="" asp-controller="Home" asp-action="Stocks">Stocks Portfolio</a></li>
-                                    <li><a asp-area="" asp-controller="Home" asp-action="IM_Academy">IM Academy</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="SignalPlans">Investment Plans</a></li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="StocksPortfolio">Stocks Portfolio</a></li>
                                     <li><a asp-area="" asp-controller="Home" asp-action="PlanitureAcademy">Planiture Academy</a></li>
                                     <li><a asp-area="" asp-controller="Home" asp-action="">Planiture Store</a></li>
                                     <li><a asp-area="" asp-controller="Home" asp-action="OurTeam">Our Team</a></li>
@@ -211,7 +252,10 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
-
+    <br />
+    <br />
+    <br />
+    <br />
     <footer>
         <hr />
         <div class="row" style="text-align: center;">
@@ -219,8 +263,9 @@
                 <div class="row">
                     <div class="col-sm-4 col-md-4">
                         <h6>COMPANY</h6>
-                        <p style="color: red; font-weight:800;">Speak with Chantel</p>
-                        <p style="color: red; font-weight:800;">Speak with Chantel</p>
+                        <a asp-controller="Home" asp-action="AboutUs">About Us</a>
+                        <br />
+                        <a asp-area="" asp-controller="Home" asp-action="PlanitureAcademy">Planiture Academy</a>
                     </div>
                     <div class="col-sm-4 col-md-4">
                         <h6>ABOUT US</h6>
@@ -230,24 +275,22 @@
                     </div>
                     <div class="col-sm-4 col-md-4">
                         <h6>SUPPORT</h6>
-                        <a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
-                        <br />
                         <a asp-controller="Home" asp-action="InformationCenter">Information Center</a>
+                        <br />
+                        <a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-6">
-                <h6>REVIEW SECTIONS</h6>
-            
+                
             </div>
 
 
             <div class="container" style="text-align: center;">
                 <hr />
                 Copyright &copy; 2020 - Planiture. All rights reserved - <a asp-area="" asp-controller="Home" asp-action="Policy">Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                <a href="https://www.facebook.com" class="icons"><i class="fab fa fa-facebook-square" aria-hidden="true"></i></a>
-                <a href="https://www.instagram.com/" class="icons"><i class="fab fa fa-instagram" aria-hidden="true"></i></a>
-                <a href="https://twitter.com/" class="icons"><i class="fab fa fa-twitter-square" aria-hidden="true"></i></a> 
+                <a href="https://www.facebook.com/chantell.temple.96" class="icons"><i class="fab fa fa-facebook-square" aria-hidden="true"></i></a>
+                <a href="https://instagram.com/officialplaniture?igshid=1dxmsgrdvvdd" class="icons"><i class="fab fa fa-instagram" aria-hidden="true"></i></a>
                 <hr />
             </div>
         </div>

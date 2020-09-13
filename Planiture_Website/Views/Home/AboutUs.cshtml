@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "About Us";
+}
+
+
+
+<body>
+    <div class="about-menu" id="menu">
+        <div class="container">
+            <h1>@ViewData["Title"]</h1>
+            <br />
+            <br />
+            <h4>Who we are?</h4>
+            <p>
+                Planiture Online  Investments is an online based Investment entity that gives clients an option to open an account
+                to gain profits by investing their funds into plans and stocks with Planiture for a period of time for returns.
+                Planiture Online Investments also offers an Earn and Learn platform which offers clients a full forex course with
+                signal group access, mindset sessions and mentorship.
+            </p>
+            <br />
+            <b>Planiture Morals:</b>
+            <ul>
+                <li>Transparency</li>
+                <li>Growth</li>
+                <li>Discipline</li>
+                <li>Consistency</li>
+                <li>Results</li>
+            </ul>
+            <br />
+            <br />
+            <center>
+                <p>
+                    Planiture Morals help to achieve the Planiture Mission
+                    <br />
+                    <b>Missions:</b> Our mission is to have a positive impact on thousands of lives financially.
+                </p>
+            </center>
+            <br />
+            <h4>What we do?</h4>
+            <p>
+                Planiture Online Investments is an investment entity that uses skills and knowledge of forex and stocks to create
+                Investment plans and Stocks for clients to participate for profits. We offer clients the option of investing into
+                stocks with us by selecting from our recommended list. Planiture Online Investments also offers daily trade signals
+                for investors and traders.
+                Planiture Online Investments aims to provide great results from all our products and services offered to our clients.
+                <br />
+                <center style="color: white;">
+                    View <a asp-action="OurAchievements" asp-controller="Home">Our Achievements</a>
+                </center>
+            </p>
+        </div>
+    </div>
+</body>
+
+<style>
+    .about-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .about-menu h1{
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+    .about-menu h4{
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+    }
+    .about-menu p,
+    .about-menu b,
+    .about-menu ul{
+        color: white;
+        font-family: sans-serif;
+    }
+
+</style>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -12,6 +13,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Planiture_Website.Models;
+using Planiture_Website.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Planiture_Website.Controllers
 {
@@ -41,7 +46,6 @@ namespace Planiture_Website.Controllers
         }
 
         //Checks if user is logining for the first time
-        
         public async Task<IActionResult> CheckUser()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -50,9 +54,11 @@ namespace Planiture_Website.Controllers
 
             if(User.IsInRole("Admin"))
             {
+                Accessed = false;
+
                 return RedirectToAction("Index", "Home");
             }
-            if(User.IsInRole("Customer"))
+            if(User.IsInRole("Customer-Account"))
             {
                 if (Accessed == true)
                 {
@@ -65,6 +71,20 @@ namespace Planiture_Website.Controllers
                     return RedirectToAction("Index", "Profile");
                 }
             }
+            if(User.IsInRole("Customer-Profile"))
+            {
+                if (Accessed == true)
+                {
+                    _logger.LogInformation("User's first login");
+                    return RedirectToAction("ProfileOptions");
+                }
+                else
+                {
+                    _logger.LogInformation("User logged in.");
+                    return RedirectToAction("Index", "Account");
+                }
+            }
+
             _logger.LogInformation("Error logging user in");
             return RedirectToAction("Index", "Home");
             
@@ -94,13 +114,23 @@ namespace Planiture_Website.Controllers
             _logger.LogInformation("User Feedback stored");
 
             await _context.SaveChangesAsync();
-            
+
             //Send Copy of User feedback to email
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("akeamsmith41@gmail.com");
+            var to = new EmailAddress("akeamsmith41@gmail.com");
+            string subject = "Planiture Customer Feedback / Report";
+            string htmlContent = "Customer Feedback / Report: <br /><br /> From: "+feedback.FullName+"<br />Investment Number: "+feedback.Investment_Number+ "<br />Subject: "+feedback.Subject+ "<br />Message: " + feedback.Message;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
+            var response = client.SendEmailAsync(msg);
 
-            
             //Success Message for User here
+            return RedirectToAction("FeedbackConfirm", "Home");
+        }
 
-
+        public IActionResult FeedbackConfirm()
+        {
             return View();
         }
 
@@ -124,15 +154,11 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
-        //Must have a user account with us to view
-        //[Authorize(Roles = "Admin, Market_Analysis Rep_Access, Customer")]
         public IActionResult SignalPlans()
         {
             return View();
         }
 
-        //Must have a user account with us to view
-        //[Authorize(Roles = "Admin, Market_Analysis Rep_Access, Customer")]
         public IActionResult Stocks()
         {
             return View();
@@ -167,8 +193,8 @@ namespace Planiture_Website.Controllers
         {
             return View();
         }
+        
         //Customer Account Application Proccess
-
         [Authorize]
         public IActionResult AccountOptions()
         {
@@ -176,7 +202,71 @@ namespace Planiture_Website.Controllers
         }
 
         [Authorize]
-        //[Authorize(Roles = "Admin, Golden20")]
+        [HttpPost]
+        public async Task<IActionResult> AccountOptions(TokenViewModel model, Token token)
+        {
+            //find the status of the token entered
+            var check = (from m in _context.UserToken
+                         where m.Code == model.Code
+                         select m.Status).SingleOrDefault();
+
+            //check if the token was already used
+            if(check == "Used")
+            {
+                ViewBag.UsedMsg = "Promotion Code was already used!";
+                return View();
+            }
+
+            var code = (from m in _context.UserToken
+                       where m.Code == model.Code
+                       select m.Code).SingleOrDefault();
+
+            //if the token was not used then add it to the user's ID
+            if(code == model.Code)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var userid = _userManager.GetUserId(User);
+                List<string> str = new List<string>();
+
+
+                using (SqlConnection con = new SqlConnection(@"Data Source=MSI;Initial Catalog=Planiture_Records;Integrated Security=True"))
+                {
+                    SqlCommand cmd = new SqlCommand($"select * from UserToken where Code='{model.Code}'", con);
+                    con.Open();
+
+                    
+
+                    using (SqlDataReader da = cmd.ExecuteReader())
+                    {
+                        while (da.Read())
+                        {
+                            str.Add(da[0].ToString());
+                            str.Add(da[1].ToString());
+                        }
+
+                    }
+
+                    con.Close();
+                }
+
+                token.ID = Convert.ToInt32(str[0]);
+                token.Name = "testing";
+                token.Code = model.Code;
+                token.UsedBy = userid;
+                token.Status = "Used";
+
+                _context.UserToken.Update(token);
+                _context.SaveChanges();
+                _logger.LogInformation("User token used");
+
+                return RedirectToAction("Golden20Application", "Home");
+            }
+
+            ViewBag.ErrorMsg = "Invalid Promotion Code Entered!";
+            return View();
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult Golden20Application()
         {
@@ -184,7 +274,6 @@ namespace Planiture_Website.Controllers
         }
 
         [Authorize]
-        //[Authorize(Roles = "Admin, Golden20")]
         [HttpPost]
         public async Task<IActionResult> Golden20Application(Investment_Info invest, Account_Info account)
         {
@@ -193,37 +282,91 @@ namespace Planiture_Website.Controllers
                 //Get the existing user from the database
                 var user = await _userManager.GetUserAsync(User);
 
-                //convert Ques1 & Ques2 to all Capital Letter
-                invest.Ques1.ToUpper();
-                invest.Ques2.ToUpper();
+                //check if user already filled out the investment Questions
+                var entity = _context.UserInvestment.FirstOrDefault(i => i.UserID == user.Id);
 
-                //Append User signature to User Record
-                user.Signature = invest.Signature;
-                await _userManager.UpdateAsync(user);
-                _logger.LogInformation("User signature appended");
+                if (entity != null)
+                {
+                    //update user investment question
 
-                //Append UserID to User's investment Record
-                invest.UserID = user.Id;
-                invest.FormType = "Golden20 Account";
-                _context.UserInvestment.Add(invest);
-                _logger.LogInformation("User beneficiary and investment background added.");
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    invest.Ques1 = invest.Ques1.ToUpper();
+                    invest.Ques2 = invest.Ques2.ToUpper();
 
-                //Create User Account
-                account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
-                account.AccountType = invest.FormType;
-                account.AvailableBalance = 0.00f;
-                account.ActualBalance = 0.00f;
-                account.WithdrawalAmount = 0.00f;
-                account.DepositAmount = 0.00f;
-                account.OtherAccount = "N/A";
-                account.UserID = user.Id;
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended updated");
 
-                _context.UserAccount.Add(account);
-                _logger.LogInformation("User golden20 account created.");
+                    //Append UserID to User's investment Record
+                    entity.FormType = "Golden20 Account";
 
-                await _context.SaveChangesAsync();
+                    _context.UserInvestment.Update(entity);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User investment info Updated");
+                }
+                else
+                {
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    invest.Ques1.ToUpper();
+                    invest.Ques2.ToUpper();
 
-                return RedirectToAction("Golden20Profile", "Profile");
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended and firstAccessed value updated");
+
+                    //Append UserID to User's investment Record
+                    invest.UserID = user.Id;
+                    invest.FormType = "Golden20 Account";
+                    _context.UserInvestment.Add(invest);
+                    _logger.LogInformation("User beneficiary and investment background added.");
+                }
+
+
+                //check if user already has an account with us
+                var check = _context.UserAccount.FirstOrDefault(i => i.UserID == user.Id);
+
+                if (check != null)
+                {
+                    //update user account
+
+                    check.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    check.AccountType = "Investments";
+                    check.AccountVersion = invest.FormType;
+                    check.AvailableBalance = 0.00f;
+                    check.ActualBalance = 0.00f;
+                    check.WithdrawalAmount = 0.00f;
+                    check.DepositAmount = 0.00f;
+                    check.AccountStatus = "Active";
+                    //account.UserID = user.Id;
+
+                    _context.UserAccount.Update(check);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User Account Updated");
+                }
+                else
+                {
+                    //Create User Account
+                    account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    account.AccountType = "Investments & Stocks";
+                    account.AccountVersion = invest.FormType;
+                    account.AvailableBalance = 0.00f;
+                    account.ActualBalance = 0.00f;
+                    account.WithdrawalAmount = 0.00f;
+                    account.DepositAmount = 0.00f;
+                    account.AccountStatus = "Active";
+                    account.UserID = user.Id;
+
+                    _context.UserAccount.Add(account);
+                    _logger.LogInformation("User golden20 account created.");
+
+                    await _context.SaveChangesAsync();
+                }
+
+                return RedirectToAction("Index", "Profile");
             }
 
             return View();
@@ -233,6 +376,7 @@ namespace Planiture_Website.Controllers
         [HttpGet]
         public IActionResult BasicAccount()
         {
+
             return View();
         }
 
@@ -245,36 +389,84 @@ namespace Planiture_Website.Controllers
                 //Get the existing user from the database
                 var user = await _userManager.GetUserAsync(User);
 
-                //convert Ques1 & Ques2 to all Capital Letter
-                invest.Ques1.ToUpper();
-                invest.Ques2.ToUpper();
+                //check if user already filled out the investment Questions
+                var entity = _context.UserInvestment.FirstOrDefault(i => i.UserID == user.Id);
 
-                //Append User signature to User Record
-                user.Signature = invest.Signature;
-                user.FirstAccessed = false;
-                await _userManager.UpdateAsync(user);
-                _logger.LogInformation("User signature appended and firstAccessed value updated");
+                if (entity != null)
+                {
+                    //update user investment question
 
-                //Append UserID to User's investment Record
-                invest.UserID = user.Id;
-                invest.FormType = "Basic Account";
-                _context.UserInvestment.Add(invest);
-                _logger.LogInformation("User beneficiary and investment background added.");
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended updated");
 
-                //Create User Account
-                account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
-                account.AccountType = invest.FormType;
-                account.AvailableBalance = 0.00f;
-                account.ActualBalance = 0.00f;
-                account.WithdrawalAmount = 0.00f;
-                account.DepositAmount = 0.00f;
-                account.OtherAccount = "N/A";
-                account.UserID = user.Id;
+                    //Append UserID to User's investment Record
+                    entity.FormType = "Basic Account";
 
-                _context.UserAccount.Add(account);
-                _logger.LogInformation("User basic account created.");
+                    _context.UserInvestment.Update(entity);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User investment info Updated");
+                }
+                else
+                {
 
-                await _context.SaveChangesAsync();
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended and firstAccessed value updated");
+
+                    //Append UserID to User's investment Record
+                    invest.UserID = user.Id;
+                    invest.FormType = "Basic Account";
+                    _context.UserInvestment.Add(invest);
+                    _logger.LogInformation("User beneficiary and investment background added.");
+                }
+
+
+                //check if user already has an account with us
+                var check = _context.UserAccount.FirstOrDefault(i => i.UserID == user.Id);
+
+                if (check != null)
+                {
+                    //update user account
+
+                    check.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    check.AccountType = "Investments";
+                    check.AccountVersion = invest.FormType;
+                    check.AvailableBalance = 0.00f;
+                    check.ActualBalance = 0.00f;
+                    check.WithdrawalAmount = 0.00f;
+                    check.DepositAmount = 0.00f;
+                    check.AccountStatus = "Active";
+                    //account.UserID = user.Id;
+
+                    _context.UserAccount.Update(check);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User Account Updated");
+                }
+                else
+                {
+                    //Create User Account
+                    account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    account.AccountType = "Investments";
+                    account.AccountVersion = invest.FormType;
+                    account.AvailableBalance = 0.00f;
+                    account.ActualBalance = 0.00f;
+                    account.WithdrawalAmount = 0.00f;
+                    account.DepositAmount = 0.00f;
+                    account.AccountStatus = "Active";
+                    account.UserID = user.Id;
+
+                    _context.UserAccount.Add(account);
+                    _logger.LogInformation("User basic account created.");
+
+                    await _context.SaveChangesAsync();
+                }
+
+                
                 
                 return RedirectToAction("Index", "Profile");
 
@@ -298,38 +490,89 @@ namespace Planiture_Website.Controllers
                 //Get the existing user from the database
                 var user = await _userManager.GetUserAsync(User);
 
-                //convert Ques1 & Ques2 to all Capital Letter
-                invest.Ques1.ToUpper();
-                invest.Ques2.ToUpper();
+                //check if user already filled out the investment Questions
+                var entity = _context.UserInvestment.FirstOrDefault(i => i.UserID == user.Id);
 
-                //Append User signature to User Record
-                user.Signature = invest.Signature; 
-                user.FirstAccessed = false;
-                await _userManager.UpdateAsync(user);
-                _logger.LogInformation("User signature appended and firstAccessed value updated");
+                if (entity != null)
+                {
+                    //update user investment question
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    entity.Ques1 = invest.Ques1.ToUpper();
+                    entity.Ques2 = invest.Ques2.ToUpper();
 
-                //Append UserID to User's investment Record
-                invest.UserID = user.Id;
-                invest.FormType = "Advanced Account";
-                _context.UserInvestment.Add(invest);
-                _logger.LogInformation("User beneficiary and investment background added.");
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended updated");
 
-                //Create User Account
-                account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
-                account.AccountType = invest.FormType;
-                account.AvailableBalance = 0.00f;
-                account.ActualBalance = 0.00f;
-                account.WithdrawalAmount = 0.00f;
-                account.DepositAmount = 0.00f;
-                account.OtherAccount = "N/A";
-                account.UserID = user.Id;
+                    entity.FormType = "Advanced Account";
 
-                _context.UserAccount.Add(account);
-                _logger.LogInformation("User advanced account created.");
+                    _context.UserInvestment.Update(entity);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User investment info Updated");
+                }
+                else
+                {
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    invest.Ques1.ToUpper();
+                    invest.Ques2.ToUpper();
 
-                await _context.SaveChangesAsync();
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended and firstAccessed value updated");
 
-                return RedirectToAction("AdvancedProfile", "Profile");
+                    //Append UserID to User's investment Record
+                    invest.UserID = user.Id;
+                    invest.FormType = "Advanced Account";
+                    _context.UserInvestment.Add(invest);
+                    _logger.LogInformation("User beneficiary and investment background added.");
+                }
+
+
+                //check if user already has an account with us
+                var check = _context.UserAccount.FirstOrDefault(i => i.UserID == user.Id);
+
+                if (check != null)
+                {
+                    //update user account
+
+                    check.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    check.AccountType = "Investments & Stocks";
+                    check.AccountVersion = invest.FormType;
+                    check.AvailableBalance = 0.00f;
+                    check.ActualBalance = 0.00f;
+                    check.WithdrawalAmount = 0.00f;
+                    check.DepositAmount = 0.00f;
+                    check.AccountStatus = "Active";
+
+                    _context.UserAccount.Update(check);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User Account Upgraded");
+                }
+                else
+                {
+                    //Create User Account
+                    account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    account.AccountType = "Investments & Stocks";
+                    account.AccountVersion = invest.FormType;
+                    account.AvailableBalance = 0.00f;
+                    account.ActualBalance = 0.00f;
+                    account.WithdrawalAmount = 0.00f;
+                    account.DepositAmount = 0.00f;
+                    account.AccountStatus = "Active";
+                    account.UserID = user.Id;
+
+                    _context.UserAccount.Add(account);
+                    _logger.LogInformation("User advanced account created.");
+
+                    await _context.SaveChangesAsync();
+                }
+
+
+                return RedirectToAction("Index", "Profile");
             }
 
             return View();
@@ -350,34 +593,88 @@ namespace Planiture_Website.Controllers
                 //Get the existing user from the database
                 var user = await _userManager.GetUserAsync(User);
 
-                //Append User signature to User Record
-                user.Signature = invest.Signature; 
-                user.FirstAccessed = false;
-                await _userManager.UpdateAsync(user);
-                _logger.LogInformation("User signature appended and firstAccessed value updated");
+                //check if user already filled out the investment Questions
+                var entity = _context.UserInvestment.FirstOrDefault(i => i.UserID == user.Id);
 
-                //Append UserID to User's investment Record
-                invest.UserID = user.Id;
-                invest.FormType = "Stocks Account";
-                _context.UserInvestment.Add(invest);
-                _logger.LogInformation("User beneficiary and investment background added.");
+                if (entity != null)
+                {
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    entity.Ques1 = invest.Ques1.ToUpper();
+                    entity.Ques2 = invest.Ques2.ToUpper();
 
-                //Create User Account
-                account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
-                account.AccountType = invest.FormType;
-                account.AvailableBalance = 0.00f;
-                account.ActualBalance = 0.00f;
-                account.WithdrawalAmount = 0.00f;
-                account.DepositAmount = 0.00f;
-                account.OtherAccount = "N/A";
-                account.UserID = user.Id;
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended updated");
 
-                _context.UserAccount.Add(account);
-                _logger.LogInformation("User stocks account created.");
+                    //Append UserID to User's investment Record
+                    entity.FormType = "Stocks Account";
 
-                await _context.SaveChangesAsync();
+                    _context.UserInvestment.Update(entity);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User investment info Updated");
+                }
+                else
+                {
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    invest.Ques1.ToUpper();
+                    invest.Ques2.ToUpper();
 
-                return RedirectToAction("StocksProfile", "Profile");
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended and firstAccessed value updated");
+
+                    //Append UserID to User's investment Record
+                    invest.UserID = user.Id;
+                    invest.FormType = "Stocks Account";
+                    _context.UserInvestment.Add(invest);
+                    _logger.LogInformation("User beneficiary and investment background added.");
+                }
+
+
+                //check if user already has an account with us
+                var check = _context.UserAccount.FirstOrDefault(i => i.UserID == user.Id);
+
+                if (check != null)
+                {
+                    //Create User Account
+                    check.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    check.AccountType = "Stocks";
+                    check.AccountVersion = invest.FormType;
+                    check.AvailableBalance = 0.00f;
+                    check.ActualBalance = 0.00f;
+                    check.WithdrawalAmount = 0.00f;
+                    check.DepositAmount = 0.00f;
+                    check.AccountStatus = "Active";
+                    //account.UserID = user.Id;
+
+                    _context.UserAccount.Update(check);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User Account Upgraded");
+                }
+                else
+                {
+                    //Create User Account
+                    account.AccountName = user.FirstName + " " + " " + user.LastName; //concat user first and last name together and store it in AccountName
+                    account.AccountType = "Stocks";
+                    account.AccountVersion = invest.FormType;
+                    account.AvailableBalance = 0.00f;
+                    account.ActualBalance = 0.00f;
+                    account.WithdrawalAmount = 0.00f;
+                    account.DepositAmount = 0.00f;
+                    account.AccountStatus = "Active";
+                    account.UserID = user.Id;
+
+                    _context.UserAccount.Add(account);
+                    _logger.LogInformation("User stocks account created.");
+
+                    await _context.SaveChangesAsync();
+                }
+
+                return RedirectToAction("Index", "Profile");
             }
 
             return View();
@@ -385,11 +682,6 @@ namespace Planiture_Website.Controllers
 
         //If the User Account is successfully added the following notification page will be displayed
         public IActionResult AccountConfirmed()
-        {
-            return View();
-        }
-
-        public IActionResult DailySignals()
         {
             return View();
         }
@@ -402,11 +694,38 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Basic500(ActivePlans plans)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            plans.PlanName = "Basic500";
+            plans.UserID = user.Id;
+            plans.DateExpired = DateTime.Now.AddMonths(3);
+            _context.ActivePlans.Update(plans);
+            _context.SaveChanges();
+            return RedirectToAction("PlanConfirm", "Home");
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult Gold2K()
         {
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Gold2K(ActivePlans plans)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            plans.PlanName = "2kGold";
+            plans.UserID = user.Id;
+            plans.DateExpired = DateTime.Now.AddMonths(3);
+            _context.ActivePlans.Update(plans);
+            _context.SaveChanges();
+            return RedirectToAction("PlanConfirm", "Home");
         }
 
         [Authorize]
@@ -417,10 +736,46 @@ namespace Planiture_Website.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> PLANTINUM5(ActivePlans plans)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            plans.PlanName = "PLANTINUM5";
+            plans.UserID = user.Id;
+            plans.DateExpired = DateTime.Now.AddMonths(3);
+            _context.ActivePlans.Update(plans);
+            _context.SaveChanges();
+            return RedirectToAction("PlanConfirm", "Home");
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult MYXPLAN()
         {
             return View ();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> MYXPLAN(ActivePlans plans)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            plans.PlanName = "MYXPLAN";
+            plans.UserID = user.Id;
+            plans.DateExpired = DateTime.Now.AddMonths(3);
+            _context.ActivePlans.Update(plans);
+            _context.SaveChanges();
+            return RedirectToAction("PlanConfirm", "Home");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult PlanConfirm()
+        {
+            
+            return View();
         }
 
         [Authorize]
@@ -435,6 +790,23 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
+        public IActionResult ForExCourse()
+        {
+            return View();
+        }
+        public IActionResult ForExVideos()
+        {
+            return View();
+        }
+        public IActionResult ForExContent()
+        {
+            return View();
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

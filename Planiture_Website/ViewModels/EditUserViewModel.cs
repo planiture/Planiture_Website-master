@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Planiture_Website.Models
 {
-    public class EditUser
+    public class EditUserViewModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

@@ -20,37 +20,25 @@ namespace Planiture_Website.Models
         public DbSet<CusTransaction> UserTransaction { get; set; }
         public DbSet<Feedback> UserFeedback { get; set; }
         public DbSet<ConfigFile> ConfigFiles { get; set; }
+        public DbSet<Token> UserToken { get; set; }
+        public DbSet<ActivePlans> ActivePlans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //builder.Entity<ApplicationUser>().Ignore(x => x.NormalizedUserName)
-            //                                 .Ignore(x => x.NormalizedEmail);
 
             builder.Entity<ApplicationUser>()
                 .Property(p => p.MemberSince)
                 .HasDefaultValueSql("getdate()");
 
-            //builder.Entity<Account_Info>()
-             //   .Property(p => p.AccountNumber)
-             //   .HasDefaultValueSql("NEWID()");
-            //builder.Entity<Investment_Info>()
-            //    .HasOne(p => p.User)
-             //   .WithMany(b => b.UserInvestments)
-              //  .HasForeignKey(f => f.UserID);
+            builder.Entity<CusTransaction>()
+                .Property(p => p.Date)
+                .HasDefaultValueSql("getdate()");
 
-           // builder.Entity<UserInvestment_Info>()
-             //   .HasKey(p => new { p.InvestID, p.UserID });// sets both columns has composite primary key
-
-
-
-
-            //builder.Entity<ApplicationUser>().ToTable("Users");
+            builder.Entity<ActivePlans>()
+                .Property(p => p.DateAdded)
+                .HasDefaultValueSql("getdate()");
 
         }
-
-        public DbSet<Planiture_Website.Models.SetPasswordClass> SetPasswordClass { get; set; }
-
-        public DbSet<Planiture_Website.Models.ChangePasswordClass> ChangePasswordClass { get; set; }
     }
 }

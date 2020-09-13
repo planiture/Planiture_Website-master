@@ -6,13 +6,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Accounts</h1>
 
-<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
-    <section class="profile-background">
-        <div class="profile-menu" id="profile">
+<body>
+    <div class="profile-menu" id="profile">
             <h1>@ViewData["Title"]</h1>
-            <hr />
             <br />
             <br />
             <table class="table">
@@ -21,11 +18,12 @@
                         <th>Account Number</th>
                         <th>Account Name</th>
                         <th>Account Type</th>
+                        <th>Account Version</th>
                         <th>Available Balance</th>
                         <th>Actual Balance</th>
                         <th>Withdrawal Amount</th>
                         <th>Deposit Amount</th>
-                        <th>Other Account</th>
+                        <th>Account Status</th>
                         <th>UserID</th>
                     </tr>
                 </thead>
@@ -43,6 +41,9 @@
                                 @Html.DisplayFor(modelItem => account.AccountType)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => account.AccountVersion)
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => account.AvailableBalance)
                             </td>
                             <td>
@@ -55,7 +56,7 @@
                                 @Html.DisplayFor(modelItem => account.DepositAmount)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => account.OtherAccount)
+                                @Html.DisplayFor(modelItem => account.AccountStatus)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => account.User.Id)
@@ -65,9 +66,43 @@
                 </tbody>
             </table>
         </div>
-    </section>
-</asp:Content>
+</body>
+
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a style="color: goldenrod;" asp-action="Index">Back to List</a>
 </div>
+
+<style>
+    .profile-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        /*display: flex;*/
+        justify-content: center;
+        align-items: center;
+    }
+    h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+    table {
+        padding: 40px;
+    }
+
+    tbody {
+        border: 2px solid silver;
+        font-weight: 500;
+        color: white;
+    }
+
+    th {
+        border: 2px solid silver;
+        color: goldenrod;
+    }
+</style>

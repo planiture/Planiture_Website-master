@@ -21,6 +21,11 @@ namespace Planiture_Website.Models
         public float TransactionAmount { get; set; }
 
         [PersonalData]
+        // [Required]
+        [Display(Name = "Most Recent")]
+        public float MostRecent { get; set; }
+
+        [PersonalData]
        // [Required]
         [Display(Name = "Transaction Type")]
         public string TransactionType { get; set; }
@@ -31,14 +36,20 @@ namespace Planiture_Website.Models
         public int Trans_AccountNumber { get; set; }
 
         [PersonalData]
-        //[Required]
-        [Display(Name = "Other Account")]
-        public string Trans_OtherAccount { get; set; }
+        [Display(Name = "Commission")]
+        public float Commission { get; set; }
+
+        [PersonalData]
+        [Display(Name = "Service Fee")]
+        public float ServiceFee { get; set; }
 
         [PersonalData]
         //[Required]
         [Display(Name = "Transaction Status")]
-        public string Trans_TransactionStatus { get; set; }
+        public string TransactionStatus { get; set; }
+
+        [Display(Name = "Transaction Date")]
+        public DateTime Date { get; set; }
 
         //User Foreign Key
         public int UserID { get; set; }
@@ -46,22 +57,6 @@ namespace Planiture_Website.Models
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
-
-        //Customer_Info Foreign Key
-        //public int CustomerID { get; set; }
-        //[ForeignKey("CustomerID")]
-        //public InputModel Customers { get; set; }
-
-        //Account_Info Foreign Key
-       // public int AccountNumber { get; set; }
-       // [ForeignKey("AccountNumber")]
-       // public Account_Info Accounts { get; set; }
-
-        //Employee_Info Foreign Key
-      //  public int EmployeeID { get; set; }
-      //  [ForeignKey("EmployeeID")]
-      //  public Employee_Info Employees { get; set; }
-
 
     }
 }

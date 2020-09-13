@@ -39,14 +39,16 @@ namespace Planiture_Website.Models
         public string State { get; set; }
         public string ZipCode { get; set; }
         public string Identity { get; set; }
-
+        public string ProfileImage { get; set; }
         public string Signature { get; set; }
 
         public bool FirstAccessed { get; set; }
+        public bool isProfile { get; set; }
+        public bool isAccount { get; set; }
 
         public IList<Investment_Info> UserInvestments { get; set; }
         public IList<Account_Info> UserAccount { get; set; }
-        
+        public IList<ActivePlans> ActivePlans { get; set; }
 
         //Provide Concurrency
         [Timestamp]

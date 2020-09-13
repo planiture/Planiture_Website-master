@@ -1,0 +1,31 @@
+﻿@page
+@model RegisterConfirmationModel
+@{ ViewData["Title"] = "Register confirmation"; }
+
+
+<body onload="information()">
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</body>
+
+<script type="text/javascript">
+    function information() {
+        Swal.fire({
+            icon: 'info',
+            title: 'User Email Address Verification',
+            text: "Please follow the link in your email to verify your Email Address.",
+            confirmButtonText:
+                '<a href="https://localhost:44336/Identity/Account/Login">Login</a>',
+        })
+    }
+</script>

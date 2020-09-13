@@ -6,85 +6,90 @@
 }
 
 
-<asp:Content id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
-    <section class="profile-background">
-        <div class="profile-menu" id="profile">
-            <h1>@ViewData["Title"]</h1>
-            <br />
-            <br />
-            <table class="table">
-                <thead>
+<body>
+    <div class="profile-menu" id="profile">
+        <h1>@ViewData["Title"]</h1>
+        <br />
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Transaction Amount($)</th>
+                    <th>Transaction Type</th>
+                    <th>Account Number</th>
+                    <th>Transaction Status</th>
+                    <th>Date</th>
+                    <th>User ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CusTransaction transaction in Model.Transactionlist)
+                {
                     <tr>
-                        <th>Transaction Amount($)</th>
-                        <th>Transaction Type</th>
-                        <th>Account Number</th>
-                        <th>Other Account</th>
-                        <th>TransactionStatus</th>
-                        <th>UserID</th>
+                        <td>
+                            @Html.DisplayFor(modelItem => transaction.TransactionID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => transaction.TransactionAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => transaction.TransactionType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => transaction.Trans_AccountNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => transaction.TransactionStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => transaction.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => transaction.User.Id)
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (CusTransaction transaction in Model.Transactionlist)
-                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => transaction.TransactionAmount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => transaction.TransactionType)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => transaction.Trans_AccountNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => transaction.Trans_OtherAccount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => transaction.Trans_TransactionStatus)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => transaction.User.Id)
-                            </td>
-                        </tr>
-                     }
-                </tbody>
-            </table>
-        </div>
-    </section>
-</asp:Content>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a style="color: goldenrod;" asp-action="Index">Back to List</a>
 </div>
 
 <style>
-
-    .profile-background {
-        position: relative;
-        width: 100%;
-        min-height: 100vh;
-        background-size: cover;
-        /*display: flex;*/ /*changed from inline*/
-        justify-content: center;
-        align-items: center;
-    }
     .profile-menu {
         position: relative;
-        /*padding: 100px;*/
+        padding: 100px;
         min-height: 100vh;
         background-size: cover;
         /*display: flex;*/
         justify-content: center;
         align-items: center;
     }
-
-    /*table {
-        border-collapse: collapse;
+    h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
     }
 
-    table, td, th {
-        border: 2px solid black;
-        padding: 35px;
-        text-align: center;
-    }*/
+    table {
+        padding: 40px;
+    }
+
+    tbody {
+        border: 2px solid silver;
+        font-weight: 500;
+        color: white;
+    }
+
+    th {
+        border: 2px solid silver;
+        color: goldenrod;
+    }
 </style>

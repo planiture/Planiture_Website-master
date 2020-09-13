@@ -61,7 +61,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                 //Send Email Confirmation Link
 
-                var apiKey = "key here";
+                var apiKey = "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";
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("akeamsmith41@gmail.com");
                 var to = new EmailAddress(Input.Email);
@@ -74,14 +74,14 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
                     "<br />" +
                     "<br>" +
                     "<a href='" + callbackUrl + "' style='background-color: red; border: 1px solid black; color: white;" +
-                    " padding: 10px; width: 60%; font-weight: 500; border-radius: 10px;text-decoration: none;'>Confirm Email</a>" +
+                    " padding: 10px; width: 60%; font-weight: 500; border-radius: 10px;text-decoration: none;'>Reset Password</a>" +
                     "<br>" +
                     "<br>" +
                     "If you don't want to reset your password, you can ignore this message -  someone probably typed in your username or email address " +
                     "by mistake." +
                     "<br />" +
                     "<br />" +
-                    "Thanks!, <br />Team Planiture</p>";
+                    "Thanks!, <br />The Planiture Family</p>";
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
                 var response = await client.SendEmailAsync(msg);
 

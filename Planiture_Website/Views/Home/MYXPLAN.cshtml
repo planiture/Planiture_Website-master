@@ -12,7 +12,7 @@
                     <div class="col-sm-4 col-md-4">
                         <div class="card">
                             <div class="card-header">
-                                <h1>MYX PLAN</h1>
+                                <h4>MYX PLAN</h4>
                             </div>
                             <div class="card-img">
                                 <img src="~/image/binaryaccount.jpg" width="273" height="200" />
@@ -42,7 +42,9 @@
                         <br />
                         <br />
                         <center>
-                            <a id="click" asp-action="SignalPlans" asp-controller="Home">Back</a> <a id="click" href="">Apply To Account</a>
+                            <form method="post">
+                                <a id="click" asp-action="SignalPlans" asp-controller="Home">Back</a> <button disabled id="apply" type="submit">Apply To Account</button>
+                            </form>
                         </center>
                     </div>
                 </div>
@@ -101,25 +103,36 @@
         font-family: sans-serif;
     }
 
-    .col-md-8 #click {
+    .col-md-8 #click, .col-md-8 #apply {
         color: black;
         background-color: white;
         border: 1px solid goldenrod;
         border-radius: 10px;
         padding: 10px;
-        width: 60%;
     }
     
-    .col-md-8 #click:hover{
+    .col-md-8 #click:hover, .col-md-8 #apply:hover{
         color: white;
         background-color: goldenrod;
         transition: .3s;
         text-decoration-line: none;
     }
     
-    .col-md-8 #click:active{
+    .col-md-8 #click:active, .col-md-8 #apply:active{
         border-radius: 10px;
         box-shadow: 3px 3px 5px goldenrod;
         transition: .3s;
     }
+    #apply:disabled{
+        color: black;
+        background-color: grey;
+    }
 </style>
+
+<script type="text/javascript">
+    var checkbox = document.getElementById("check");
+    var button = document.getElementById("apply");
+    checkbox.onchange = function () {
+        button.disabled = !this.checked;
+    };
+</script>
