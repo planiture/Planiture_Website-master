@@ -1,7 +1,8 @@
-﻿
+﻿@page
+@model Planiture_Website.Areas.Identity.Pages.Account.EmailVerificationMessageModel
 @{
-    ViewData["Title"] = "Delete Confirmed";
 }
+
 
 
 <body onload="successfully()">
@@ -29,9 +30,10 @@
     function successfully() {
         Swal.fire({
             icon: 'success',
-            title: 'User Photo Was Successfully Removed!',
+            title: 'Email Verification',
+            text: "An email verification link was sent to your email. Please verify you email address to continue the application process",
             confirmButtonText:
-                '<a href="https://localhost:44336/Profile">Back to User Account</a>',
+                '<a href="https://localhost:44336/Identity/Account/Login">Login</a>',
         })
     }
 </script>

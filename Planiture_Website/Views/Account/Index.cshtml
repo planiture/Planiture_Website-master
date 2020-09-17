@@ -1,9 +1,11 @@
 ﻿@using Planiture_Website.Models
 @model dynamic
+
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<h1>Index</h1>
 
 
 <asp:Content class="" id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
@@ -14,14 +16,14 @@
                     <div class="col-sm-4 col-md-4">
                         @foreach (ApplicationUser user in Model.userlist)
                         {
-                            if (@user.ProfileImage == "")
+                            if (@user.Identity == "")
                             {
                                 <img id="profileImage" title="Change_Account_Photo" src="~/image/default-profile-picture.png" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
                                      style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
                             }
                             else
                             {
-                                <img id="profileImage" title="Change_Account_Photo" src="~/image/@user.ProfileImage" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
+                                <img id="profileImage" title="Change_Account_Photo" src="~/image/@user.Identity" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
                                      style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
                             }
 
@@ -30,31 +32,8 @@
                     </div>
                     <div class="col-sm-8 col-md-8">
                         <form method="post" enctype="multipart/form-data">
-                            <h3 style="color: white;">@User.Identity.Name's Account <i style="font-size:24px" class="fa fa-gear modal-open" data-modal="modal-feedback"></i></h3>
-                            @foreach (Account_Info acc in Model.accountList)
-                            {
-                                if (acc.AccountVersion == "Basic Account")
-                                {
-                                    <div style="color:white;" class="more-info" title="This is a Basic Account">More Information</div>
-                                    <div class="hide">This is a Basic Account</div>
-                                }
-                                if (acc.AccountVersion == "Advanced Account")
-                                {
-                                    <div style="color:white;" class="more-info" title="This is a Advanced Account">More Information</div>
-                                    <div class="hide">This is a Advanced Account</div>
-                                }
-                                if (acc.AccountVersion == "Stocks Account")
-                                {
-                                    <div style="color:white;" class="more-info" title="This is a Stocks Account">More Information</div>
-                                    <div class="hide">This is a Stocks Account</div>
-                                }
-                                if(acc.AccountVersion == "Golden20 Account")
-                                {
-                                    <div style="color:white;" class="more-info" title="This is a Golden20 Account">More Information</div>
-                                    <div class="hide">This is a Golden20 Account</div>
-                                }
-                            }
-
+                            <h3 style="color: white;">@User.Identity.Name's Profile <i style="font-size:24px" class="fa fa-gear modal-open" data-modal="modal-feedback"></i></h3>
+                           
                             <br />
                             @foreach (ApplicationUser user in Model.userlist)
                             {
@@ -111,111 +90,26 @@
                     <div class="col-sm-1 col-md-1"></div>
                     <div class="col-sm-4 col-md-4">
                         <div class="thumbnail-transaction" style="text-align: center; font-weight: 500;">
-
-                            @foreach (Account_Info acc in Model.accountList)
-                            {
-                                if (acc.AccountVersion == "Basic Account")
-                                {
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Home" asp-action="SignalPlans">Investment Plans</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
-                                }
-                                if (acc.AccountVersion == "Advanced Account")
-                                {
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Home" asp-action="SignalPlans">Investment Plans</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Home" asp-action="StocksPortfolio">Stocks Portfolio</a>
-                                    <br />
-                                    <br />
-                                }
-                                if (acc.AccountVersion == "Stocks Account")
-                                {
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Home" asp-action="StocksPortfolio">Stocks Portfolio</a>
-                                    <br />
-                                    <br />
-                                }
-                                if(acc.AccountVersion == "Golden20 Account")
-                                {
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="MyPlans">My Plans</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Home" asp-action="SignalPlans">Investment Plans</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Profile" asp-action="Withdrawal">Withdraw</a>
-                                    <br />
-                                    <br />
-                                    <a style="font-size: 20px" asp-controller="Home" asp-action="StocksPortfolio">Stocks Portfolio</a>
-                                    <br />
-                                    <br />
-                                }
-                            }
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="Subscriptions">My Subscriptions</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" href="https://official-planiture-store.square.site">Plantiure Store</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="">The Academy</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="">Class Sessions</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="">Notifications</a>
+                            <br />
+                            <br />
                         </div>
                     </div>
                 </div>
                 <br />
-                <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                        <div class="thumbnail-invest">
-                            <div class="row">
-                                <div class="col-sm-6 col-md-6">
-                                    <center>
-                                        <h5>Recent Account Transaction</h5>
-                                        <br />
-                                        @foreach (CusTransaction transaction in Model.transactionList)
-                                        {
-                                            if(transaction.TransactionAmount.ToString() == null)
-                                            {
-                                                <p>$ 0.00</p>
-                                            }
-                                            else
-                                            {
-                                                <p>$ @Html.DisplayFor(model => transaction.MostRecent)</p>
-                                            }
-                                        }
-                                        <br />
-                                        @foreach (ApplicationUser user in Model.userlist)
-                                        {
-                                            <a asp-controller="Profile" asp-action="Transactions" asp-route-id="@user.Id">(view transactions)</a>
-                                        }
-
-                                    </center>
-                                </div>
-                                <div class="col-sm-6 col-md-6">
-                                    <center>
-                                        @foreach (Account_Info account in Model.accountList)
-                                        {
-                                            <h5>@Html.DisplayNameFor(model => account.AvailableBalance)</h5>
-                                            <br />
-                                            <p>$ @Html.DisplayFor(model => account.AvailableBalance)</p>
-                                        }
-                                        @foreach (ApplicationUser user in Model.userlist)
-                                        {
-                                            <a asp-controller="Profile" asp-action="Accounts" asp-route-id="@user.Id">(view Accounts)</a>
-                                        }
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </section>
@@ -229,7 +123,7 @@
                     @foreach (ApplicationUser user in Model.userlist)
                     {
                         <div class="nav-fill">
-                            <a class="nav-link upload-link" id="browseBtn" asp-controller="Profile" asp-action="UploadPhoto" asp-route-id="@user.Id">Upload Photo</a>
+                            <a class="nav-link upload-link" id="browseBtn" role="button">Upload Photo</a>
                             <a class="nav-link" asp-controller="Profile" asp-action="DeletePhoto" asp-route-id="@user.Id">Remove Current Photo</a>
                             <a class="nav-link modal-close" asp-action="">Cancel</a>
                         </div>

@@ -227,7 +227,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
                     var client = new SendGridClient(apiKey);
                     var from = new EmailAddress("akeamsmith41@gmail.com");
                     var to = new EmailAddress("akeamsmith41@gmail.com");
-                    string subject = "Planiture Customer - "+Input.FirstName+"" +Input.LastName+"- Proof of Identity";
+                    string subject = "Official Planiture Customer - "+Input.FirstName+"" +Input.LastName+"- Proof of Identity";
                     string htmlContent = "See attachment for customer's ID information";
                     var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
                     //get image location
@@ -262,7 +262,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
                     var client1 = new SendGridClient(apiKey1);
                     var from1 = new EmailAddress("akeamsmith41@gmail.com");
                     var to1 = new EmailAddress(Input.Email);
-                    string subject1 = "Planiture Email Address Confirmation";
+                    string subject1 = "Official Planiture Email Address Confirmation";
                     string htmlContent1 = 
                         "<p>Hi there, " +
                         "<br />" +
@@ -291,7 +291,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("Login");
+                        return RedirectToPage("EmailVerificationMessage");
                     }
                     else
                     {

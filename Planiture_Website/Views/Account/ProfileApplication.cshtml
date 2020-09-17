@@ -1,0 +1,196 @@
+﻿@model Planiture_Website.Models.Investment_Info
+
+@{
+    ViewData["Title"] = "ProfileApplication";
+}
+
+
+
+<style>
+    .body {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+    }
+
+    legend {
+        text-align: right;
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+    }
+
+    p, label {
+        color: white;
+        font-family: sans-serif;
+    }
+
+    #button,#apply {
+        -webkit-appearance: none;
+        border: 1px solid black;
+        border-radius: 4px;
+        outline: none;
+        padding: 0.5em 0.8em;
+        margin-right: 15px;
+        color: black;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+        background-color: whitesmoke;
+    }
+
+    #button:hover, #apply:hover {
+        background: gold;
+    }
+
+    #button:active, #apply:active {
+        background: goldenrod;
+        color: black;
+    }
+
+    #apply:disabled{
+        color: black;
+        background-color: grey;
+    }
+    #input, #signature,
+    #SignDate, #TodayDate, #disabled {
+        position: relative;
+        border: none;
+        border-bottom: 1px solid white;
+        color: white;
+        background: transparent;
+        width: 100%;
+        padding: 10px 0;
+        outline: none;
+        font-size: 18px;
+        font-weight: 400;
+        margin: 20px 0;
+        resize: none;
+    }
+
+    #disabled::placeholder, #signature::placeholder {
+        color: darkgoldenrod;
+    }
+
+    #disabled, #signature{
+        border: 1px solid darkgoldenrod;
+    }
+
+
+</style>
+
+<div class="body">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <br />
+        <br />
+        <fieldset class="golden-investor">
+            <legend>Golden Investor</legend>
+            <br />
+            <br />
+            <p>
+                -----------------------------------------------------------------------------------------------------------------
+                <br />
+                INVESTMENT QUESTIONS:
+                <br />
+                -----------------------------------------------------------------------------------------------------------------
+            </p>
+            <br />
+            <div class="row">
+                <div class="col-sm-6 col-md-6 form-group">
+                    <div class="form-group">
+                        <label asp-for="Ques1">What is your reason for creating a profile with us?</label>
+                        <br />
+                        <br />
+                        <br />
+                        <input id="input" asp-for="Ques1" type="text" />
+                        <span asp-validation-for="Ques1" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 form-group">
+                    <label asp-for="Ques2">How do you rate your Knowledge in trading and investing?</label>
+                    <br />
+                    <input type="radio" value="Advanced" asp-for="Ques2" />
+                    <label>Advanced</label>
+                    <br />
+                    <input type="radio" value="Intermediate" asp-for="Ques2" />
+                    <label>Intermediate</label>
+                    <br />
+                    <input type="radio" value="Beginners" asp-for="Ques2" />
+                    <label>Beginners</label>
+                    <br />
+                    <input type="radio" value="No Knowledge" asp-for="Ques2" />
+                    <label>No Knowledge</label>
+                    <span asp-validation-for="Ques2" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Ques3">Which of our products and services are you interested in?</label>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <select id="input" asp-for="Ques3" required>
+                            <option style="color:black;" value="" selected hidden>Select</option>
+                            <option style="color:black;" value="Signal Group">Signal Group</option>
+                            <option style="color:black;" value="Forex Course">Forex Course</option>
+                            <option style="color:black;" value="Both">Both</option>
+                        </select>
+                        <span asp-validation-for="Ques3" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Ques5">Realistically, what is your financial aim/goals with Planiture Online Investments within the next 5 years?</label>
+                        <textarea id="input" asp-for="Ques5" class="form-control" rows="4" cols="20" required></textarea>
+                        <span asp-validation-for="Ques5" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <br />
+            <br />
+            <div class="disclaimer-section">
+                <p>
+                    <br />
+                    -----------------------------------------------------------------------------------------------------------------
+                    <br />
+                    DISCLAIMER:
+                    <br />-----------------------------------------------------------------------------------------------------------------
+                </p>
+                <br />
+                <br />
+                <center>
+                    <input id="check" type="checkbox" value="Terms & Condition" />
+                    <label>
+                        I have answered all questions to the best of my knowledge and I have read the <a asp-controller="Home" asp-action="Policy">Terms and Conditions</a>.
+                    </label>
+                </center>
+                
+            </div>
+        </fieldset>
+        <br />
+        <br />
+        <div class="form-group" align="center">
+            <button id="button" type="reset" class="btn btn-primary" onclick="location.href = '@Url.Action("CreateApplication", "Home")';">CANCEL</button>
+            <button id="apply" type="submit" class="btn btn-primary" disabled>SAVE & CONTINUE</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var checkbox = document.getElementById("check");
+    var button = document.getElementById("apply");
+    checkbox.onchange = function () {
+        button.disabled = !this.checked;
+    };
+</script>

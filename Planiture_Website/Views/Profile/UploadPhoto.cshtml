@@ -1,0 +1,70 @@
+﻿@model Planiture_Website.ViewModels.UploadPhoto
+
+@{
+    ViewData["Title"] = "Upload Photo";
+}
+
+
+<body>
+    <div class="upload-menu">
+        <h1>@ViewData["Title"]</h1>
+
+        <form enctype="multipart/form-data" asp-action="UploadConfirmed">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div style="text-align: -webkit-center;">
+                <img src="~/image/default-profile-picture.png" height="300" width="300" id="Profile_Image_Preview" />
+                <br />
+                <br />
+                <br />
+            </div>
+            <br />
+            <label asp-for="ProfileImage"></label>
+            <input accept="image/*" type="file" asp-for="ProfileImage" id="Profile_Image" style="/*visibility:hidden;*/" />
+            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+            <input type="submit" value="Upload Image" class="btn btn-success" />
+
+        </form>
+    </div>
+</body>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<style>
+    .upload-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        justify-content: center;
+        align-items: center;
+    }
+    img {
+        border: 2px solid darkgoldenrod;
+        color: darkgoldenrod;
+        background-color: grey;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        //Load Preview of profile Image
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#Profile_Image_Preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        //Onclick image select load previewImage function
+        $("#Profile_Image").change(function () {
+            previewImage(this);
+        });
+    });
+</script>

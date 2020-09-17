@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "UploadConfirmed";
+}
+
+
+
+<body onload="successfully()">
+
+</body>
+
+<style>
+    
+    #success {
+        background-color: white;
+        border: 1px solid black;
+        padding: 60px;
+    }
+    #success span{
+        padding: 20px;
+      background-color: #4CAF50;
+      color: white;
+      opacity: 1;
+      transition: opacity 0.6s;
+      margin-bottom: 15px;
+    }
+</style>
+
+<script type="text/javascript">
+    function successfully() {
+        Swal.fire({
+            icon: 'success',
+            title: 'User Photo Was Successfully Removed!',
+            confirmButtonText:
+                '<a href="https://localhost:44336/Profile">Back to User Account</a>',
+        })
+    }
+</script>

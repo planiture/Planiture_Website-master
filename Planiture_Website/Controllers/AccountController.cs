@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -24,7 +28,7 @@ namespace Planiture_Website.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ILogger<ProfileController> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _HostEnvironment;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public AccountController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -38,7 +42,7 @@ namespace Planiture_Website.Controllers
             _roleManager = roleManager;
             _logger = logger;
             _context = context;
-            _HostEnvironment = hostEnvironment;
+            _hostEnvironment = hostEnvironment;
         }
 
         [BindProperty]
@@ -60,28 +64,9 @@ namespace Planiture_Website.Controllers
             public string LastName { get; set; }
 
             [PersonalData]
-            [Display(Name = "DOB")]
-            [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-            public DateTime DOB { get; set; }
-
-            [PersonalData]
             [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy HH:mm}")]
             public DateTime MemberSince { get; set; }
-
-
-            [PersonalData]
-            [Display(Name = "Gender")]
-            public string Gender { get; set; }
-
-            [PersonalData]
-            //[Required]
-            [Display(Name = "Occupation")]
-            public string Occupation { get; set; }
-
-            /*[PersonalData]
-            [Display(Name = "Area Code")]
-            public string AreaCode { get; set; }*/
-
+            
             [PersonalData]
             [Display(Name = "Mobile")]
             public string Mobile { get; set; }
@@ -115,8 +100,11 @@ namespace Planiture_Website.Controllers
             public string ZipCode { get; set; }
 
             [PersonalData]
-            [Display(Name = "Upload Proof of Identity")]
-            public string Identity { get; set; }
+            [NotMapped]
+            [Display(Name = "Profile Image")]
+            public IFormFile ProfileImage { get; set; }
+
+            public string ProfileImageName { get; set; }
 
             [Display(Name = "Username")]
             public string Username { get; set; }
@@ -192,6 +180,64 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ProfileApplication(Investment_Info invest, Account_Info account)
+        {
+            if (ModelState.IsValid)
+            {
+                //Get the existing user from the database
+                var user = await _userManager.GetUserAsync(User);
+
+                //check if user already filled out the investment Questions
+                var entity = _context.UserInvestment.FirstOrDefault(i => i.UserID == user.Id);
+
+                if (entity != null)
+                {
+                    //update user investment question
+
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    invest.Ques1 = invest.Ques1.ToUpper();
+                    invest.Ques2 = invest.Ques2.ToUpper();
+
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended updated");
+
+                    //Append UserID to User's investment Record
+                    entity.FormType = "User Profile";
+
+                    _context.UserInvestment.Update(entity);
+                    _context.SaveChanges();
+                    _logger.LogInformation("User investment info Updated");
+                }
+                else
+                {
+                    //convert Ques1 & Ques2 to all Capital Letter
+                    invest.Ques1.ToUpper();
+                    invest.Ques2.ToUpper();
+
+                    //Append User signature to User Record
+                    user.Signature = invest.Signature;
+                    user.FirstAccessed = false;
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation("User signature appended and firstAccessed value updated");
+
+                    //Append UserID to User's investment Record
+                    invest.UserID = user.Id;
+                    invest.FormType = "User Profile";
+                    _context.UserInvestment.Add(invest);
+                    _logger.LogInformation("User beneficiary and investment background added.");
+                }
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            return View();
+        }
+
         [HttpGet]
         public IActionResult RegisterProfile()
         {
@@ -199,28 +245,36 @@ namespace Planiture_Website.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterProfile(string returnUrl = null)
+        public async Task<IActionResult> RegisterProfile([Bind("Identity, ProfileImage")] InputModel input, string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
+                //add Profile Image
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(input.ProfileImage.FileName);
+                string extension = Path.GetExtension(input.ProfileImage.FileName);
+                input.ProfileImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/image", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await input.ProfileImage.CopyToAsync(fileStream);
+                }
+
                 var user = new ApplicationUser
                 {
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    DOB = Input.DOB,
                     Address1 = Input.Address1,
                     Address2 = Input.Address2,
                     PhoneNumber = Input.Mobile,
-                    Gender = Input.Gender,
-                    Occupation = Input.Occupation,
                     Residency = Input.Residency,
                     City = Input.City,
                     State = Input.State,
                     ZipCode = Input.ZipCode,
-                    //Identity = Input.Identity,
+                    ProfileImage = fileName,
                     UserName = Input.Username,
                     Email = Input.Email,
                     FirstAccessed = true,
@@ -254,9 +308,9 @@ namespace Planiture_Website.Controllers
 
                     var apiKey = "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";
                     var client = new SendGridClient(apiKey);
-                    var from = new EmailAddress("akeamsmith41@gmail.com");
+                    var from = new EmailAddress("planitureinvestments@gmail.com");
                     var to = new EmailAddress(Input.Email);
-                    string subject = "Planiture Email Address Confirmation";
+                    string subject = "Official Planiture Email Address Confirmation";
                     string htmlContent =
                         "<p>Hi there, " +
                         "<br />" +
@@ -285,7 +339,7 @@ namespace Planiture_Website.Controllers
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("Login");
+                        return RedirectToPage("EmailVerificationMessage");
                     }
                     else
                     {
@@ -303,18 +357,49 @@ namespace Planiture_Website.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public IActionResult ProfileAccount()
-        {
-            return View();
-        }
-
-
-
         public IActionResult Index()
         {
+            var userid = _userManager.GetUserId(HttpContext.User);
+            if (userid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ApplicationUser user = _userManager.FindByIdAsync(userid).Result;
+
+                dynamic dy = new ExpandoObject();
+                dy.transactionList = GetTransaction();
+                dy.accountList = GetAccount();
+                dy.userlist = GetUser();
+                //return View(user);
+                return View(dy);
+            }
+        }
+
+        public IActionResult DeletePhoto()
+        {
             return View();
         }
 
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        public IActionResult DeactivateProfile()
+        {
+            return View();
+        }
+
+        public IActionResult Subscriptions()
+        {
+            return View();
+        }
+
+        public IActionResult Notifications()
+        {
+            return View();
+        }
     }
 }
