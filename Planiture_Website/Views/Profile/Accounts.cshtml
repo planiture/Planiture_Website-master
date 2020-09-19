@@ -9,69 +9,71 @@
 
 <body>
     <div class="profile-menu" id="profile">
-            <h1>@ViewData["Title"]</h1>
-            <br />
-            <br />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Account Number</th>
-                        <th>Account Name</th>
-                        <th>Account Type</th>
-                        <th>Account Version</th>
-                        <th>Available Balance</th>
-                        <th>Actual Balance</th>
-                        <th>Withdrawal Amount</th>
-                        <th>Deposit Amount</th>
-                        <th>Account Status</th>
-                        <th>UserID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (Account_Info account in Model.Accountlist)
-                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.AccountNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.AccountName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.AccountType)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.AccountVersion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.AvailableBalance)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.ActualBalance)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.WithdrawalAmount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.DepositAmount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.AccountStatus)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => account.User.Id)
-                            </td>
-                        </tr>
-                     }
-                </tbody>
-            </table>
+        <h1>@ViewData["Title"]</h1>
+        <br />
+        <br />
+        <table class="table">
+             <thead>
+                  <tr>
+                      <th>Account Number</th>
+                      <th>Account Name</th>
+                      <th>Account Type</th>
+                      <th>Account Version</th>
+                      <th>Available Balance</th>
+                      <th>Actual Balance</th>
+                      <th>Withdrawal Amount</th>
+                      <th>Deposit Amount</th>
+                      <th>Account Status</th>
+                      <th>UserID</th>
+                  </tr>
+             </thead>
+             <tbody>
+                  @foreach (Account_Info account in Model.Accountlist)
+                   {
+                      <tr>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.AccountNumber)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.AccountName)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.AccountType)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.AccountVersion)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.AvailableBalance)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.ActualBalance)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.WithdrawalAmount)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.DepositAmount)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.AccountStatus)
+                          </td>
+                          <td>
+                              @Html.DisplayFor(modelItem => account.User.Id)
+                          </td>
+                      </tr>
+                   }
+             </tbody>
+        </table>
+        <br />
+        <br />
+        <br />
+        <div>
+            <a style="color: goldenrod;" asp-action="Index">Back to List</a>
         </div>
+    </div>
+    
 </body>
-
-
-<div>
-    <a style="color: goldenrod;" asp-action="Index">Back to List</a>
-</div>
 
 <style>
     .profile-menu {

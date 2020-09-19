@@ -68,7 +68,7 @@
             </div>
             <div class="row100">
                 <div class="inputBx50">
-                    <input style="color: white;" asp-for="FullName" type="text" placeholder="Full Name" required />
+                    <input id="name" style="color: white;" asp-for="FullName" type="text" placeholder="Full Name" required />
                 </div>
                 <div class="inputBx50">
                     <input style="color: white;" asp-for="Investment_Number" type="text" placeholder="Investment No." />
@@ -279,3 +279,11 @@
     }
 
 </style>
+
+<script>
+    $(document).ready(function () {
+        $("#feedbackBtn").click(function () {
+            $("#name").focus();
+        });
+    });
+</script>

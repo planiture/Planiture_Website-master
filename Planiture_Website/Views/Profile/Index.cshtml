@@ -16,12 +16,12 @@
                         {
                             if (@user.ProfileImage == "")
                             {
-                                <img id="profileImage" title="Change_Account_Photo" src="~/image/default-profile-picture.png" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
-                                     style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
+                                <img id="profileImage" title="Account Photo" src="~/image/default-profile-picture.png" asp-append-version="true"
+                                     style="width: 150px; height: 150px; float: left; border-radius: 50%; margin-right: 25px;" />
                             }
                             else
                             {
-                                <img id="profileImage" title="Change_Account_Photo" src="~/image/@user.ProfileImage" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
+                                <img id="profileImage" title="Account Photo" src="~/image/@user.ProfileImage" asp-append-version="true"
                                      style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
                             }
 
@@ -219,25 +219,6 @@
             </div>
         </div>
     </section>
-    <section class="modal changephoto-modal" id="modal-changephoto">
-        <div class="changephotomodal-content kingz">
-            <div class="container">
-                <div class="modal-header">
-                    <h4>Change Profile Photo</h4>
-                </div>
-                <center>
-                    @foreach (ApplicationUser user in Model.userlist)
-                    {
-                        <div class="nav-fill">
-                            <a class="nav-link upload-link" id="browseBtn" asp-controller="Profile" asp-action="UploadPhoto" asp-route-id="@user.Id">Upload Photo</a>
-                            <a class="nav-link" asp-controller="Profile" asp-action="DeletePhoto" asp-route-id="@user.Id">Remove Current Photo</a>
-                            <a class="nav-link modal-close" asp-action="">Cancel</a>
-                        </div>
-                    }
-                </center>
-            </div>
-        </div>
-    </section>
     <section class="modal feedback-modal" id="modal-feedback">
         <div class="feedbackmodal-content kingz">
             <div class="container">
@@ -245,11 +226,17 @@
                     <h4>Settings</h4>
                 </div>
                 <center>
-                    <div class="nav-fill">
-                        <a class="nav-link" asp-controller="Profile" asp-action="ChangePassword">Change Password</a>
-                        <a class="nav-link" asp-controller="Profile" asp-action="">Delete Account</a>
-                        <a class="nav-link modal-close" asp-action="">Cancel</a>
-                    </div>
+                    @foreach (ApplicationUser user in Model.userlist)
+                     {
+                        <div class="nav-fill">
+                            <a class="nav-link upload-link" id="browseBtn" asp-controller="Profile" asp-action="UploadPhoto" asp-route-id="@user.Id">Upload Photo</a>
+                            <a class="nav-link" asp-controller="Profile" asp-action="DeletePhoto" asp-route-id="@user.Id">Remove Current Photo</a>
+                            <a class="nav-link" asp-controller="Profile" asp-action="ChangePassword">Change Password</a>
+                            <a class="nav-link" asp-controller="Profile" asp-action="">Delete Account</a>
+                            <a class="nav-link modal-close" asp-action="">Cancel</a>
+                        </div>
+                     }
+
                 </center>
             </div>
         </div>

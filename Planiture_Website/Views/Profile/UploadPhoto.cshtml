@@ -12,24 +12,26 @@
         <form enctype="multipart/form-data" asp-action="UploadConfirmed">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div style="text-align: -webkit-center;">
-                <img src="~/image/default-profile-picture.png" height="300" width="300" id="Profile_Image_Preview" />
+                <img src="~/image/@Model.ProfileImageName" height="300" width="300" id="Profile_Image_Preview" />
                 <br />
                 <br />
                 <br />
             </div>
             <br />
-            <label asp-for="ProfileImage"></label>
-            <input accept="image/*" type="file" asp-for="ProfileImage" id="Profile_Image" style="/*visibility:hidden;*/" />
-            <span asp-validation-for="ProfileImage" class="text-danger"></span>
-            <input type="submit" value="Upload Image" class="btn btn-success" />
-
+            <center>
+                <input accept="image/*" type="file" asp-for="ProfileImage" id="Profile_Image" />
+                <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                <input type="submit" value="Upload Image" class="btn btn-success" />
+            </center>
         </form>
+        <br />
+        <br />
+        <br />
+        <div>
+            <a style="color: goldenrod;" asp-action="Index">Back to List</a>
+        </div>
     </div>
 </body>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 <style>
     .upload-menu {
@@ -44,6 +46,23 @@
         border: 2px solid darkgoldenrod;
         color: darkgoldenrod;
         background-color: grey;
+    }
+    h1 {
+        font-size: 40px;
+        font-weight: 200;
+        margin-bottom: 10px;
+        color: darkgoldenrod;
+        text-transform: uppercase;
+        text-align: right;
+    }
+    label{
+        color: white;
+        font-family: sans-serif;
+        font-size: 16px;
+    }
+    #Profile_Image {
+        color: white;
+        font-family: sans-serif;
     }
 </style>
 

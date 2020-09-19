@@ -153,6 +153,7 @@ namespace Planiture_Website.Controllers
                     Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
+                    ProfileImageName = user.ProfileImage,
                     Email = user.Email,
                     Occupation = user.Occupation,
                     UserName = user.UserName,
@@ -253,8 +254,18 @@ namespace Planiture_Website.Controllers
         }
 
         [HttpGet]
-        public IActionResult UploadPhoto()
+        public async Task<IActionResult> UploadPhoto()
         {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                var model = new UploadPhoto
+                {
+                    ProfileImageName = user.ProfileImage
+                };
+                return View(model);
+            }
             return View();
         }
 
