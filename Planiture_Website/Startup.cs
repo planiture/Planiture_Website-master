@@ -106,7 +106,7 @@ namespace Planiture_Website
 
             app.UseDefaultFiles(); //KINGZWILL
             app.UseCookiePolicy(); //KINGZWILL
-           app.UseMvc(); //KINGZWILL
+            app.UseMvc(); //KINGZWILL
 
 
             app.UseEndpoints(endpoints =>

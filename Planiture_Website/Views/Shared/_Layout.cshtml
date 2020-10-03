@@ -36,7 +36,7 @@
             transition: 0.6s;
             background-color: black;
             border-bottom-color: #D4AF37;
-            font-family: sans-serif; 
+            font-family: sans-serif;
         }
 
         .sticky { /*ADDED BY KINGZWILL*/
@@ -46,7 +46,7 @@
             font-family: sans-serif;
         }
 
-        #header .logo{
+        #header .logo {
             position: relative;
             color: #fff;
             font-weight: 700;
@@ -57,9 +57,9 @@
             transition: .6s;
         }
 
-        #header .logo:hover{
-            color: darkgoldenrod;
-        }
+            #header .logo:hover {
+                color: darkgoldenrod;
+            }
 
         header ul {
             position: relative;
@@ -68,11 +68,12 @@
             align-items: center;
         }
 
-        header ul li{
-            position: relative;
-            list-style: none;
-        }
-        #header ul li a, #header ul li button{
+            header ul li {
+                position: relative;
+                list-style: none;
+            }
+
+        #header ul li a, #header ul li button {
             position: relative;
             margin: 0 15px;
             text-decoration: none;
@@ -81,10 +82,10 @@
             font-weight: 300;
             transition: 0.6s;
         }
-        
-        #header ul li a:hover, #header ul li button:hover{
-            color: darkgoldenrod;
-        }
+
+            #header ul li a:hover, #header ul li button:hover {
+                color: darkgoldenrod;
+            }
 
         #header.sticky .logo,
         #header.sticky ul li a,
@@ -92,12 +93,12 @@
             color: black;
         }
 
-        #header.sticky .logo:hover,
-        #header.sticky ul li a:hover,
-        #header.sticky ul li button:hover{
-            color: white;
-            transition: .6s;
-        }
+            #header.sticky .logo:hover,
+            #header.sticky ul li a:hover,
+            #header.sticky ul li button:hover {
+                color: white;
+                transition: .6s;
+            }
 
         .navbar a { /*ADDED BY KINGZWILL*/
             font-weight: 500;
@@ -113,10 +114,8 @@
             /*overflow: hidden;*/
             top: 0;
         }
-
         /*Drop Down Menu
         -----------------------------*/
-
         ul.navbar-nav li div.dropdown:hover > ul.dropdown-menu { /*display menu list on hover*/
             display: inline-grid;
         }
@@ -128,7 +127,7 @@
             background-color: white;
         }
 
-        #header.sticky .navbar .dropdown .dropdown-menu{
+        #header.sticky .navbar .dropdown .dropdown-menu {
             background-color: black;
         }
 
@@ -140,64 +139,64 @@
         .navbar .dropdown-menu li {
             text-align: left;
         }
-        
-        /*Removes the black box on the dropdown menu items on hover*/
-        /*Adds a grey background on hover*/
-        .navbar .dropdown-menu li:hover {
-            background: none;
-            border-color: none;
-            border-style: none;
-            background-color: darkgoldenrod;
-            transition: 0.4s;
-            cursor: pointer;
-        }
 
-        #header .navbar .dropdown-menu li a{
+            /*Removes the black box on the dropdown menu items on hover*/
+            /*Adds a grey background on hover*/
+            .navbar .dropdown-menu li:hover {
+                background: none;
+                border-color: none;
+                border-style: none;
+                background-color: darkgoldenrod;
+                transition: 0.4s;
+                cursor: pointer;
+            }
+
+        #header .navbar .dropdown-menu li a {
             color: black;
             transition: .6s;
         }
 
-        #header .navbar .dropdown-menu li a:hover{
-            color: black;
-            transition: .6s;
-        }
+            #header .navbar .dropdown-menu li a:hover {
+                color: black;
+                transition: .6s;
+            }
 
-        #header.sticky .navbar .dropdown-menu li a{
+        #header.sticky .navbar .dropdown-menu li a {
             color: white;
             transition: .6s;
         }
 
-        #header.sticky .navbar .dropdown-menu li a:hover{
-            color: black;
-            transition: .6s;
-        }
-        
+            #header.sticky .navbar .dropdown-menu li a:hover {
+                color: black;
+                transition: .6s;
+            }
 
         /*Social Media icons
         ---------------------------*/
-        a.icons{
+        a.icons {
             margin: 5px 15px;
             color: #fff;
             display: inline-block;
             font-size: 20px;
             transition: .5s;
         }
-        a.icons:hover{
-            color: darkgoldenrod;
-            transition: .5s;
-        }
 
-        #chat-box-header{
+            a.icons:hover {
+                color: darkgoldenrod;
+                transition: .5s;
+            }
+
+        #chat-box-header {
             color: goldenrod;
             background-color: black;
         }
 
-        #chat-box-header:hover{
-            background-color: goldenrod;
-            color: black;
-            font-weight: 500;
-            transition: .3s;
-        }
+            #chat-box-header:hover {
+                background-color: goldenrod;
+                color: black;
+                font-weight: 500;
+                transition: .3s;
+            }
     </style>
 </head>
 <body class="layout">
@@ -216,7 +215,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
                                 <i class="fa fa-home"></i>
-                                
+
                                 Welcome
                             </a>
                         </li>
@@ -230,7 +229,7 @@
                                     <li><a href="https://official-planiture-store.square.site">Planiture Store</a></li>
                                     <li><a asp-area="" asp-controller="Home" asp-action="OurTeam">Our Team</a></li>
                                     <li><a asp-area="" asp-controller="Home" asp-action="OurAchievements">Achievements</a></li>
-                                    <li><a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>                                
+                                    <li><a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -282,13 +281,13 @@
                 </div>
             </div>
             <div class="col-sm-6 col-md-6">
-                
+
             </div>
 
 
             <div class="container" style="text-align: center;">
                 <hr />
-                Copyright &copy; 2020 - Planiture. All rights reserved - <a asp-area="" asp-controller="Home" asp-action="Policy">Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                Copyright &copy; 2020 - Planiture. All rights reserved - <a asp-area="" asp-controller="Home" asp-action="Policy">Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 <a href="https://www.facebook.com/chantell.temple.96" class="icons"><i class="fab fa fa-facebook-square" aria-hidden="true"></i></a>
                 <a href="https://instagram.com/officialplaniture?igshid=1dxmsgrdvvdd" class="icons"><i class="fab fa fa-instagram" aria-hidden="true"></i></a>
                 <hr />

@@ -1,0 +1,278 @@
+﻿@page
+@model Planiture_Website.Areas.Identity.Pages.Admin.AccountsModel
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Accounts</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Accounts</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!--Main content-->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Basic Account</h3>
+
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>Account Number</td>
+                                    <td>Account Name</td>
+                                    <td>Account Type</td>
+                                    <td>Actual Balance</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var account in Model.GetAccount)
+                                {
+                                    @if (account.AccountVersion == "Basic Account")
+                                    {
+                                        <tr>
+                                            <td>@account.AccountNumber</td>
+                                            <td>@account.AccountName</td>
+                                            <td>@account.AccountType</td>
+                                            <td>@account.ActualBalance</td>
+                                        </tr>
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Stocks Account</h3>
+
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>Account Number</td>
+                                    <td>Account Name</td>
+                                    <td>Account Type</td>
+                                    <td>Actual Balance</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var account in Model.GetAccount)
+                                {
+                                    @if (account.AccountVersion == "Stocks Account")
+                                    {
+                                        <tr>
+                                            <td>@account.AccountNumber</td>
+                                            <td>@account.AccountName</td>
+                                            <td>@account.AccountType</td>
+                                            <td>@account.ActualBalance</td>
+                                        </tr>
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Advanced Account</h3>
+
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>Account Number</td>
+                                    <td>Account Name</td>
+                                    <td>Account Type</td>
+                                    <td>Actual Balance</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var account in Model.GetAccount)
+                                {
+                                    @if (account.AccountVersion == "Advanced Account")
+                                    {
+                                        <tr>
+                                            <td>@account.AccountNumber</td>
+                                            <td>@account.AccountName</td>
+                                            <td>@account.AccountType</td>
+                                            <td>@account.ActualBalance</td>
+                                        </tr>
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Golden20 Account</h3>
+
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>Account Number</td>
+                                    <td>Account Name</td>
+                                    <td>Account Type</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var account in Model.GetAccount)
+                                {
+                                    @if (account.AccountVersion == "Golden20 Account")
+                                    {
+                                        <tr>
+                                            <td>@account.AccountNumber</td>
+                                            <td>@account.AccountName</td>
+                                            <td>@account.AccountType</td>
+                                            <td>@account.ActualBalance</td>
+                                        </tr>
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Customer Accounts</h3>
+
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Account Number</th>
+                                    <th>User ID</th>
+                                    <th>Account Name</th>
+                                    <th>Account Type</th>
+                                    <th>Account Version</th>
+                                    <th>Available Balance</th>
+                                    <th>Actual Balance</th>
+                                    <th>Capacity</th>
+                                    <th>Withdrawal Amount</th>
+                                    <th>Deposit Amount</th>
+                                    <th>Account Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var account in Model.GetAccount)
+                                {
+                                    <tr>
+                                        <td>@account.AccountNumber</td>
+                                        <td>@account.UserID</td>
+                                        <td>@account.AccountName</td>
+                                        <td>@account.AccountType</td>
+                                        <td>@account.AccountVersion</td>
+                                        <td>@account.AvailableBalance</td>
+                                        <td>@account.ActualBalance</td>
+                                        <td>@account.Capacity</td>
+                                        <td>@account.WithdrawalAmount</td>
+                                        <td>@account.DepositAmount</td>
+                                        <td>@account.AccountStatus</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+</section>
