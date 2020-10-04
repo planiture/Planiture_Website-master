@@ -13,10 +13,14 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
     public class ClientListModel : PageModel
     {
         public List<ApplicationUser> GetUser { get; set; }
-        //public List<Investment_Info> Invest { get; set; }
+        public List<ApplicationUser> Clients { get; set; }
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+
+
+        [BindProperty(SupportsGet = true)]
+        public string searchTerm {get; set; }
 
         public ClientListModel(ApplicationDbContext context,
             UserManager<ApplicationUser> userManager)
@@ -24,7 +28,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
             _context = context;
             _userManager = userManager;
             this.GetUser = new List<ApplicationUser>();
-            //this.Invest = new List<Investment_Info>();
+            //this.Clients = new List<ApplicationUser>();
         }
 
         public async Task OnGetAsync()
@@ -32,6 +36,20 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
             //var userlist = await _userManager.GetUsersInRoleAsync("Customer");
 
             GetUser = _userManager.Users.ToList();
+        }
+
+        public async Task OnGetSearchAsync()
+        {
+            var list = from s in _context.Users
+                       select s;
+
+            if(!String.IsNullOrEmpty(searchTerm))
+            {
+                list = list.Where(m => m.FirstName.Contains(searchTerm) || m.LastName.Contains(searchTerm) || m.Email.Contains(searchTerm) || m.Gender.Contains(searchTerm) ||
+                m.UserName.Contains(searchTerm) || m.Id.ToString().Contains(searchTerm));
+            }
+
+            GetUser = list.ToList();
         }
     }
 }

@@ -359,7 +359,7 @@ namespace Planiture_Website.Hubs
 
         public void SendEmail(string sender, string message)
         {
-            var apiKey = "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";
+            var apiKey = "";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("akeamsmith41@gmail.com");
             var to = new EmailAddress("akeamsmith41@gmail.com");

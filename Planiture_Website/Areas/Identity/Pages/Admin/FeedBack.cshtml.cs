@@ -13,6 +13,8 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
         public List<Feedback> GetFeedback { get; set; }
 
         private readonly ApplicationDbContext _context;
+        [BindProperty(SupportsGet = true)]
+        public string searchTerm { get; set; }
 
         public FeedBackModel(ApplicationDbContext context)
         {
@@ -24,6 +26,19 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
         public void OnGet()
         {
             GetFeedback = _context.UserFeedback.ToList();
+        }
+
+        public async Task OnGetSearchAsync()
+        {
+            var list = from s in _context.UserFeedback
+                       select s;
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                list = list.Where(m => m.FullName.Contains(searchTerm) || m.Subject.Contains(searchTerm));
+            }
+
+            GetFeedback = list.ToList();
         }
     }
 }

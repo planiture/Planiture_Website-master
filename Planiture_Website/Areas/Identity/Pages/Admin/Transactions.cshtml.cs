@@ -12,8 +12,10 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
     {
         public List<CusTransaction> GetTransaction { get; set; }
         //public List<Investment_Info> Invest { get; set; }
-
         private readonly ApplicationDbContext _context;
+
+        [BindProperty(SupportsGet = true)]
+        public string searchTerm { get; set; }
 
         public TransactionsModel(ApplicationDbContext context)
         {
@@ -25,6 +27,20 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
         public void OnGet()
         {
             GetTransaction = _context.UserTransaction.ToList();
+        }
+
+        public async Task OnGetSearchAsync()
+        {
+            var list = from s in _context.UserTransaction
+                       select s;
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                list = list.Where(m => m.TransactionType.Contains(searchTerm) || m.UserID.ToString().Contains(searchTerm) || m.TransactionID.ToString().Contains(searchTerm) || 
+                    m.Trans_AccountNumber.ToString().Contains(searchTerm) || m.TransactionAmount.ToString().Contains(searchTerm));
+            }
+
+            GetTransaction = list.ToList();
         }
     }
 }

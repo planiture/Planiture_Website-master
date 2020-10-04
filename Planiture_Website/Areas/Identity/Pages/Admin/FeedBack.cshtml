@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model Planiture_Website.Areas.Identity.Pages.Admin.FeedBackModel
 @{
     ViewData["Title"] = "Feed Back";
@@ -28,16 +28,18 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">User Feed Back</h3>
-
                         <div class="card-tools">
-                            <ul class="pagination pagination-sm float-right">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
+                            <form method="get" asp-page-handler="Search">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="SearchTerm" class="form-control float-right" placeholder="Search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
+
                     </div>
                     <div class="card-body p-0">
                         <table class="table">
@@ -63,6 +65,17 @@
                                 }
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

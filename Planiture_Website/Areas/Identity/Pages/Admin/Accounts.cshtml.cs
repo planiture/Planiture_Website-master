@@ -15,6 +15,9 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
+        [BindProperty(SupportsGet = true)]
+        public string searchTerm { get; set; }
+
         public AccountsModel(ApplicationDbContext context,
             UserManager<ApplicationUser> userManager)
         {
@@ -26,6 +29,20 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
         public void OnGet()
         {
             GetAccount = _context.UserAccount.ToList();
+        }
+
+        public async Task OnGetSearchAsync()
+        {
+            var list = from s in _context.UserAccount
+                       select s;
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                list = list.Where(m => m.AccountName.Contains(searchTerm) || m.AccountType.Contains(searchTerm) || m.AccountStatus.Contains(searchTerm) || m.AccountVersion.Contains(searchTerm) ||
+                        m.UserID.ToString().Contains(searchTerm) || m.AccountNumber.ToString().Contains(searchTerm));
+            }
+
+            GetAccount = list.ToList();
         }
     }
 }

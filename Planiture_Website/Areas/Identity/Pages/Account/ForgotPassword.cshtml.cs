@@ -61,7 +61,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                 //Send Email Confirmation Link
 
-                var apiKey = "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";
+                var apiKey = "";
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("akeamsmith41@gmail.com");
                 var to = new EmailAddress(Input.Email);

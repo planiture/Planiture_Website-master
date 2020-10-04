@@ -223,7 +223,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
                     _logger.LogInformation("User role added.");
 
                     //Send User Proof of Identity information to company email
-                    var apiKey = "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";
+                    var apiKey = "";
                     var client = new SendGridClient(apiKey);
                     var from = new EmailAddress("planitureinvestments@gmail.com");
                     var to = new EmailAddress("planitureinvestments@gmail.com");
@@ -258,7 +258,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                     //Send Email Confirmation Link
 
-                    var apiKey1 = "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";
+                    var apiKey1 = "";
                     var client1 = new SendGridClient(apiKey1);
                     var from1 = new EmailAddress("planitureinvestments@gmail.com");
                     var to1 = new EmailAddress(Input.Email);

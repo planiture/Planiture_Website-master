@@ -28,6 +28,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
             this.Roles = new List<ApplicationRole>();
             this.GetUser = new List<ApplicationUser>();
         }
+
         public async Task OnGet()
         {
             Roles = _roleManager.Roles.ToList();
@@ -44,6 +45,18 @@ namespace Planiture_Website.Areas.Identity.Pages.Admin
                 await _roleManager.CreateAsync(role);
             }
             await OnGet();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            var role = await _context.Roles.FindAsync(id);
+
+            if(role != null)
+            {
+                _context.Roles.Remove(role);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage();
         }
     }
 }

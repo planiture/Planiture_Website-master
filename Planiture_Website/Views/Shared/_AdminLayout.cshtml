@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link href="~/css/website logo.jpg" rel="icon" type="images/png" />
-    <title>Offical Planiture - @ViewData["Title"]</title>
+    <title>Official Planiture - @ViewData["Title"]</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/css/all.min.css">
@@ -52,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-comments"></i>
+                        <i class="fas fa-comments"></i>
                         <span class="badge badge-danger navbar-badge">3</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -66,7 +66,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    <p class="text-sm text-muted"><i class="fas fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
                             <!-- Message End -->
@@ -82,7 +82,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">I got your message bro</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    <p class="text-sm text-muted"><i class="fas fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
                             <!-- Message End -->
@@ -98,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">The subject goes here</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                    <p class="text-sm text-muted"><i class="fas fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
                             <!-- Message End -->
@@ -110,7 +110,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
+                        <i class="fas fa-bell"></i>
                         <span class="badge badge-warning navbar-badge">15</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -162,8 +162,62 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
-                        
+                            with font-awesome or any other icon font library -->
+                        <li class="nav-item">
+                            <a asp-page="Index" class="nav-link">
+                                <i class="fas fa-home nav-icon"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-page="ClientList" class="nav-link">
+                                <i class="fas fa-info-circle nav-icon"></i>
+                                <p>View Clients</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-page="Accounts" class="nav-link">
+                                <i class="fas fa-database nav-icon"></i>
+                                <p>View Accounts</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-page="Transactions" class="nav-link">
+                                <i class="fas fa-database nav-icon"></i>
+                                <p>View Transactions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-page="Feedback" class="nav-link">
+                                <i class="fas fa-chart-pie nav-icon"></i>
+                                <p>User Feedbacks</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-headphones-alt"></i>
+                                <p>
+                                    Customer Service
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-comment nav-icon"></i>
+                                        <p>Live Chat</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-envelope nav-icon"></i>
+                                        <p>Emails</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
                         <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -174,27 +228,71 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Active Page</p>
+                                    <a asp-page="Roles" class="nav-link active">
+                                        <i class="fas fa-user-check nav-icon"></i>
+                                        <p>User Roles</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Inactive Page</p>
+                                        <i class="fas fa-database nav-icon"></i>
+                                        <p>Manage Accounts</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-database nav-icon"></i>
+                                        <p>Manage Transactions</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p> Manage Employees</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>Manage Clients</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-tools nav-icon"></i>
+                                        <p>Configure LiveChat</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-user-cog"></i>
                                 <p>
-                                    Simple Link
-                                    <span class="right badge badge-danger">New</span>
+                                    Settings
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-page="Profile" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Profile</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-page="ChangePassword" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Change Password</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-page="PersonalData" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Personal Data</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -224,7 +322,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Styled by <a href="https://adminlte.io">AdminLTE.io</a>.
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; OfficialPlaniture</strong> All rights reserved.
+            <strong>Copyright &copy; @DateTime.Now.Year OfficialPlaniture.</strong> All rights reserved.
         </footer>
     </div>
     <!-- ./wrapper -->

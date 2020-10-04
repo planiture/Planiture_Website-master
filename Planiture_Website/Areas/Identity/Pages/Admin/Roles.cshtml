@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model Planiture_Website.Areas.Identity.Pages.Admin.RolesModel
 @{
     ViewData["Title"] = "Roles";
@@ -57,7 +57,10 @@
                                         <td>@role.Id</td>
                                         <td>@role.Name</td>
                                         <td>
-                                            <a href="#" style="font-size:12px; color:red;"><i class="fa fa-trash-alt"></i> delete</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+                                            <form method="post" asp-page-handler="Delete" asp-route-id="@role.Id">
+                                                <button  style="font-size:12px; color:red;" type="submit"><i class="fa fa-trash"></i> Delete</button>
+                                            </form>
+                                            <!--<a href="#" ><i class="fa fa-trash-alt"></i> delete</a>--> &nbsp;&nbsp; | &nbsp;&nbsp;
                                             <a href="#" style="font-size:12px; color:blue;"><i class="fa fa-search"></i> select</a>
                                         </td>
                                     </tr>
