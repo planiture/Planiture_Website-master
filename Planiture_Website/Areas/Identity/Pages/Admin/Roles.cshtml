@@ -25,122 +25,35 @@
 <!--Main Content-->
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Add New Roles</h3>
-                    </div>
-                    <!--/.card-header-->
-                    <div class="card-body">
-                        <form method="post">
-                            <div class="input-group col-12" style="padding:0px;">
-                                <input autocomplete="off" name="roleName" type="text" class="form-control">
-                                <span class="input-group-append">
-                                    <button type="submit" class="btn btn-success">Add New Role</button>
-                                </span>
-                            </div>
-                        </form>
-                        <br />
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var role in Model.Roles)
-                                {
-                                    <tr>
-                                        <td>@role.Id</td>
-                                        <td>@role.Name</td>
-                                        <td>
-                                            <form method="post" asp-page-handler="Delete" asp-route-id="@role.Id">
-                                                <button  style="font-size:12px; color:red;" type="submit"><i class="fa fa-trash"></i> Delete</button>
-                                            </form>
-                                            <!--<a href="#" ><i class="fa fa-trash-alt"></i> delete</a>--> &nbsp;&nbsp; | &nbsp;&nbsp;
-                                            <a href="#" style="font-size:12px; color:blue;"><i class="fa fa-search"></i> select</a>
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-tools">
-                            <ul class="pagination pagination-sm float-right">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <h4>Roles Manager</h4>
+        <form method="post">
+            <div class="input-group col-4" style="padding:0px;">
+                <input autocomplete="off" name="roleName" type="text" class="form-control">
+                <span class="input-group-append">
+                    <button type="submit" class="btn btn-success">Add New Role</button>
+                </span>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">User Roles</h3>
+        </form>
+        <br />
+        <table class="table table-striped">
+            <thead>
+                <tr>
 
-                        <div class="card-tools">
-                            <ul class="pagination pagination-sm float-right">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>User ID</th>
-                                    <th>Role ID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var uRole in Model.GetUser)
-                                {
-                                    <tr>@uRole.Id</tr>
-                                    <tr> </tr>
-                                }
+                    <th>Id</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model.Roles)
+                {
+                    <tr>
+                        <td>@role.Id</td>
+                        <td>@role.Name</td>
+                    </tr>
+                }
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Assign Roles to Customer</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
 </section>
 

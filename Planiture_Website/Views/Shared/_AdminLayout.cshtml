@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Planiture_Website.Models.ApplicationUser> SignInManager
+@inject UserManager<Planiture_Website.Models.ApplicationUser> UserManager
+@inject RoleManager<Planiture_Website.Models.ApplicationRole> RoleManager
+
+<!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
@@ -19,6 +24,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -159,9 +168,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                            with font-awesome or any other icon font library -->
+                         with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a asp-page="Index" class="nav-link">
+                            <a is-active-page asp-page="Index" class="nav-link">
                                 <i class="fas fa-home nav-icon"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -190,6 +199,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <p>User Feedbacks</p>
                             </a>
                         </li>
+                        <!--Customer Service-->
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-headphones-alt"></i>
@@ -207,61 +217,62 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                                 <li class="nav-item">
                                     <a asp-page="Inbox" class="nav-link">
-                                        <i class="fas fa-envelope nav-icon"></i>
+                                        <i class="fas fa-mail-bulk nav-icon"></i>
                                         <p>Emails</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
-
-                        <li class="nav-item has-treeview menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Manage
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-page="Roles" class="nav-link active">
-                                        <i class="fas fa-user-check nav-icon"></i>
-                                        <p>User Roles</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
+                        @if(SignInManager.IsSignedIn(User))
+                        { 
+                            if(User.IsInRole("Super Admin"))
+                            {
+                                <!--Admin Options-->
+                                <li class="nav-item has-treeview menu-open">
                                     <a href="#" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Manage Accounts</p>
+                                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                                        <p>
+                                            Manage
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
                                     </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a asp-page="ManageAccount" class="nav-link">
+                                                <i class="fas fa-database nav-icon"></i>
+                                                <p>Manage Accounts</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-database nav-icon"></i>
+                                                <p>Manage Transactions</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p> Manage Employees</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p>Manage Clients</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-tools nav-icon"></i>
+                                                <p>Configure LiveChat</p>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Manage Transactions</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-users nav-icon"></i>
-                                        <p> Manage Employees</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-users nav-icon"></i>
-                                        <p>Manage Clients</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-tools nav-icon"></i>
-                                        <p>Configure LiveChat</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            }
+                        }
+                        
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-cog"></i>
@@ -291,6 +302,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+                        @{ 
+                            if (User.IsInRole("Super Admin"))
+                            {
+                                <li class="nav-header">SUPER ADMIN</li>
+                                <li class="nav-item">
+                                    <a is-active-page asp-page="Users" class="nav-link">
+                                        <i class="fas fa-users-cog nav-icon"></i>
+                                        <p>Manage User Roles</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-page asp-page="Roles" class="nav-link">
+                                       <i class="fas fa-user-lock nav-icon"></i>
+                                       <p>Manage Roles</p>
+                                    </a>
+                                </li>
+                             } 
+                          }
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -300,8 +330,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-           @RenderBody()
+            @RenderBody()
         </div>
+        @await Component.InvokeAsync("NToastNotify")
         <!-- /.content-wrapper -->
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -330,6 +361,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/js/adminlte.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/plugins/summernote/summernote-bs4.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
 

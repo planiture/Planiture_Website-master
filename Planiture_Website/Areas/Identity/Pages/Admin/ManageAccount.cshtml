@@ -1,0 +1,67 @@
+﻿@page
+@model Planiture_Website.Areas.Identity.Pages.Admin.ManageAccountModel
+@{
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Manage Account</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-page="Index">Home</a></li>
+                    <li class="breadcrumb-item active">Manage</li>
+                    <li class="breadcrumb-item active">Manage Account</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<section class="content">
+    <div class="container-fluid">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>User ID</th>
+                    <th>Account Name</th>
+                    <th>Account Type</th>
+                    <th>Account Version</th>
+                    <th>Available Balance</th>
+                    <th>Actual Balance</th>
+                    <th>Capacity</th>
+                    <th>Withdrawal Amount</th>
+                    <th>Deposit Amount</th>
+                    <th>Account Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var account in Model.Accounts)
+                {
+                    <tr>
+                        <td>@account.AccountNumber</td>
+                        <td>@account.UserID</td>
+                        <td>@account.AccountName</td>
+                        <td>@account.AccountType</td>
+                        <td>@account.AccountVersion</td>
+                        <td>@account.AvailableBalance</td>
+                        <td>@account.ActualBalance</td>
+                        <td>@account.Capacity</td>
+                        <td>@account.WithdrawalAmount</td>
+                        <td>@account.DepositAmount</td>
+                        <td>@account.Status</td>
+                        <td>
+                            <a class="btn btn-primary" asp-page="UserAccounts" asp-route-accountNumber="@account.AccountNumber">Manage</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
