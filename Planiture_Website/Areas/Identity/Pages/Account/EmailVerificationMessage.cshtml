@@ -1,0 +1,39 @@
+﻿@page
+@model Planiture_Website.Areas.Identity.Pages.Account.EmailVerificationMessageModel
+@{
+}
+
+
+
+<body onload="successfully()">
+
+</body>
+
+<style>
+    
+    #success {
+        background-color: white;
+        border: 1px solid black;
+        padding: 60px;
+    }
+    #success span{
+        padding: 20px;
+      background-color: #4CAF50;
+      color: white;
+      opacity: 1;
+      transition: opacity 0.6s;
+      margin-bottom: 15px;
+    }
+</style>
+
+<script type="text/javascript">
+    function successfully() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Email Verification',
+            text: "An email verification link was sent to your email. Please verify you email address to continue the application process",
+            confirmButtonText:
+                '<a href="https://localhost:44336/Identity/Account/Login">Login</a>',
+        })
+    }
+</script>

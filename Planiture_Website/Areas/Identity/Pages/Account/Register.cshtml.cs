@@ -215,19 +215,19 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                     //Create User/Customer role *Default role*
                     var role = new ApplicationRole();
-                   role.Name = "Customer-Account";
+                   role.Name = "Admin";
                    await _roleManager.CreateAsync(role);
 
                     //Add new user to the default role
-                    var addrole = await _userManager.AddToRoleAsync(user, "Customer-Account");
+                    var addrole = await _userManager.AddToRoleAsync(user, "Admin");
                     _logger.LogInformation("User role added.");
 
                     //Send User Proof of Identity information to company email
-                    var apiKey = "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";
+                    var apiKey = "";
                     var client = new SendGridClient(apiKey);
-                    var from = new EmailAddress("akeamsmith41@gmail.com");
-                    var to = new EmailAddress("akeamsmith41@gmail.com");
-                    string subject = "Planiture Customer - "+Input.FirstName+"" +Input.LastName+"- Proof of Identity";
+                    var from = new EmailAddress("planitureinvestments@gmail.com");
+                    var to = new EmailAddress("planitureinvestments@gmail.com");
+                    string subject = "Official Planiture Customer - "+Input.FirstName+"" +Input.LastName+"- Proof of Identity";
                     string htmlContent = "See attachment for customer's ID information";
                     var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
                     //get image location
@@ -258,11 +258,11 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                     //Send Email Confirmation Link
 
-                    var apiKey1 = "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";
+                    var apiKey1 = "";
                     var client1 = new SendGridClient(apiKey1);
-                    var from1 = new EmailAddress("akeamsmith41@gmail.com");
+                    var from1 = new EmailAddress("planitureinvestments@gmail.com");
                     var to1 = new EmailAddress(Input.Email);
-                    string subject1 = "Planiture Email Address Confirmation";
+                    string subject1 = "Official Planiture Email Address Confirmation";
                     string htmlContent1 = 
                         "<p>Hi there, " +
                         "<br />" +
@@ -291,7 +291,7 @@ namespace Planiture_Website.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("Login");
+                        return RedirectToPage("EmailVerificationMessage");
                     }
                     else
                     {

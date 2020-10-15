@@ -1,0 +1,56 @@
+﻿@page
+@model Planiture_Website.Areas.Identity.Pages.Admin.UserRolesModel
+@{
+
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">User Roles</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-page="Index">Home</a></li>
+                    <li class="breadcrumb-item active">Super Admin</li>
+                    <li class="breadcrumb-item active">User Roles</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<section class="content">
+    <div class="container-fluid">
+        <form method="post">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Manage User Roles</h2>
+                    Add/Remove Roles for User / @Model.UserId / @Model.UserName.
+                </div>
+                <div class="card-body">
+                    <input hidden asp-for="@Model.UserId" />
+                    @for (int i = 0; i < Model.UserRoles.Count; i++)
+                    {
+                        <div class="form-check m-1">
+                            <input type="hidden" asp-for="@Model.UserRoles[i].RoleId" />
+                            <input type="hidden" asp-for="@Model.UserRoles[i].RoleName" />
+                            <input asp-for="@Model.UserRoles[i].Selected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.UserRoles[i].Selected">
+                                @Model.UserRoles[i].RoleName
+                            </label>
+                        </div>
+                    }
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="Update" asp-route-model="@Model.UserRoles" class="btn btn-primary"
+                           style="width:auto" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

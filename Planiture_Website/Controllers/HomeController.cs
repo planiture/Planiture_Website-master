@@ -76,7 +76,7 @@ namespace Planiture_Website.Controllers
                 if (Accessed == true)
                 {
                     _logger.LogInformation("User's first login");
-                    return RedirectToAction("ProfileOptions");
+                    return RedirectToAction("ProfileApplication", "Account");
                 }
                 else
                 {
@@ -688,20 +688,20 @@ namespace Planiture_Website.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Basic500 ()
+        public IActionResult APLAN ()
         {
 
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Basic500(ActivePlans plans)
+        public async Task<IActionResult> APLAN(ActivePlans plans)
         {
             var user = await _userManager.GetUserAsync(User);
 
-            plans.PlanName = "Basic500";
+            plans.PlanName = "A-PLAN";
             plans.UserID = user.Id;
-            plans.DateExpired = DateTime.Now.AddMonths(3);
+            plans.DateExpired = Convert.ToDateTime("21/09/2020");
             _context.ActivePlans.Update(plans);
             _context.SaveChanges();
             return RedirectToAction("PlanConfirm", "Home");
@@ -709,20 +709,20 @@ namespace Planiture_Website.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Gold2K()
+        public IActionResult BPLAN()
         {
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Gold2K(ActivePlans plans)
+        public async Task<IActionResult> BPLAN(ActivePlans plans)
         {
             var user = await _userManager.GetUserAsync(User);
 
-            plans.PlanName = "2kGold";
+            plans.PlanName = "B-PLAN";
             plans.UserID = user.Id;
-            plans.DateExpired = DateTime.Now.AddMonths(3);
+            plans.DateExpired = Convert.ToDateTime("28/09/2020");
             _context.ActivePlans.Update(plans);
             _context.SaveChanges();
             return RedirectToAction("PlanConfirm", "Home");
@@ -730,20 +730,20 @@ namespace Planiture_Website.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult PLANTINUM5()
+        public IActionResult CPLAN()
         {
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PLANTINUM5(ActivePlans plans)
+        public async Task<IActionResult> CPLAN(ActivePlans plans)
         {
             var user = await _userManager.GetUserAsync(User);
 
-            plans.PlanName = "PLANTINUM5";
+            plans.PlanName = "C-PLAN";
             plans.UserID = user.Id;
-            plans.DateExpired = DateTime.Now.AddMonths(3);
+            plans.DateExpired = Convert.ToDateTime("12/10/2020");
             _context.ActivePlans.Update(plans);
             _context.SaveChanges();
             return RedirectToAction("PlanConfirm", "Home");

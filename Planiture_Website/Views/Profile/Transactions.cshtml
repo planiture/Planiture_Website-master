@@ -25,7 +25,7 @@
             </thead>
             <tbody>
                 @foreach (CusTransaction transaction in Model.Transactionlist)
-                {
+                 {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => transaction.TransactionID)
@@ -49,15 +49,18 @@
                             @Html.DisplayFor(modelItem => transaction.User.Id)
                         </td>
                     </tr>
-                }
+                 }
             </tbody>
         </table>
+        <br />
+        <br />
+        <br />
+        <div>
+            <a style="color: goldenrod;" asp-action="Index">Back to List</a>
+        </div>
     </div>
 </body>
 
-<div>
-    <a style="color: goldenrod;" asp-action="Index">Back to List</a>
-</div>
 
 <style>
     .profile-menu {

@@ -13,12 +13,12 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="row">
                         <div class="col-sm-4 col-md-4">
-                            <img id="profileImage" src="~/css/default-profile-picture.png" style="width:150px; height:150px; float:left; border-radius:50%;
+                            <img id="profileImage" src="~/image/@Model.ProfileImageName" style="width:150px; height:150px; float:left; border-radius:50%;
                                 margin-right: 25px;" />
                         </div>
                         <div class="col-sm-8 col-md-8">
                             <h3 style="color: white;">@User.Identity.Name</h3>
-                            <a href="#">Change Account Photo</a>
+                            <a style="color: goldenrod;" asp-controller="Profile" asp-action="UploadPhoto">Change Account Photo</a>
                         </div>
                     </div>
                     <br />
@@ -136,7 +136,7 @@
                     </div>
                     <div class="form-group">
                         <input id="Btn" type="submit" value="Update" class="btn btn-primary" />
-                        <button id="Btn" asp-action="Index" class="btn btn-primary" onclick="location.href = '@Url.Action("Index", "Profile")';">Cancel</button>
+                        <a id="Btn" asp-controller="Profile" asp-action="Index" class="btn btn-primary" >Cancel</a>
                     </div>
                 </form>
             </div>

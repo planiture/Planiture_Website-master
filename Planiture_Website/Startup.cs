@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Planiture_Website.Hubs;
+using NToastNotify;
 
 namespace Planiture_Website
 {
@@ -32,7 +33,12 @@ namespace Planiture_Website
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(); //ADDED BY KINGZWILL
+            services.AddMvc().AddNToastNotifyNoty(new NotyOptions {
+                Layout = "bottomRight",
+                ProgressBar = true,
+                Timeout = 5000,
+                Theme = "metroui"
+            }); //ADDED BY KINGZWILL
 
             services.AddMvc(option => option.EnableEndpointRouting = false); //ADDED BY KINGZWILL
 
@@ -96,6 +102,8 @@ namespace Planiture_Website
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseNToastNotify();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -106,7 +114,7 @@ namespace Planiture_Website
 
             app.UseDefaultFiles(); //KINGZWILL
             app.UseCookiePolicy(); //KINGZWILL
-           app.UseMvc(); //KINGZWILL
+            app.UseMvc(); //KINGZWILL
 
 
             app.UseEndpoints(endpoints =>

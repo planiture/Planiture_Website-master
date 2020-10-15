@@ -20,6 +20,7 @@ namespace Planiture_Website.Models
 
         [Email]
         public string Email { get; set; }
+        public string ProfileImageName { get; set; }
 
         public string Occupation { get; set; }
         public string Address1 { get; set; }

@@ -36,37 +36,10 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-6 form-group">
-                        <input asp-for="Input.DOB" type="date" id="DOBtxt" class="form-control" required />
-                        <label asp-for="Input.DOB">DOB</label>
-                    </div>
-                    <div class="col-sm-6 col-md-6 form-group">
-                        <select id="Gendertxt" asp-for="Input.Gender" class="" required>
-                            <option style="color: black;" value="" selected hidden>Gender</option>
-                            <option style="color: black;" value="M">Male</option>
-                            <option style="color: black;" value="F">Female</option>
-                            <option style="color: black;" value="O">Other</option>
-                        </select>
-                        <span asp-validation-for="Input.Gender" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 col-md-6 form-group">
-                        <input id="Occupationtxt" asp-for="Input.Occupation" class="form-control" required />
-                        <label asp-for="Input.Occupation"></label>
-                        <span asp-validation-for="Input.Occupation" class="text-danger"></span>
-                    </div>
-                    <div class="col-sm-6 col-md-6 form-group">
                         <input id="Emailtxt" asp-for="Input.Email" class="form-control" placeholder="ex: name@mail.com" required />
                         <label asp-for="Input.Email"></label>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                </div>
-                <label>Phone Number</label>
-                <div class="row">
-                    <!--<div class="col-sm-6 col-md-6 form-group">
-                        <input id="AreaCodetxt" asp-for="Input.AreaCode" class="form-control" placeholder="1(954)" required />
-                        <label asp-for="Input.AreaCode">Area Code</label>
-                    </div>-->
                     <div class="col-sm-6 col-md-6 form-group">
                         <input id="Mobiletxt" asp-for="Input.Mobile" class="form-control" placeholder="1234567" required />
                         <label asp-for="Input.Mobile"></label>
@@ -87,9 +60,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-6 form-group">
-                        <input id="Addresstxt" asp-for="Input.Residency" class="form-control" placeholder="Residency" required />
-                        <label asp-for="Input.Residency"></label>
-                        <span asp-validation-for="Input.Residency" class="text-danger"></span>
+                        <input id="Addresstxt" asp-for="Input.State" class="form-control" placeholder="State" required />
+                        <label asp-for="Input.State"></label>
+                        <span asp-validation-for="Input.State" class="text-danger"></span>
                     </div>
                     <div class="col-sm-6 col-md-6 form-group">
                         <input id="Residencytxt" asp-for="Input.City" class="form-control" placeholder="City" required />
@@ -99,9 +72,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-6 form-group">
-                        <input id="Addresstxt" asp-for="Input.State" class="form-control" placeholder="State" required />
-                        <label asp-for="Input.State"></label>
-                        <span asp-validation-for="Input.State" class="text-danger"></span>
+                        <input id="Addresstxt" asp-for="Input.Residency" class="form-control" placeholder="Residency" required />
+                        <label asp-for="Input.Residency"></label>
+                        <span asp-validation-for="Input.Residency" class="text-danger"></span>
                     </div>
                     <div class="col-sm-6 col-md-6 form-group">
                         <input id="Residencytxt" asp-for="Input.ZipCode" class="form-control" placeholder="Zip Code" required />
@@ -111,10 +84,10 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-12 form-group">
-                        <label asp-for="Input.Identity"></label>
-                        <input id="Identitytxt" asp-for="Input.Identity" class="form-control" placeholder="Identity" required />
-                        <span style="color: white;">Upload a Valid ID</span>
-                        <span asp-validation-for="Input.Identity" class="text-danger"></span>
+                        <label asp-for="Input.ProfileImage"></label>
+                        <input id="Identitytxt" asp-for="Input.ProfileImage" class="form-control" placeholder="Profile Photo" />
+                        <span style="color:white;">Upload Profile Image</span>
+                        <span asp-validation-for="Input.ProfileImage" class="text-danger"></span>
                     </div>
                 </div>
             </fieldset>
@@ -152,7 +125,6 @@
             <button id="cancelBtn" type="reset" class="btn btn-primary" onclick="location.href = '@Url.Page("/Account/Login", "Identity")';">CANCEL</button>
             <input type="submit" value="SAVE & CONTINUE" class="btn btn-primary" />
         </div>
-        
     </form>
 </div>
 

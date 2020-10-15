@@ -1,0 +1,364 @@
+﻿@using Planiture_Website.Models
+@model dynamic
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<asp:Content class="" id="BodyContent" ContentPlaceHolderID="Main Content" runat="server">
+    <section id="profile-background">
+        <div class="profile-menu" id="profile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        @foreach (ApplicationUser user in Model.userlist)
+                        {
+                            if (@user.Identity == "")
+                            {
+                                <img id="profileImage" title="Change_Account_Photo" src="~/image/default-profile-picture.png" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
+                                     style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
+                            }
+                            else
+                            {
+                                <img id="profileImage" title="Change_Account_Photo" src="~/image/@user.Identity" asp-append-version="true" class="modal-open" data-modal="modal-changephoto"
+                                     style="width:150px; height:150px; float:left; border-radius:50%; margin-right: 25px;" />
+                            }
+
+                        }
+
+                    </div>
+                    <div class="col-sm-8 col-md-8">
+                        <form method="post" enctype="multipart/form-data">
+                            <h3 style="color: white;">@User.Identity.Name's Profile <i style="font-size:24px" class="fa fa-gear modal-open" data-modal="modal-feedback"></i></h3>
+                           
+                            <br />
+                            @foreach (ApplicationUser user in Model.userlist)
+                            {
+                                <button type="button" id="edit" class="btn btn-sm btn-primary" onclick="location.href = '@Url.Action("Edit", "Profile", new {@user.Id })';">Edit Profile</button>
+                            }
+
+                        </form>
+                    </div>
+                </div>
+                <hr />
+                <br />
+                <div class="row">
+                    <div class="col-sm-7 col-md-7">
+                        <div class="personal-info">
+                            <dl class="row">
+                                @foreach (ApplicationUser user in Model.userlist)
+                                {
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.FirstName)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.FirstName)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.LastName)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.LastName)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.Address1)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.Address1)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.Email)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.Email)
+                                    </dd>
+                                    <dt class="col-sm-5">
+                                        @Html.DisplayNameFor(model => user.PhoneNumber)
+                                    </dt>
+                                    <dd class="col-sm-7">
+                                        @Html.DisplayFor(model => user.PhoneNumber)
+                                    </dd>
+                                }
+
+                            </dl>
+                            <center><a asp-controller="Profile" asp-action="PersonalInfo">(view personal information)</a></center>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-1"></div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="thumbnail-transaction" style="text-align: center; font-weight: 500;">
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="Subscriptions">My Subscriptions</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" href="https://official-planiture-store.square.site">Plantiure Store</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="">The Academy</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="">Class Sessions</a>
+                            <br />
+                            <br />
+                            <a style="font-size: 20px" asp-controller="Account" asp-action="">Notifications</a>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <br />
+                
+            </div>
+        </div>
+    </section>
+    <section class="modal changephoto-modal" id="modal-changephoto">
+        <div class="changephotomodal-content kingz">
+            <div class="container">
+                <div class="modal-header">
+                    <h4>Change Profile Photo</h4>
+                </div>
+                <center>
+                    @foreach (ApplicationUser user in Model.userlist)
+                    {
+                        <div class="nav-fill">
+                            <a class="nav-link upload-link" id="browseBtn" role="button">Upload Photo</a>
+                            <a class="nav-link" asp-controller="Profile" asp-action="DeletePhoto" asp-route-id="@user.Id">Remove Current Photo</a>
+                            <a class="nav-link modal-close" asp-action="">Cancel</a>
+                        </div>
+                    }
+                </center>
+            </div>
+        </div>
+    </section>
+    <section class="modal feedback-modal" id="modal-feedback">
+        <div class="feedbackmodal-content kingz">
+            <div class="container">
+                <div class="modal-header">
+                    <h4>Settings</h4>
+                </div>
+                <center>
+                    <div class="nav-fill">
+                        <a class="nav-link" asp-controller="Profile" asp-action="ChangePassword">Change Password</a>
+                        <a class="nav-link" asp-controller="Profile" asp-action="">Delete Account</a>
+                        <a class="nav-link modal-close" asp-action="">Cancel</a>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </section>
+</asp:Content>
+
+<style>
+
+    .profile-background {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex; /*changed from inline*/
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-menu {
+        position: relative;
+        padding: 100px;
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #edit {
+        -webkit-appearance: none;
+        border: 1px solid black;
+        border-radius: 4px;
+        outline: none;
+        padding: 0.5em 0.8em;
+        margin-right: 15px;
+        color: black;
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        align-content: center;
+        background-color: whitesmoke;
+    }
+
+    #edit:hover {
+        background: gold;
+    }
+
+    #edit:active {
+        background: goldenrod;
+        color: black;
+    }
+
+    img{
+        cursor: pointer;
+    }
+
+    .hide{
+        display: none;
+    }
+
+    .more-info:hover + .hide {
+        display: block;
+        color: darkgoldenrod;
+        cursor: pointer;
+    }
+
+    .photo-input {
+        display: none;
+    }
+
+    dl {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .personal-info {
+        border-radius: 25px;
+        padding: 50px;
+        border: 2px solid darkgoldenrod;
+        background-color: black;
+        color: silver;
+        box-shadow: 3px 3px 5px grey;
+    }
+
+    .thumbnail-transaction {
+        border-radius: 25px;
+        padding: 50px;
+        border: 2px solid darkgoldenrod;
+        background-color: black;
+        color: silver;
+        box-shadow: 3px 3px 5px grey;
+    }
+
+    .thumbnail-invest {
+        border-radius: 25px;
+        padding: 50px;
+        border: 2px solid darkgoldenrod;
+        background-color: black;
+        color: silver;
+        box-shadow: 3px 3px 5px grey;
+    }
+
+    /* Settings css
+    -------------------------------------------------- */
+    .fa-gear {
+        background-color: transparent;
+        border: none;
+        color: dimgrey;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .fa-gear:hover{
+        color: #D4AF37;
+    }
+    .feedback-modal {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        opacity: 0.9;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+    .feedbackmodal-content {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        background-color: black;
+    }
+    .feedbackmodal-content a.nav-link {
+        color: white;
+        padding: 15px;
+        font-weight: 400;
+    }
+    .feedbackmodal-content a.nav-link:hover {
+        color: black;
+        background-color: darkgoldenrod;
+        font-weight: 500;
+    }
+    .modal-header {
+        display: block;
+        position: relative;
+        margin: 40px 0;
+    }
+    .modal-header h4 {
+        font: bold 30px Sans-Serif;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: darkgoldenrod;
+        padding: 5px 10px;
+        margin: 0 0 10px 0;
+        line-height: 24px;
+    }
+
+    /*Profile Photo css
+    --------------------------------------------------*/
+    .changephoto-modal {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        opacity: 0.9;
+        position: absolute;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+    .changephotomodal-content {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        background-color: black;
+    }
+    .changephotomodal-content a.nav-link{
+        color: white;
+        padding: 15px;
+        cursor: pointer;
+        font-weight: 400;
+    }
+    .changephotomodal-content a.nav-link:hover{
+        color: black;
+        background-color: darkgoldenrod;
+        font-weight: 500;
+    }
+</style>
+
+<script>
+    //displays a form on screen when the deposit form button is clicked
+
+    var modalBtns = document.querySelectorAll(".modal-open");
+
+    modalBtns.forEach(function (btn) {
+        btn.onclick = function () {
+            var modal = btn.getAttribute("data-modal");
+
+            document.getElementById(modal).style.display = "flex";
+        }
+    });
+
+
+    //close the form after it has been opened
+
+    var closeBtns = document.querySelectorAll('.modal-close');
+
+    closeBtns.forEach(function (btn) {
+        btn.onclick = function () {
+            var modal = btn.closest(".modal").style.display = "none";
+        }
+    });
+</script>

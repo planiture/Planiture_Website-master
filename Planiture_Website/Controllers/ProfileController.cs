@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -12,24 +13,28 @@ using EllipticCurve.Utils;
 using IronPdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Planiture_Website.Models;
+using Planiture_Website.ViewModels;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
+
 namespace Planiture_Website.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ProfileController> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _HostEnvironment;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public ProfileController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -41,13 +46,12 @@ namespace Planiture_Website.Controllers
             _signInManager = signInManager;
             _logger = logger;
             _context = context;
-            _HostEnvironment = hostEnvironment;
+            _hostEnvironment = hostEnvironment;
         }
 
         public SetPasswordViewModel SetNewPassword { get; set; }
         public Account_Info Account { get; set; }
         public CusTransaction Transaction { get; set; }
-
 
         public List<CusTransaction> GetTransaction()
         {
@@ -134,29 +138,35 @@ namespace Planiture_Website.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-
-            if (user == null)
+            if(ModelState.IsValid)
             {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
-                return View("NotFound");
+                var user = await _userManager.FindByIdAsync(id.ToString());
+
+                if (user == null)
+                {
+                    ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                    return View("NotFound");
+                }
+
+                var model = new EditUserViewModel
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    ProfileImageName = user.ProfileImage,
+                    Email = user.Email,
+                    Occupation = user.Occupation,
+                    UserName = user.UserName,
+                    Gender = user.Gender,
+                    DOB = user.DOB,
+                    Signature = user.Signature,
+                    Address1 = user.Address1,
+                    Residency = user.Residency
+                };
+                return View(model);
             }
-
-            var model = new EditUserViewModel
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Occupation = user.Occupation,
-                UserName = user.UserName,
-                Gender = user.Gender,
-                DOB = user.DOB,
-                Signature = user.Signature,
-                Address1 = user.Address1,
-                Residency = user.Residency
-            };
-            return View(model);
+            return View("Index");
+            
             
         }
 
@@ -195,12 +205,6 @@ namespace Planiture_Website.Controllers
             }
         }
 
-        /*[HttpGet]
-        public async Task<IActionResult> UploadPhoto()
-        {
-
-        }*/
-
         [HttpGet]
         public async Task<IActionResult> DeletePhoto(int? id)
         {
@@ -230,7 +234,7 @@ namespace Planiture_Website.Controllers
             var userimage = await _context.Users.FindAsync(id);
 
             //delete from wwwRoot image folder
-            var imagePath = Path.Combine(_HostEnvironment.WebRootPath, "image", userimage.Identity);
+            var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "image", userimage.ProfileImage);
             //check if image exists then delete
             if(System.IO.File.Exists(imagePath))
             {
@@ -242,10 +246,61 @@ namespace Planiture_Website.Controllers
 
             
 
-            user.Identity = image;
+            user.ProfileImage = image;
             _context.Users.Update(user);
             _context.SaveChanges();
 
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UploadPhoto()
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                var model = new UploadPhoto
+                {
+                    ProfileImageName = user.ProfileImage
+                };
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadConfirmed([Bind ("ProfileImage")] UploadPhoto upload)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                //search for current user information
+                var entity = _context.Users.FirstOrDefault(i => i.Id == user.Id);
+
+                if (entity != null)
+                {
+                    //add Profile Image
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(upload.ProfileImage.FileName);
+                    string extension = Path.GetExtension(upload.ProfileImage.FileName);
+                    upload.ProfileImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/image", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await upload.ProfileImage.CopyToAsync(fileStream);
+                    }
+
+                    entity.ProfileImage = fileName;
+                    await _userManager.UpdateAsync(entity);
+                    _logger.LogInformation("User profile photo updated");
+
+                    return RedirectToAction("Index", "Profile");
+                }
+
+               
+            }
             return View();
         }
 
@@ -377,7 +432,6 @@ namespace Planiture_Website.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult Withdrawal()
         {
@@ -394,7 +448,6 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Withdrawal(DepositWithdrawalClass withdrawal, CusTransaction transaction)
         {
@@ -503,7 +556,6 @@ namespace Planiture_Website.Controllers
             return View();
         }
 
-        [Authorize]
         public async Task<IActionResult> MyPlans()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -520,7 +572,6 @@ namespace Planiture_Website.Controllers
                 return View(dy);
             }
         }
-
 
     }
 }

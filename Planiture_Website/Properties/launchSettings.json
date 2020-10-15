@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/Planiture_Website",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:51342",
       "sslPort": 44336

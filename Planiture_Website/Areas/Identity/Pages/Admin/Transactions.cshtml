@@ -1,0 +1,184 @@
+﻿@page "{handler?}"
+@model Planiture_Website.Areas.Identity.Pages.Admin.TransactionsModel
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Withdrawal</h3>
+
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Customer ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var transactions in Model.GetTransaction)
+                                {
+                                    @if (transactions.TransactionType == "withdrawal")
+                                    {
+                                        <tr>
+                                            <td>@transactions.TransactionID</td>
+                                            <td>@transactions.TransactionAmount</td>
+                                            <td><span class="tag tag-success">@transactions.Date</span></td>
+                                            <td><span class="tag tag-warning">@transactions.TransactionStatus</span></td>
+                                            <td>@transactions.UserID</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Deposit</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Customer ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var transactions in Model.GetTransaction)
+                                {
+                                    @if(transactions.TransactionType == "deposit")
+                                    {
+                                        <tr>
+                                            <td>@transactions.TransactionID</td>
+                                            <td>@transactions.TransactionAmount</td>
+                                            <td><span class="tag tag-success">@transactions.Date</span></td>
+                                            <td><span class="tag tag-warning">@transactions.TransactionStatus</span></td>
+                                            <td>@transactions.UserID</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Complete Transactions List</h3>
+                        <div class="card-tools">
+                            <form method="get" asp-page-handler="Search">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="SearchTerm" class="form-control float-right" placeholder="Search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Amount</td>
+                                    <td>Type</td>
+                                    <td>AccounNumber</td>
+                                    <td>Commission</td>
+                                    <td>Service Fee</td>
+                                    <td>Date</td>
+                                    <td>Customer ID</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var transaction in Model.GetTransaction)
+                                {
+                                    <tr>
+                                        <td>@transaction.TransactionID</td>
+                                        <td>@transaction.TransactionAmount</td>
+                                        <td>@transaction.TransactionType</td>
+                                        <td>@transaction.Trans_AccountNumber</td>
+                                        <td>@transaction.Commission</td>
+                                        <td>@transaction.ServiceFee</td>
+                                        <td>@transaction.Date</td>
+                                        <td>@transaction.UserID</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
